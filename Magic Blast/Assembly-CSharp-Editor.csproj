@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{5A0769DA-25DA-A68D-BA58-6ED404CB536B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;UNITY_PURCHASING;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;UNITY_INAPPS;ANDROID_NOTIFICATIONS;UNITY_HAS_GOOGLEVR;ENABLE_DUCK_TYPING</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\FORGE3D\HelpMenu\Editor\F3DHelpMenu.cs" />
+     <Compile Include="Assets\FORGE3D\PoolManager\Editor\F3DPoolManagerEditor.cs" />
+     <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Constructor\Editor\F3DTurretConstructorEditor.cs" />
+     <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Constructor\Editor\F3DTurretEditorWindow.cs" />
+     <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Editor\F3DTurretEditor.cs" />
+     <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Editor\F3DTurretHandles.cs" />
+     <Compile Include="Assets\GameSparks\Editor\GameSparksEditorFormUpload.cs" />
+     <Compile Include="Assets\GameSparks\Editor\GameSparksPopUp.cs" />
+     <Compile Include="Assets\GameSparks\Editor\GameSparksRestApi.cs" />
+     <Compile Include="Assets\GameSparks\Editor\GameSparksRestWindow.cs" />
+     <Compile Include="Assets\GameSparks\Editor\GameSparksSettingsEditor.cs" />
+     <Compile Include="Assets\GameSparks\Editor\GameSparksUnityInspector.cs" />
+     <Compile Include="Assets\JellyGarden\Scripts\Editor\Autorun.cs" />
+     <Compile Include="Assets\JellyGarden\Scripts\Editor\LevelMakerEditor.cs" />
+     <Compile Include="Assets\JellyGarden\Scripts\Editor\PostImporting.cs" />
+     <Compile Include="Assets\JellyGarden\Scripts\Editor\Warning.cs" />
+     <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\LevelsEditorBase.cs" />
+     <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\LevelsMapEditor.cs" />
+     <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\MapCameraEditor.cs" />
+     <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\MapLevelEditor.cs" />
+     <Compile Include="Assets\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
+     <None Include="Assets\JellyGarden\Resources\Levels\94.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\72.txt" />
+     <None Include="Assets\GameSparks\Plugins\GameSparksRT.xml" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJump.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\91.txt" />
+     <None Include="Assets\GameSparks\Plugins\Metro\GameSparksRT.xml" />
+     <None Include="Assets\JellyGarden\Resources\Levels\35.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\65.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\62.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\101.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\13.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Projectile.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\8.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Billboard.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\66.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\10.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\76.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\97.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Burnout.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\3.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Heat.shader" />
+     <None Include="Assets\LeanTween\Examples\Archived\2dUnlitWithFade.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\73.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\23.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\78.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\20.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\71.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\81.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\55.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\68.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\32.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\57.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\48.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnelDistortion.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\58.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Trail.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\52.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\102.txt" />
+     <None Include="Assets\LeanTween\ReadMe.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\63.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\54.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\99.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\AlphaBlended.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\7.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\100.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\14.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\4.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\74.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\5.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\95.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\15.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\29.txt" />
+     <None Include="Assets\Plugins\readme.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\50.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\16.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\37.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\49.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\89.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\31.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\87.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\1.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\104.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\56.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\41.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\6.txt" />
+     <None Include="Assets\Plugins\UnbiasedTime\UnbiasedTime_UnityPro.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\96.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\26.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\69.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\21.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\98.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Surface.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\25.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Debris.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\36.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\80.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpDistortion.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\86.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\42.txt" />
+     <None Include="Assets\GameSparks\README.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\27.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\11.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\46.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\19.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\NebulaStaticBoard.shader" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Holographic.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\30.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\79.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpTwist.shader" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\ExhaustFlame.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\70.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\53.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\38.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\22.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\51.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\85.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\40.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\61.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\93.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\59.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\88.txt" />
+     <None Include="Assets\LeanTween\License.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\84.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\90.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\34.txt" />
+     <None Include="Assets\GameSparks\link.xml" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnel.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\28.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\60.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\33.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\43.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\12.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\92.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\45.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\77.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\75.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\82.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\SmokeTurbulent.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\2.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\44.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\83.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\67.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\64.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\47.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\18.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\17.txt" />
+     <None Include="Assets\JellyGarden\Resources\levelstate.txt.txt" />
+     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Additive.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\24.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\9.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\39.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\103.txt" />
+ <Reference Include="Assembly-UnityScript">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TestRunner/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TreeEditor">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/Editor/UnityEditor.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.HoloLens">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Purchasing">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Purchasing">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityPurchasing/Editor/UnityEditor.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Android.Extensions">
+ <HintPath>/Applications/Unity/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions">
+ <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.OSXStandalone.Extensions">
+ <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="BouncyCastle_GameSparks">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/BouncyCastle_GameSparks.dll</HintPath>
+ </Reference>
+ <Reference Include="GameSparks.Api">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/GameSparks.Api.dll</HintPath>
+ </Reference>
+ <Reference Include="GameSparks">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/GameSparks.dll</HintPath>
+ </Reference>
+ <Reference Include="GameSparksRT">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/GameSparksRT.dll</HintPath>
+ </Reference>
+ <Reference Include="Editor">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Purchasing.Common">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
+ </Reference>
+ <Reference Include="Security">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Security.dll</HintPath>
+ </Reference>
+ <Reference Include="Stores">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
+ </Reference>
+ <Reference Include="Apple">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
+ </Reference>
+ <Reference Include="Facebook">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Facebook/Facebook.dll</HintPath>
+ </Reference>
+ <Reference Include="Tizen">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
+ </Reference>
+ <Reference Include="winrt">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Common">
+ <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{79391AC5-8752-B4CC-F33F-BB9EB1094377}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{B2B58FB2-4462-6B0C-A872-40DD957E5FE0}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
+      <Project>{A0590241-EC89-9436-F11D-51760213F2B6}</Project>      <Name>Assembly-CSharp-Editor-firstpass</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
