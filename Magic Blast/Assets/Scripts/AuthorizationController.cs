@@ -64,10 +64,39 @@ public class AuthorizationController : MonoBehaviour {
 
 	public void findCurrentChellange()
 	{
-		new ListChallengeRequest().Send((response) => {
+		List<string> _states = new List<string> ();
+		_states.Add ("WAITING");
+		_states.Add ("RUNNING");
+		_states.Add ("ISSUED");
+		_states.Add ("RECEIVED");
+		_states.Add ("COMPLETE");
+		_states.Add ("DECLINED");
+		new ListChallengeRequest().SetStates(_states).Send((response) => {
+			if (response.HasErrors)
+				Debug.Log(response.Errors.JSON);
+			//Debug.Log(response.ChallengeInstances.ToString());
 			foreach(var c in response.ChallengeInstances){
-				Debug.Log("Challenge:" + c.ChallengeId);
+				Debug.Log("Challenge:" + c.ShortCode);
+				Debug.Log("State:" + c.State);
+				//declineChellangeID(c.BaseData);
+
+				//Debug.Log(c.JSONString);
 			}
 		});
+	}
+
+	public void declineChellangeID(string ID)
+	{
+		new DeclineChallengeRequest()
+			.SetChallengeInstanceId(ID)
+			.SetMessage("you decline chellange")
+			.Send((response) => {
+				string challengeInstanceId = response.ChallengeInstanceId; 
+				GSData scriptData = response.ScriptData; 
+				if (response.HasErrors)
+				{
+					Debug.Log(response.Errors.JSON);
+				}
+			});
 	}
 }

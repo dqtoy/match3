@@ -191,6 +191,8 @@ public class LevelManager : MonoBehaviour
 	private int greenBoxPercent;
 	private int yellowBoxPercent;
 
+	private float bundleAbility;
+
 	List<int> _colorList = new List<int> ();
 
 	private ArrayList allTargetsObjectList = new ArrayList();
@@ -338,6 +340,9 @@ public class LevelManager : MonoBehaviour
             else if (value == GameState.GameOver)
             {
                 GameObject.Find("CanvasGlobal").transform.Find("MenuFailed").gameObject.SetActive(true);
+				if (ChallengeController.instanse != null) {
+					ChallengeController.instanse.resetTreeClambLevelPoint ();
+				}
             }
             else if (value == GameState.PreWinAnimations)
             {
@@ -347,6 +352,9 @@ public class LevelManager : MonoBehaviour
             {
                 GameObject.Find("CanvasGlobal").transform.Find("MenuComplete").gameObject.SetActive(true);
                 SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.complete[1]);
+
+
+
                 //if (InitScript.Instance.ShowChartboostAdsEveryLevel > 0)
                 //{
                 //    if (passLevelCounter % InitScript.Instance.ShowChartboostAdsEveryLevel == 0 && InitScript.Instance.enableUnityAds)
@@ -385,6 +393,7 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel()
     {
         currentLevel = PlayerPrefs.GetInt("OpenLevel");// TargetHolder.level;
+		Debug.Log("loaded Level " +currentLevel);
         if (currentLevel == 0)
             currentLevel = 1;
         LoadDataFromLocal(currentLevel);
@@ -397,25 +406,11 @@ public class LevelManager : MonoBehaviour
         {
             float aspect = (float)Screen.height / (float)Screen.width;
             GetComponent<Camera>().orthographicSize = 5.3f;
-			Debug.Log ("aspect ratio = "+aspect);
-            /*aspect = (float)Math.Round(aspect, 2);
-            if (aspect == 1.6f)
-                GetComponent<Camera>().orthographicSize = 6.25f;                    //16:10
-            else if (aspect == 1.78f)
-                GetComponent<Camera>().orthographicSize = 7f;    //16:9
-            else if (aspect == 1.5f)
-                GetComponent<Camera>().orthographicSize = 5.9f;                  //3:2
-            else if (aspect == 1.33f)
-                GetComponent<Camera>().orthographicSize = 5.25f;                  //4:3
-            else if (aspect == 1.67f)
-                GetComponent<Camera>().orthographicSize = 6.6f;                  //5:3
-            else if (aspect == 1.25f)
-                GetComponent<Camera>().orthographicSize = 4.9f;             */    //5:4
-
 
 			GetComponent<Camera> ().orthographicSize = 3.9f * aspect;
 			// commit
             GetComponent<Camera>().GetComponent<MapCamera>().SetPosition(new Vector2(0, GetComponent<Camera>().transform.position.y));
+
         }
         else
         {
@@ -445,6 +440,21 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
+
+		Debug.Log ("saveStars");
+		if (ChallengeController.instanse != null) {
+			ChallengeController.instanse.updateLeaderboardStars ();
+		}
+		if (enable) {
+			if (ChallengeController.instanse != null) {
+				if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
+					GameGUIController.instanse.goToTreeClimbChallenge ();
+				}
+				if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TresureHant) {
+					GameGUIController.instanse.goToTresuareHuntChallenge ();
+				}
+			}
+		}
     }
 
     // Use this for initialization
@@ -495,7 +505,8 @@ public class LevelManager : MonoBehaviour
     {
 		firstTurnWasPassed = false;
         GenerateLevel();
-        GenerateOutline();
+		// warning
+        //GenerateOutline();
         ReGenLevel();
         if (limitType == LIMIT.TIME)
         {
@@ -850,7 +861,7 @@ public class LevelManager : MonoBehaviour
 
     public void CheckCollectedTarget(GameObject _item)
     {
-		Debug.Log (_item.name);
+		//Debug.Log (_item.name);
         for (int i = 0; i < 6; i++)
         {
             if (ingrCountTarget[i] > 0)
@@ -1344,12 +1355,19 @@ public class LevelManager : MonoBehaviour
         GameObject.Find("Canvas").transform.Find("PreCompleteBanner").gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
         GameObject.Find("Canvas").transform.Find("PreCompleteBanner").gameObject.SetActive(false);
-        if (PlayerPrefs.GetInt(string.Format("Level.{0:000}.StarsCount", currentLevel), 0) < stars)
-            PlayerPrefs.SetInt(string.Format("Level.{0:000}.StarsCount", currentLevel), stars);
-        if (Score > PlayerPrefs.GetInt("Score" + currentLevel))
-        {
-            PlayerPrefs.SetInt("Score" + currentLevel, Score);
-        }
+
+		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
+			ChallengeController.instanse.upClambLevel ();
+		} else {
+			if (PlayerPrefs.GetInt(string.Format("Level.{0:000}.StarsCount", currentLevel), 0) < stars)
+				PlayerPrefs.SetInt(string.Format("Level.{0:000}.StarsCount", currentLevel), stars);
+			if (Score > PlayerPrefs.GetInt("Score" + currentLevel))
+			{
+				PlayerPrefs.SetInt("Score" + currentLevel, Score);
+			}
+		}
+
+        
 		Debug.Log ("SET WIN");
         gameStatus = GameState.Win;
     }
@@ -1566,10 +1584,10 @@ public class LevelManager : MonoBehaviour
     {
         GameObject square = null;
         square = Instantiate(squarePrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
-        if (chessColor)
-        {
+        //if (chessColor)
+        //{
             square.GetComponent<SpriteRenderer>().sprite = squareSprite1;
-        }
+        //}
         square.transform.SetParent(GameField);
         square.transform.localPosition = firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight);
         squaresArray[row * maxCols + col] = square.GetComponent<Square>();
@@ -3192,6 +3210,98 @@ public class LevelManager : MonoBehaviour
         ProcessGameDataFromString(mapText.text);
     }
 
+
+	public void clearAllLevelData()
+	{
+		ActivatedBoost = null;
+		Score = 0;
+		stars = 0;
+		moveID = 0;
+
+		isBombTimeOut = false;
+
+		blocksObject.SetActive(false);
+		ingrObject.SetActive(false);
+		scoreTargetObject.SetActive(false);
+
+		star1Anim.SetActive(false);
+		star2Anim.SetActive(false);
+		star3Anim.SetActive(false);
+
+		collectItems[0] = CollectItems.None;
+		collectItems[1] = CollectItems.None;
+		collectItems[2] = CollectItems.None;
+		collectItems[3] = CollectItems.None;
+		collectItems[4] = CollectItems.None;
+		collectItems[5] = CollectItems.None;
+
+		ingrTarget[0] = Ingredients.None;
+		ingrTarget[1] = Ingredients.None;
+		ingrTarget[2] = Ingredients.None;
+		ingrTarget[3] = Ingredients.None;
+
+		squareTypes [0] = SquareTypes.NONE;
+		squareTypes [1] = SquareTypes.NONE;
+		squareTypes [2] = SquareTypes.NONE;
+		squareTypes [3] = SquareTypes.NONE;
+		squareTypes [4] = SquareTypes.NONE;
+		squareTypes [5] = SquareTypes.NONE;
+		squareTypes [6] = SquareTypes.NONE;
+		squareTypes [7] = SquareTypes.NONE;
+		squareTypes [8] = SquareTypes.NONE;
+		squareTypes [9] = SquareTypes.NONE;
+
+		ingrCountTarget[0] = 0;
+		ingrCountTarget[1] = 0;
+		ingrCountTarget[2] = 0;
+		ingrCountTarget[3] = 0;
+		ingrCountTarget[4] = 0;
+		ingrCountTarget[5] = 0;
+
+		toysCount [0] = 0;
+		toysCount [1] = 0;
+		toysCount [2] = 0;
+		toysCount [3] = 0;
+
+		blocksCount [0] = 0;
+		blocksCount [1] = 0;
+		blocksCount [2] = 0;
+		blocksCount [3] = 0;
+		blocksCount [4] = 0;
+		blocksCount [5] = 0;
+		blocksCount [6] = 0;
+		blocksCount [7] = 0;
+
+		TargetBlocks = 0;
+
+		_colorList.Clear ();
+		_colorList.TrimExcess ();
+
+		particleEffectIsNow = false;
+
+		target = Target.NONE;
+		target2 = Target.NONE;
+		target3 = Target.NONE;
+
+		beachBallTarget = 0;
+		moneyBoxTarget = 0;
+		timeBombTarget = 0;
+
+		beachBallPercent = 0;
+		moneyBoxPercent = 0;
+		timeBombPercent = 0;
+
+		redBoxPercent = 0;
+		orangeBoxPercent = 0;
+		purpuleBoxPercent = 0;
+		blueBoxPercent = 0;
+		greenBoxPercent = 0;
+		yellowBoxPercent = 0;
+
+		Alltargets.Clear ();
+		Alltargets.TrimExcess ();
+	}
+
     void ProcessGameDataFromString(string mapText)
     {
 		_colorList.Clear ();
@@ -3310,6 +3420,11 @@ public class LevelManager : MonoBehaviour
                 string blocksString = line.Replace("COLOR LIMIT", string.Empty).Trim();
                 colorLimit = int.Parse(blocksString);
             }
+			else if (line.StartsWith("BUNDLE ABILITY "))
+			{
+				string blocksString = line.Replace("BUNDLE ABILITY", string.Empty).Trim();
+				bundleAbility = float.Parse(blocksString);
+			}
 			else if (line.StartsWith("COLOR PERCENT "))
 			{
 				string blocksString = line.Replace("COLOR PERCENT", string.Empty).Trim();
@@ -3530,7 +3645,20 @@ public class LevelManager : MonoBehaviour
 		}
 		return _color;*/
 
-		int currentRandomColor = _colorList[UnityEngine.Random.Range(0,_colorList.Count)];
+		int currentRandomColor = 0;
+
+		if (lastRandColor < 0) {
+			currentRandomColor = _colorList [UnityEngine.Random.Range (0, _colorList.Count)];
+			lastRandColor = currentRandomColor;
+		} else {
+			float randomAbility = UnityEngine.Random.Range (0, 100f);
+			if (randomAbility < bundleAbility) {
+				currentRandomColor = lastRandColor;
+			} else {
+				currentRandomColor = _colorList [UnityEngine.Random.Range (0, _colorList.Count)];
+			}
+			lastRandColor = currentRandomColor;
+		}
 
 		/*if (lastRandColor == currentRandomColor) {
 			lastRandColorCount++;
@@ -3547,6 +3675,11 @@ public class LevelManager : MonoBehaviour
 		}*/
 
 		return currentRandomColor;
+	}
+
+	public void resetBundleAbility()
+	{
+		lastRandColor = -1;
 	}
 
 }

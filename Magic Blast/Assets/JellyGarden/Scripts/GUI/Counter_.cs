@@ -10,6 +10,7 @@ public class Counter_ : MonoBehaviour
 
 	public int[] connectedArray;
 	public int currentID;
+	 
 	// Use this for initialization
 	void Start ()
 	{
@@ -74,22 +75,59 @@ public class Counter_ : MonoBehaviour
 			txt.text = "" + LevelManager.THIS.TargetBlocks;
 		}
 		if (name == "TargetIngr1") {
-			txt.text = "" + connectedArray[currentID];
+			try
+			{
+				txt.text = "" + connectedArray[currentID];
+			}
+			catch (UnityException err) {
+
+			}
+
 		}
 		if (name == "TargetIngr2") {
-			txt.text = "" + connectedArray[currentID];
+			try
+			{
+				txt.text = "" + connectedArray[currentID];
+			}
+			catch (UnityException err) {
+
+			}
 		}
 		if (name == "TargetIngr3") {
-			txt.text = "" + connectedArray[currentID];
+			try
+			{
+				txt.text = "" + connectedArray[currentID];
+			}
+			catch (UnityException err) {
+
+			}
 		}
 		if (name == "TargetIngr4") {
-			txt.text = "" + connectedArray[currentID];
+			try
+			{
+				txt.text = "" + connectedArray[currentID];
+			}
+			catch (UnityException err) {
+
+			}
 		}
 		if (name == "TargetIngr5") {
-			txt.text = "" + connectedArray[currentID];
+			try
+			{
+				txt.text = "" + connectedArray[currentID];
+			}
+			catch (UnityException err) {
+
+			}
 		}
 		if (name == "TargetIngr6") {
-			txt.text = "" + connectedArray[currentID];
+			try
+			{
+				txt.text = "" + connectedArray[currentID];
+			}
+			catch (UnityException err) {
+
+			}
 		}
 		if (name == "Lifes") {
 			txt.text = "" + InitScript.Instance.GetLife ();

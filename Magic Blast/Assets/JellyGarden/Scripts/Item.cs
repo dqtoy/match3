@@ -431,10 +431,13 @@ public class Item : MonoBehaviour
 		//Debug.Log (gameObject.name);
 		if (currentType == ItemsTypes.NONE) {
 			yield return new WaitForEndOfFrame ();
+			LevelManager.THIS.resetBundleAbility ();
 			LevelManager.Instance.FindMatchesByItem (this);
 			LevelManager.THIS.firstTurnWasPassed = true;
+
 		} else if (currentType == ItemsTypes.HORIZONTAL_STRIPPED || currentType == ItemsTypes.VERTICAL_STRIPPED) {
 			LevelManager.THIS.firstTurnWasPassed = true;
+			LevelManager.THIS.resetBundleAbility ();
 			Item connected_stripped = null;
 			if (connected_stripped == null) connected_stripped = getNearByType (ItemsTypes.HORIZONTAL_STRIPPED);
 			if (connected_stripped == null) connected_stripped = getNearByType (ItemsTypes.VERTICAL_STRIPPED);
@@ -479,7 +482,7 @@ public class Item : MonoBehaviour
 		} else if (currentType == ItemsTypes.BOMB) {
 			LevelManager.THIS.firstTurnWasPassed = true;
 
-
+			LevelManager.THIS.resetBundleAbility ();
 
 			bool canGenerateBombEffect = true;
 
@@ -524,6 +527,9 @@ public class Item : MonoBehaviour
 			DestroyItem ();
 		} else if (currentType == ItemsTypes.PACKAGE) {
 			LevelManager.THIS.firstTurnWasPassed = true;
+
+			LevelManager.THIS.resetBundleAbility ();
+
 			Item connected_stripped = null;
 			if (connected_stripped == null) connected_stripped = getNearByType (ItemsTypes.HORIZONTAL_STRIPPED);
 			if (connected_stripped == null) connected_stripped = getNearByType (ItemsTypes.VERTICAL_STRIPPED);
@@ -969,6 +975,8 @@ public class Item : MonoBehaviour
 
     IEnumerator FallingCor(Square _square, bool animate)
     {
+		sprRenderer.sortingOrder = 10 - _square.row;
+
 		if (isFreezeObject) {
 			//Debug.Log ("break");
 			//falling = false;

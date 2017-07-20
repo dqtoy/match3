@@ -15,6 +15,7 @@ public class MenuPlayController : MonoBehaviour {
 	void OnEnable()
 	{
 		loadTargetInformation ();
+		//Invoke("loadTargetInformation",0.5f);
 	}
 
 	void loadTargetInformation()
@@ -52,8 +53,9 @@ public class MenuPlayController : MonoBehaviour {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
 			count++;
 			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
-			counter.connectedArray = LevelManager.THIS.blocksCount;
-			counter.currentID = 1;
+			counter.connectedArray = new int[1];
+			counter.connectedArray [0] = LevelManager.THIS.beachBallTarget;
+			counter.currentID = 0;
 
 		}
 
@@ -61,8 +63,9 @@ public class MenuPlayController : MonoBehaviour {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[6]);
 			count++;
 			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
-			counter.connectedArray = LevelManager.THIS.blocksCount;
-			counter.currentID = 6;
+			counter.connectedArray = new int[1];
+			counter.connectedArray [0] = LevelManager.THIS.moneyBoxTarget;
+			counter.currentID = 0;
 
 		}
 
@@ -70,8 +73,9 @@ public class MenuPlayController : MonoBehaviour {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[3]);
 			count++;
 			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
-			counter.connectedArray = LevelManager.THIS.blocksCount;
-			counter.currentID = 3;
+			counter.connectedArray = new int[1];
+			counter.connectedArray [0] = LevelManager.THIS.timeBombTarget;
+			counter.currentID = 0;
 
 		}
 
@@ -174,6 +178,11 @@ public class MenuPlayController : MonoBehaviour {
 			ingrList [j].SetActive (true);
 			ingrList [j].GetComponent<Image> ().sprite = _spriteList [j];
 		}
+	}
+
+	void OnDisable()
+	{
+		//LevelManager.THIS.clearAllLevelData ();
 	}
 
 	// Update is called once per frame

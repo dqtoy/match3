@@ -14,7 +14,7 @@ public class GUIEvents : MonoBehaviour
         }
     }
 
-    public void Settings()
+	public void Settings(string name = "")
     {
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
 

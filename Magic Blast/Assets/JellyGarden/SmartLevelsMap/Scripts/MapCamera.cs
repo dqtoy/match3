@@ -16,12 +16,17 @@ public class MapCamera : MonoBehaviour
     private float speed;
     bool touched;
 
+	public bool canMove = true;
+
+	private GameObject _leaderboard;
+
     public void Awake()
     {
         _transform = transform;
         currentTime = 0;
         speed = 0;
 
+		_leaderboard = GameObject.Find ("CanvasGlobal").transform.Find ("ChallengeTournamentLeaderboard").gameObject;
     }
 
     public void OnDrawGizmos()
@@ -31,7 +36,8 @@ public class MapCamera : MonoBehaviour
 
     public void Update()
     {
-
+		if (_leaderboard.activeInHierarchy)
+			return;
 #if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 			HandleTouchInput();
 #else
@@ -41,7 +47,8 @@ public class MapCamera : MonoBehaviour
 
     void LateUpdate()
     {
-
+		if (_leaderboard.activeInHierarchy)
+			return;
         SetPosition(transform.position);
     }
 

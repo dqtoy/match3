@@ -16,6 +16,8 @@ public class PlayerPrefsMapProgressManager : IMapProgressManager
     public void SaveLevelStarsCount(int level, int starsCount)
     {
         PlayerPrefs.SetInt(GetLevelKey(level), starsCount);
+
+
     }
 
     public void ClearLevelProgress(int level)

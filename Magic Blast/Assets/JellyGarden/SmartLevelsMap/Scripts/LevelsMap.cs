@@ -172,6 +172,7 @@ public class LevelsMap : MonoBehaviour
             if (_instance != null)
                 _instance.UpdateMapLevels();
         }
+
     }
 
     private void TeleportToLevelInternal(int number, bool isQuietly)

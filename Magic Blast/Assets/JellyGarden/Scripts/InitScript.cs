@@ -64,6 +64,13 @@ public enum RewardedAdsType
     GetGoOn
 }
 
+public enum ChallengeState
+{
+	None = 0,
+	TreeClamb,
+	TresureHant
+}
+
 public class InitScript : MonoBehaviour
 {
     public static InitScript Instance;
@@ -224,6 +231,11 @@ public class InitScript : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
+
+		if (ChallengeController.instanse != null) {
+			ChallengeController.instanse.checkPopup ();
+			ChallengeController.instanse.checkChallengeButtons ();
+		}
     }
 
 #if GOOGLE_MOBILE_ADS
@@ -564,6 +576,8 @@ public class InitScript : MonoBehaviour
 
     public void OnLevelClicked(object sender, LevelReachedEventArgs args)
     {
+		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb)
+			return;
         if (EventSystem.current.IsPointerOverGameObject(-1))
             return;
         if (!GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.activeSelf && !GameObject.Find("CanvasGlobal").transform.Find("GemsShop").gameObject.activeSelf && !GameObject.Find("CanvasGlobal").transform.Find("LiveShop").gameObject.activeSelf)
@@ -576,6 +590,16 @@ public class InitScript : MonoBehaviour
             GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.SetActive(true);
         }
     }
+
+	public void onOpenTournamentLeaderboard()
+	{
+		ChallengeController.instanse.openTournamentLeaderboard ();
+	}
+
+	public void onOpenTreeClimbChallenge()
+	{
+		ChallengeController.instanse.openTreeClimbChallenge ();
+	}
 
     void OnEnable()
     {

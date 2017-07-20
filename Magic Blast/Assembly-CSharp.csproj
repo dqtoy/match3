@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B2B58FB2-4462-6B0C-A872-40DD957E5FE0}</ProjectGuid>
+    <ProjectGuid>{A427FFDE-6822-4822-6708-F6F08077C584}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;UNITY_PURCHASING;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;UNITY_INAPPS;ANDROID_NOTIFICATIONS;UNITY_HAS_GOOGLEVR</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;UNITY_PURCHASING;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;UNITY_INAPPS;ANDROID_NOTIFICATIONS;ENABLE_PLAYFABSERVER_API;UNITY_HAS_GOOGLEVR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -182,15 +182,115 @@
      <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplines.cs" />
      <Compile Include="Assets\LeanTween\Examples\Scripts\TestingAllCS.cs" />
      <Compile Include="Assets\LeanTween\Examples\Scripts\TestingUnitTests.cs" />
+     <Compile Include="Assets\PlayFabSdk\Admin\PlayFabAdminAPI.cs" />
+     <Compile Include="Assets\PlayFabSdk\Admin\PlayFabAdminModels.cs" />
+     <Compile Include="Assets\PlayFabSdk\Admin\PlayFabEvents.cs" />
+     <Compile Include="Assets\PlayFabSdk\Admin\PlayFabSettings.cs" />
+     <Compile Include="Assets\PlayFabSdk\Client\PlayFabClientAPI.cs" />
+     <Compile Include="Assets\PlayFabSdk\Client\PlayFabClientModels.cs" />
+     <Compile Include="Assets\PlayFabSdk\Client\PlayFabDeviceUtil.cs" />
+     <Compile Include="Assets\PlayFabSdk\Client\PlayFabEvents.cs" />
+     <Compile Include="Assets\PlayFabSdk\Client\PlayFabSettings.cs" />
+     <Compile Include="Assets\PlayFabSdk\Matchmaker\PlayFabEvents.cs" />
+     <Compile Include="Assets\PlayFabSdk\Matchmaker\PlayFabMatchmakerAPI.cs" />
+     <Compile Include="Assets\PlayFabSdk\Matchmaker\PlayFabMatchmakerModels.cs" />
+     <Compile Include="Assets\PlayFabSdk\Server\PlayFabEvents.cs" />
+     <Compile Include="Assets\PlayFabSdk\Server\PlayFabServerAPI.cs" />
+     <Compile Include="Assets\PlayFabSdk\Server\PlayFabServerModels.cs" />
+     <Compile Include="Assets\PlayFabSdk\Server\PlayFabSettings.cs" />
+     <Compile Include="Assets\PlayFabSdk\Server\PlayStream\PlayFabPlayStreamAPI.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\ISerializer.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\Log.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\PlayFabHttp\IPlayFabHttp.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\PlayFabHttp\PlayFabHTTP.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\PlayFabHttp\PlayFabWWW.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\PlayFabHttp\PlayFabWebRequest.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\PlayFabSignalR\IPlayFabSignalR.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\PlayFabSignalR\PlayFabSignalR.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\SimpleJson.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\SingletonMonoBehaviour.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\Util.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Internal\wsaReflectionExtensions.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\CRC32.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\Deflate.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\DeflateStream.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\GZipStream.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\InfTree.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\Inflate.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\ParallelDeflateOutputStream.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\ZTree.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\Zlib.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\ZlibBaseStream.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\ZlibCodec.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\ZlibConstants.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Ionic.Zlib\ZlibStream.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Models\PlayFabSharedSettings.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Models\SharedModels.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Public\PlayFabDataGatherer.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Public\PlayFabEvents.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Public\PlayFabLogger.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Public\PlayFabSettings.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\Public\PlayStream\PlayStreamEventDataModels.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Connection.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\ConnectionExtensions.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\DisposableAction.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\CallbackDetail.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\DefaultHttpClient.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\HttpHelper.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\HttpWebRequestWrapper.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\HttpWebResponseWrapper.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\IHttpClient.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\IHttpClientExtensions.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\IRequest.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\IResponse.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Http\RequestState.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\HubConnection.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\HubInvocation.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\HubMethodAttribute.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\HubProxy.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\HubRegistrationData.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\HubResult.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\Hubservable.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\IHubProxy.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\IObservable.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\IObserver.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\ProxyExtensions.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Hubs\Subscription.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\IConnection.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Infrastructure\ChunkBuffer.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Infrastructure\DisposableAction.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Infrastructure\StreamExtensions.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Infrastructure\StreamState.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Infrastructure\UriQueryUtility.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\NegotiationResponse.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Properties\AssemblyInfo.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\AsyncStreamReader.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\AutoTransport.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\CancellationTokenSource.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\CustomEventArgs.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\EventSignal.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\HttpBasedTransport.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\IClientTransport.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\LongPollingTransport.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\OptionalEventSignal.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\ServerSentEventsTransport.cs" />
+     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\SseEvent.cs" />
      <Compile Include="Assets\Scripts\AuthorizationController.cs" />
+     <Compile Include="Assets\Scripts\ChallengeController.cs" />
+     <Compile Include="Assets\Scripts\GameGUIController.cs" />
      <Compile Include="Assets\Scripts\LifeManagerUIController.cs" />
      <Compile Include="Assets\Scripts\LineRendererLayer.cs" />
+     <Compile Include="Assets\Scripts\PlayFabManager.cs" />
+     <Compile Include="Assets\Scripts\TournamentLeaderboard.cs" />
+     <Compile Include="Assets\Scripts\TournamentPlayer.cs" />
+     <Compile Include="Assets\Scripts\TreeClambLevelBtn.cs" />
      <Compile Include="Assets\SimpleAndroidNotifications\NotificationExample.cs" />
      <Compile Include="Assets\SimpleAndroidNotifications\NotificationIcon.cs" />
      <Compile Include="Assets\SimpleAndroidNotifications\NotificationManager.cs" />
      <Compile Include="Assets\SimpleAndroidNotifications\NotificationParams.cs" />
      <None Include="Assets\JellyGarden\Resources\Levels\94.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\72.txt" />
+     <None Include="Assets\PlayFabSdk\link.xml" />
      <None Include="Assets\GameSparks\Plugins\GameSparksRT.xml" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJump.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\91.txt" />
@@ -346,45 +446,45 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
  <Reference Include="BouncyCastle_GameSparks">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/BouncyCastle_GameSparks.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/GameSparks/Plugins/BouncyCastle_GameSparks.dll</HintPath>
  </Reference>
  <Reference Include="GameSparks.Api">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/GameSparks.Api.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/GameSparks/Plugins/GameSparks.Api.dll</HintPath>
  </Reference>
  <Reference Include="GameSparks">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/GameSparks.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/GameSparks/Plugins/GameSparks.dll</HintPath>
  </Reference>
  <Reference Include="GameSparksRT">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/GameSparks/Plugins/GameSparksRT.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/GameSparks/Plugins/GameSparksRT.dll</HintPath>
  </Reference>
  <Reference Include="Editor">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
  </Reference>
  <Reference Include="Purchasing.Common">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/Bin/Purchasing.Common.dll</HintPath>
  </Reference>
  <Reference Include="Security">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Security.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/Bin/Security.dll</HintPath>
  </Reference>
  <Reference Include="Stores">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
  </Reference>
  <Reference Include="Apple">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
  </Reference>
  <Reference Include="Facebook">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Facebook/Facebook.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/Bin/Facebook/Facebook.dll</HintPath>
  </Reference>
  <Reference Include="Tizen">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
  </Reference>
  <Reference Include="winrt">
- <HintPath>/Users/Mac/Desktop/UnityProjects/Magic Blast/New Unity Project/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{79391AC5-8752-B4CC-F33F-BB9EB1094377}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{04B5A4FF-DD44-4256-DA54-2E9D3AC19F9F}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

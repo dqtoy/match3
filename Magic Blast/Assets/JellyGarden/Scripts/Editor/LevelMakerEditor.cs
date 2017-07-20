@@ -73,6 +73,8 @@ public class LevelMakerEditor : EditorWindow
 	private float greenBoxPercent;
 	private float yellowBoxPercent;
 
+	private float bundleAbility;
+
     private bool update;
     private LIMIT limitType;
     private int colorLimit;
@@ -1496,6 +1498,16 @@ public class LevelMakerEditor : EditorWindow
 
 		// red box percent
 		GUILayout.Space(30);
+		GUILayout.Label("BundleAblity:", EditorStyles.boldLabel);
+		GUILayout.BeginHorizontal();
+		bundleAbility = GUILayout.HorizontalSlider(bundleAbility,0,100,new GUILayoutOption[] { GUILayout.Width(100) });
+		GUILayout.Label(Math.Floor(bundleAbility).ToString());
+		GUILayout.EndHorizontal();
+
+		GUILayout.Space(30);
+
+		// red box percent
+		GUILayout.Space(30);
 		GUILayout.Label("Red color droping:", EditorStyles.boldLabel);
 		GUILayout.BeginHorizontal();
 		if (GUILayout.Button(RedTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
@@ -2193,6 +2205,8 @@ public class LevelMakerEditor : EditorWindow
         saveString += "LIMIT " + (int)limitType + "/" + limit;
         saveString += "\r\n";
         saveString += "COLOR LIMIT " + colorLimit;
+		saveString += "\r\n";
+		saveString += "BUNDLE ABILITY " + Math.Floor(bundleAbility);
         saveString += "\r\n";
 		saveString += "COLOR PERCENT " + Math.Floor(redBoxPercent) + "/" + Math.Floor(orangeBoxPercent) + "/" + Math.Floor(purpuleBoxPercent) + "/" + Math.Floor(blueBoxPercent) + "/" + Math.Floor(greenBoxPercent) + "/" + Math.Floor(yellowBoxPercent);
 		saveString += "\r\n";
@@ -2272,6 +2286,8 @@ public class LevelMakerEditor : EditorWindow
 		greenBoxPercent = 100f;
 		yellowBoxPercent = 100f;
 
+		bundleAbility = 0;
+
 		beachBallTarget = 0;
 		moneyBoxTarget = 0;
 		timeBombTarget = 0;
@@ -2347,6 +2363,11 @@ public class LevelMakerEditor : EditorWindow
                 string blocksString = line.Replace("COLOR LIMIT", string.Empty).Trim();
                 colorLimit = int.Parse(blocksString);
             }
+			else if (line.StartsWith("BUNDLE ABILITY "))
+			{
+				string blocksString = line.Replace("BUNDLE ABILITY", string.Empty).Trim();
+				bundleAbility = float.Parse(blocksString);
+			}
 			else if (line.StartsWith("COLOR PERCENT "))
 			{
 				string blocksString = line.Replace("COLOR PERCENT", string.Empty).Trim();
