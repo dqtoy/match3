@@ -576,8 +576,6 @@ public class InitScript : MonoBehaviour
 
     public void OnLevelClicked(object sender, LevelReachedEventArgs args)
     {
-		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb)
-			return;
         if (EventSystem.current.IsPointerOverGameObject(-1))
             return;
         if (!GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.activeSelf && !GameObject.Find("CanvasGlobal").transform.Find("GemsShop").gameObject.activeSelf && !GameObject.Find("CanvasGlobal").transform.Find("LiveShop").gameObject.activeSelf)

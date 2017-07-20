@@ -1358,6 +1358,8 @@ public class LevelManager : MonoBehaviour
 
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
 			ChallengeController.instanse.upClambLevel ();
+		} else if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TresureHant) {
+			ChallengeController.instanse.upTresuareLevel ();
 		} else {
 			if (PlayerPrefs.GetInt(string.Format("Level.{0:000}.StarsCount", currentLevel), 0) < stars)
 				PlayerPrefs.SetInt(string.Format("Level.{0:000}.StarsCount", currentLevel), stars);
