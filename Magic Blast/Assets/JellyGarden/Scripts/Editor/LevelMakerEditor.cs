@@ -2604,9 +2604,12 @@ public class LevelMakerEditor : EditorWindow
 							levelSquares[mapLine * maxCols + i].color = int.Parse(st_part[2].ToString());
 							//levelSquares[mapLine * maxCols + i].color = 0;
 						}
-						if (levelSquares [mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK) {
-							levelSquares[mapLine * maxCols + i].val = int.Parse(st_part[3].ToString());
+						if (st_part.Length > 3) {
+							if (levelSquares [mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK) {
+								levelSquares[mapLine * maxCols + i].val = int.Parse(st_part[3].ToString());
+							}
 						}
+
 					} else {
 						levelSquares[mapLine * maxCols + i].block = (SquareTypes)int.Parse(st[i][0].ToString());
 						levelSquares[mapLine * maxCols + i].obstacle = (SquareTypes)int.Parse(st[i][1].ToString());

@@ -290,9 +290,9 @@ public class Item : MonoBehaviour
 			} else {
 				_color = LevelManager.THIS.getExpectedColor();
 			}
-			COLOR = _color;
-			COLORView = _color;
-			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [_color];
+			COLOR = _color-1;
+			COLORView = _color-1;
+			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [_color-1];
 			currentType = ItemsTypes.TIME_BOMB;
 			//itemText.gameObject.SendMessage ("OnEnable");
 			timeBombCount = 5;
@@ -1185,9 +1185,9 @@ public class Item : MonoBehaviour
 			} else {
 				_color = LevelManager.THIS.getExpectedColor();
 			}
-			COLOR = _color;
-			COLORView = _color;
-			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [_color];
+			COLOR = _color-1;
+			COLORView = _color-1;
+			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [_color-1];
 		}
 		else if (NextType == ItemsTypes.MONEY_BOX)
 			sprRenderer.sprite = items[8];
