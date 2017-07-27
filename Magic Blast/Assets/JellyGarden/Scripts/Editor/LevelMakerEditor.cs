@@ -20,6 +20,7 @@ public class LevelMakerEditor : EditorWindow
     public static SquareBlocks[] levelSquares = new SquareBlocks[81];
     SquareTypes squareType;
 	Ingredients toysType;
+	int timeBombType;
 	CollectItems colorType;
     private string fileName = "1.txt";
     private Texture squareTex;
@@ -31,7 +32,12 @@ public class LevelMakerEditor : EditorWindow
     private Texture thrivingBlockTex;
 	private Texture BeachBallTex;
 	private Texture ColorCubeTex;
-	private Texture TimeBombTex;
+	private Texture TimeBombTex1;
+	private Texture TimeBombTex2;
+	private Texture TimeBombTex3;
+	private Texture TimeBombTex4;
+	private Texture TimeBombTex5;
+	private Texture TimeBombTex6;
 
 	private Texture toy1Tex;
 	private Texture toy2Tex;
@@ -45,6 +51,8 @@ public class LevelMakerEditor : EditorWindow
 	private Texture Green4Tex;
 	private Texture YellowTex;
 
+	private Texture EmptyTex;
+
     public int star1;
     private int star2;
     private int star3;
@@ -52,6 +60,11 @@ public class LevelMakerEditor : EditorWindow
     Target target;
 	Target target2;
 	Target target3;
+
+	SquareTypes dontIncludeInGoalTarget1;
+	SquareTypes dontIncludeInGoalTarget2;
+	SquareTypes dontIncludeInGoalTarget3;
+
     private int[] ingrCount = new int[6];
 	private int[] toysCount = new int[4];
     private Ingredients[] ingr = new Ingredients[4];
@@ -92,7 +105,12 @@ public class LevelMakerEditor : EditorWindow
     List<AdEvents> oldList;
 
 
-	private string inputBombValue = "0";
+	private int inputBombValue1 = 0;
+	private int inputBombValue2 = 0;
+	private int inputBombValue3 = 0;
+	private int inputBombValue4 = 0;
+	private int inputBombValue5 = 0;
+	private int inputBombValue6 = 0;
 
     [MenuItem("Window/Jelly Garden editor")]
     public static void Init()
@@ -158,7 +176,13 @@ public class LevelMakerEditor : EditorWindow
             thrivingBlockTex = lm.thrivingBlockPrefab.GetComponent<SpriteRenderer>().sprite.texture;
 			BeachBallTex = lm.BeachBallBlockPrefab.GetComponent<SpriteRenderer>().sprite.texture;
 			ColorCubeTex = (Texture)Resources.Load ("EditorTexture/ColorCubeIcon") as Texture;
-			TimeBombTex = (Texture)Resources.Load ("EditorTexture/time_bomb") as Texture;
+
+			TimeBombTex1 = (Texture)Resources.Load ("EditorTexture/10_alarm_red") as Texture;
+			TimeBombTex2 = (Texture)Resources.Load ("EditorTexture/10_alarm_orange") as Texture;
+			TimeBombTex3 = (Texture)Resources.Load ("EditorTexture/10_alarm_purple") as Texture;
+			TimeBombTex4 = (Texture)Resources.Load ("EditorTexture/10_alarm_blue") as Texture;
+			TimeBombTex5 = (Texture)Resources.Load ("EditorTexture/10_alarm_green") as Texture;
+			TimeBombTex6 = (Texture)Resources.Load ("EditorTexture/10_alarm_yellow") as Texture;
 
 			RedTex = lm.ColorCubePrefabs [0].gameObject.GetComponent <SpriteRenderer>().sprite.texture;
 			OrangeTex = lm.ColorCubePrefabs [1].gameObject.GetComponent <SpriteRenderer>().sprite.texture;
@@ -166,6 +190,8 @@ public class LevelMakerEditor : EditorWindow
 			Blue4Tex = lm.ColorCubePrefabs [3].gameObject.GetComponent <SpriteRenderer>().sprite.texture;
 			Green4Tex = lm.ColorCubePrefabs [4].gameObject.GetComponent <SpriteRenderer>().sprite.texture;
 			YellowTex = lm.ColorCubePrefabs [5].gameObject.GetComponent <SpriteRenderer>().sprite.texture;
+
+			EmptyTex = (Texture)Resources.Load ("EditorTexture/EmptyItem") as Texture;
 
 			toy1Tex = lm.ingrediendSprites [9].texture;
 			toy2Tex = lm.ingrediendSprites [10].texture;
@@ -1461,7 +1487,7 @@ public class LevelMakerEditor : EditorWindow
 		// time bomb
 		GUILayout.Space(30);
 		GUILayout.BeginHorizontal();
-		if (GUILayout.Button(TimeBombTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		if (GUILayout.Button(TimeBombTex1, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
 		{
 			//squareType = SquareTypes.BEACH_BALLS;
 		}
@@ -1585,6 +1611,18 @@ public class LevelMakerEditor : EditorWindow
 		GUILayout.Label(Math.Floor(yellowBoxPercent).ToString());
 		GUILayout.EndHorizontal();
 
+
+		// empty
+		GUILayout.Space(30);
+		GUILayout.Label("Empty:", EditorStyles.boldLabel);
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button(EmptyTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			squareType = SquareTypes.STATIC_COLOR;
+			colorType = CollectItems.None;
+		}
+		GUILayout.EndHorizontal ();
+
 		if (target == Target.COLLECT || target2 == Target.COLLECT || target3 == Target.COLLECT)
         {
 			GUILayout.Space(10);
@@ -1635,6 +1673,14 @@ public class LevelMakerEditor : EditorWindow
                     //SaveLevel();
             }
         }
+
+
+		GUILayout.Space(30);
+		GUILayout.Label("Dont include blocks on targets:", EditorStyles.boldLabel);
+		dontIncludeInGoalTarget1 = (SquareTypes)EditorGUILayout.EnumPopup(dontIncludeInGoalTarget1, GUILayout.Width(100));
+		dontIncludeInGoalTarget2 = (SquareTypes)EditorGUILayout.EnumPopup(dontIncludeInGoalTarget2, GUILayout.Width(100));
+		dontIncludeInGoalTarget3 = (SquareTypes)EditorGUILayout.EnumPopup(dontIncludeInGoalTarget3, GUILayout.Width(100));
+
         GUILayout.EndVertical();
         /*if (saveTarget != target)
         {
@@ -1752,18 +1798,7 @@ public class LevelMakerEditor : EditorWindow
 
 		//
 		GUILayout.BeginVertical();
-		GUILayout.BeginHorizontal();
-
-		if (GUILayout.Button(TimeBombTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
-		{
-			squareType = SquareTypes.DOUBLEBLOCK;
-		}
-
-		GUILayout.Label(" - time bomb", EditorStyles.boldLabel);
-		GUILayout.FlexibleSpace ();
-		inputBombValue = GUILayout.TextField(inputBombValue,5);
-
-		GUILayout.EndHorizontal();
+	
 		GUILayout.EndHorizontal();
 		//
 
@@ -1841,7 +1876,7 @@ public class LevelMakerEditor : EditorWindow
 			squareType = SquareTypes.TOY;
 			toysType = Ingredients.Ingredient2;
 		}
-		GUILayout.Label("-toy 3", EditorStyles.boldLabel);
+		GUILayout.Label("-toy 2", EditorStyles.boldLabel);
 		GUILayout.EndHorizontal();
 		////
 		GUILayout.BeginHorizontal();
@@ -1862,9 +1897,70 @@ public class LevelMakerEditor : EditorWindow
 		GUILayout.Label("-toy 4", EditorStyles.boldLabel);
 		GUILayout.EndHorizontal();
 
+
+
 		GUILayout.EndHorizontal();
        
+		GUILayout.BeginHorizontal ();
+		GUILayout.Space(30);
+		GUILayout.Label(" - time bombs", EditorStyles.boldLabel);
+		GUILayout.Space(30);
 
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button (TimeBombTex1, new GUILayoutOption[] { GUILayout.Width (50), GUILayout.Height (50) })) {
+			squareType = SquareTypes.DOUBLEBLOCK;
+			timeBombType = 1;
+		}
+		GUILayout.FlexibleSpace ();
+		inputBombValue1 = EditorGUILayout.IntField("", inputBombValue1, new GUILayoutOption[] { GUILayout.Width(50) });
+		GUILayout.EndHorizontal();
+
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button (TimeBombTex2, new GUILayoutOption[] { GUILayout.Width (50), GUILayout.Height (50) })) {
+			squareType = SquareTypes.DOUBLEBLOCK;
+			timeBombType = 2;
+		}
+		GUILayout.FlexibleSpace ();
+		inputBombValue2 = EditorGUILayout.IntField("", inputBombValue2, new GUILayoutOption[] { GUILayout.Width(50) });
+		GUILayout.EndHorizontal();
+
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button (TimeBombTex3, new GUILayoutOption[] { GUILayout.Width (50), GUILayout.Height (50) })) {
+			squareType = SquareTypes.DOUBLEBLOCK;
+			timeBombType = 3;
+		}
+		GUILayout.FlexibleSpace ();
+		inputBombValue3 = EditorGUILayout.IntField("", inputBombValue3, new GUILayoutOption[] { GUILayout.Width(50) });
+		GUILayout.EndHorizontal();
+
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button (TimeBombTex4, new GUILayoutOption[] { GUILayout.Width (50), GUILayout.Height (50) })) {
+			squareType = SquareTypes.DOUBLEBLOCK;
+			timeBombType = 4;
+		}
+		GUILayout.FlexibleSpace ();
+		inputBombValue4 = EditorGUILayout.IntField("", inputBombValue4, new GUILayoutOption[] { GUILayout.Width(50) });
+		GUILayout.EndHorizontal();
+
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button (TimeBombTex5, new GUILayoutOption[] { GUILayout.Width (50), GUILayout.Height (50) })) {
+			squareType = SquareTypes.DOUBLEBLOCK;
+			timeBombType = 5;
+		}
+		GUILayout.FlexibleSpace ();
+		inputBombValue5 = EditorGUILayout.IntField("", inputBombValue5, new GUILayoutOption[] { GUILayout.Width(50) });
+		GUILayout.EndHorizontal();
+
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button (TimeBombTex6, new GUILayoutOption[] { GUILayout.Width (50), GUILayout.Height (50) })) {
+			squareType = SquareTypes.DOUBLEBLOCK;
+			timeBombType = 6;
+		}
+		GUILayout.FlexibleSpace ();
+		inputBombValue6 = EditorGUILayout.IntField("", inputBombValue6, new GUILayoutOption[] { GUILayout.Width(50) });
+		GUILayout.EndHorizontal();
+
+		GUILayout.EndHorizontal ();
     }
 
     void GUIGameField()
@@ -1926,6 +2022,9 @@ public class LevelMakerEditor : EditorWindow
 						} 
 						if (cur_col == CollectItems.Item6) {
 							imageButton = YellowTex;
+						} 
+						if (cur_col == CollectItems.None) {
+							imageButton = EmptyTex;
 						} 
 
 						squareColor = Color.white;
@@ -2001,7 +2100,24 @@ public class LevelMakerEditor : EditorWindow
                 }
                 else if (levelSquares[row * maxCols + col].block == SquareTypes.DOUBLEBLOCK)
                 {
-					imageButton = TimeBombTex;
+					if (levelSquares [row * maxCols + col].color == 1) {
+						imageButton = TimeBombTex1;
+					}
+					if (levelSquares [row * maxCols + col].color == 2) {
+						imageButton = TimeBombTex2;
+					}
+					if (levelSquares [row * maxCols + col].color == 3) {
+						imageButton = TimeBombTex3;
+					}
+					if (levelSquares [row * maxCols + col].color == 4) {
+						imageButton = TimeBombTex4;
+					}
+					if (levelSquares [row * maxCols + col].color == 5) {
+						imageButton = TimeBombTex5;
+					}
+					if (levelSquares [row * maxCols + col].color == 6) {
+						imageButton = TimeBombTex6;
+					}
                     /*if (levelSquares[row * maxCols + col].obstacle == SquareTypes.WIREBLOCK)
                     {
                         imageButton = wireBlockTex;
@@ -2038,8 +2154,11 @@ public class LevelMakerEditor : EditorWindow
 
 				string txt = "";
 
-				if (levelSquares [row * maxCols + col].obstacle == SquareTypes.SOLIDBLOCK || levelSquares [row * maxCols + col].block == SquareTypes.DOUBLEBLOCK) {
+				if (levelSquares [row * maxCols + col].obstacle == SquareTypes.SOLIDBLOCK) {
 					txt = levelSquares [row * maxCols + col].color.ToString();
+				}
+				if (levelSquares [row * maxCols + col].block == SquareTypes.DOUBLEBLOCK) {
+					txt = levelSquares [row * maxCols + col].val.ToString();
 				}
                 GUI.color = squareColor;
 
@@ -2072,7 +2191,26 @@ public class LevelMakerEditor : EditorWindow
 
 					if (squareType == SquareTypes.DOUBLEBLOCK ) {
 						if (levelSquares [row * maxCols + col].block == SquareTypes.DOUBLEBLOCK) {
-							levelSquares [row * maxCols + col].color = int.Parse(inputBombValue);
+							levelSquares [row * maxCols + col].color = timeBombType;
+							if (levelSquares [row * maxCols + col].color == 1) {
+								levelSquares [row * maxCols + col].val = inputBombValue1;
+							}
+							if (levelSquares [row * maxCols + col].color == 2) {
+								levelSquares [row * maxCols + col].val = inputBombValue2;
+							}
+							if (levelSquares [row * maxCols + col].color == 3) {
+								levelSquares [row * maxCols + col].val = inputBombValue3;
+							}
+							if (levelSquares [row * maxCols + col].color == 4) {
+								levelSquares [row * maxCols + col].val = inputBombValue4;
+							}
+							if (levelSquares [row * maxCols + col].color == 5) {
+								levelSquares [row * maxCols + col].val = inputBombValue5;
+							}
+							if (levelSquares [row * maxCols + col].color == 6) {
+								levelSquares [row * maxCols + col].val = inputBombValue6;
+							}
+
 						}
 					}
 
@@ -2083,6 +2221,9 @@ public class LevelMakerEditor : EditorWindow
 					}
 
 					if (squareType == SquareTypes.STATIC_COLOR ) {
+						if (levelSquares [row * maxCols + col].color == 0) {
+
+						}
 						if (levelSquares [row * maxCols + col].obstacle == SquareTypes.STATIC_COLOR) {
 							levelSquares [row * maxCols + col].color = (int)colorType;
 						}
@@ -2192,6 +2333,8 @@ public class LevelMakerEditor : EditorWindow
 		saveString += "\r\n";
 		saveString += "MODE3 " + (int)target3;
 		saveString += "\r\n";
+		saveString += "DONTINCLUDE " + (int)dontIncludeInGoalTarget1 + "/" + (int)dontIncludeInGoalTarget2 + "/" + (int)dontIncludeInGoalTarget3;
+		saveString += "\r\n";
         saveString += "SIZE " + maxCols + "/" + maxRows;
         saveString += "\r\n";
 		saveString += "BEACHBALL " + beachBallTarget;
@@ -2234,7 +2377,7 @@ public class LevelMakerEditor : EditorWindow
         {
             for (int col = 0; col < maxCols; col++)
             {
-				saveString += (int)levelSquares[row * maxCols + col].block + "," + (int)levelSquares[row * maxCols + col].obstacle + "," + (int)levelSquares[row * maxCols + col].color;
+				saveString += (int)levelSquares[row * maxCols + col].block + "," + (int)levelSquares[row * maxCols + col].obstacle + "," + (int)levelSquares[row * maxCols + col].color + "," + (int)levelSquares[row * maxCols + col].val;
                 //if this column not yet end of row, add space between them
                 if (col < (maxCols - 1))
                     saveString += " ";
@@ -2274,6 +2417,10 @@ public class LevelMakerEditor : EditorWindow
 		target = Target.NONE;
 		target2 = Target.NONE;
 		target3 = Target.NONE;
+
+		dontIncludeInGoalTarget1 = SquareTypes.NONE;
+		dontIncludeInGoalTarget2 = SquareTypes.NONE;
+		dontIncludeInGoalTarget3 = SquareTypes.NONE;
 
 		beachBallPercent = 0;
 		moneyBoxPercent = 0;
@@ -2316,6 +2463,14 @@ public class LevelMakerEditor : EditorWindow
 			{
 				string modeString = line.Replace("MODE3", string.Empty).Trim();
 				target3 = (Target)int.Parse(modeString);
+			}
+			else if (line.StartsWith("DONTINCLUDE "))
+			{
+				string blocksString = line.Replace("DONTINCLUDE", string.Empty).Trim();
+				string[] blocksNumbers = blocksString.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+				dontIncludeInGoalTarget1 = (SquareTypes)int.Parse(blocksNumbers[0]);
+				dontIncludeInGoalTarget2 = (SquareTypes)int.Parse(blocksNumbers[1]);
+				dontIncludeInGoalTarget3 = (SquareTypes)int.Parse(blocksNumbers[2]);
 			}
             else if (line.StartsWith("SIZE "))
             {
@@ -2448,6 +2603,9 @@ public class LevelMakerEditor : EditorWindow
 							}*/
 							levelSquares[mapLine * maxCols + i].color = int.Parse(st_part[2].ToString());
 							//levelSquares[mapLine * maxCols + i].color = 0;
+						}
+						if (levelSquares [mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK) {
+							levelSquares[mapLine * maxCols + i].val = int.Parse(st_part[3].ToString());
 						}
 					} else {
 						levelSquares[mapLine * maxCols + i].block = (SquareTypes)int.Parse(st[i][0].ToString());

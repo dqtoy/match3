@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using TMPro;
 
 public enum ItemsTypes
 {
@@ -23,6 +24,7 @@ public class Item : MonoBehaviour
     public Sprite[] packageItems;
     public Sprite[] bombItems;
     public Sprite[] ingredientItems;
+	public Sprite[] powerUpsItems;
     public SpriteRenderer sprRenderer;
     public Square square;
     public bool dragThis;
@@ -41,7 +43,7 @@ public class Item : MonoBehaviour
 	public int timeBombCount = 0;
 	public bool isFreezeObject = false;
 
-	public TextMesh itemText;
+	public TextMeshPro itemText;
 
     public int color
     {
@@ -79,6 +81,9 @@ public class Item : MonoBehaviour
 
     private float xScale;
     private float yScale;
+
+
+	private int startDepth = 0;
     // Use this for initialization
     void Start()
     {
@@ -182,6 +187,9 @@ public class Item : MonoBehaviour
 			}
 		}*/
 		if (square.type == SquareTypes.STATIC_COLOR) {
+			//if (square.colorToGen == 0)
+				//DestroyItemWithoutChecking (false, "", false);
+				//return;
 			randColor = square.colorToGen-1;
 			//square.type = SquareTypes.EMPTY;
 		} else {
@@ -195,13 +203,15 @@ public class Item : MonoBehaviour
 
         sprRenderer.sprite = items[randColor];
 		if (NextType == ItemsTypes.HORIZONTAL_STRIPPED)
-			sprRenderer.sprite = stripedItems [color].horizontal;
-		else if (NextType == ItemsTypes.VERTICAL_STRIPPED)
-			sprRenderer.sprite = stripedItems [color].vertical;
+			//sprRenderer.sprite = stripedItems [color].horizontal;
+			sprRenderer.sprite = powerUpsItems [0];
+		else if (NextType == ItemsTypes.VERTICAL_STRIPPED) {
+			sprRenderer.sprite = powerUpsItems [1];
+		}	
 		else if (NextType == ItemsTypes.PACKAGE)
-			sprRenderer.sprite = packageItems [color];
+			sprRenderer.sprite = powerUpsItems[2];
 		else if (NextType == ItemsTypes.BOMB)
-			sprRenderer.sprite = bombItems [0];
+			sprRenderer.sprite = powerUpsItems[3];
 		/*else if ((LevelManager.THIS.isContainTarget(Target.INGREDIENT) && (LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient1 || LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient2 || LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient3 || LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient4)) && UnityEngine.Random.Range(0, LevelManager.THIS.Limit) == 0 && square.row + 1 < LevelManager.THIS.maxRows && !onlyNONEType && LevelManager.THIS.GetIngredients(0).Count < LevelManager.THIS.toysCount[0])
         {
             int i = 0;
@@ -266,6 +276,7 @@ public class Item : MonoBehaviour
 			color = 1000 + i;
 			currentType = ItemsTypes.INGREDIENT;
 			sprRenderer.sprite = ingredientItems [i - 1];
+			sprRenderer.sortingOrder = 10;
 		} else if (LevelManager.THIS.canGenerateBeachBall () && LevelManager.THIS.firstTurnWasPassed) {
 			StartCoroutine (FallingCor (square, true));
 			color = 555;
@@ -273,10 +284,17 @@ public class Item : MonoBehaviour
 			currentType = ItemsTypes.BEACH_BALLS;
 		} else if (LevelManager.THIS.canGenerateTimeBomb () && LevelManager.THIS.firstTurnWasPassed) {
 			StartCoroutine (FallingCor (square, true));
-			color = 555;
-			sprRenderer.sprite = items[7];
+			int _color = 0;
+			if (LevelManager.THIS.firstTurnWasPassed == false) {
+				_color = square.colorCube;
+			} else {
+				_color = LevelManager.THIS.getExpectedColor();
+			}
+			COLOR = _color;
+			COLORView = _color;
+			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [_color];
 			currentType = ItemsTypes.TIME_BOMB;
-			itemText.gameObject.SendMessage ("OnEnable");
+			//itemText.gameObject.SendMessage ("OnEnable");
 			timeBombCount = 5;
 			updateTimeBombCount ();
 		} else if (LevelManager.THIS.canGenerateMoneyBox () && LevelManager.THIS.firstTurnWasPassed) {
@@ -290,8 +308,18 @@ public class Item : MonoBehaviour
             StartCoroutine(FallingCor(square, true));
             color = Array.IndexOf(items, sprRenderer.sprite);
         }
+		setDepth ();
 
     }
+
+
+	void setDepth()
+	{
+		if (currentType == ItemsTypes.INGREDIENT) {
+			sprRenderer.sortingOrder = 15;
+		}
+		startDepth = sprRenderer.sortingOrder;
+	}
 
 	public void GenerateToy(int i)
 	{
@@ -301,6 +329,7 @@ public class Item : MonoBehaviour
 		sprRenderer.sprite = ingredientItems[i-1];
 		falling = false;
 		//StartCoroutine (onGenerateToy(i));
+		setDepth();
 	}
 
 	IEnumerator onGenerateToy(int i)
@@ -975,7 +1004,7 @@ public class Item : MonoBehaviour
 
     IEnumerator FallingCor(Square _square, bool animate)
     {
-		sprRenderer.sortingOrder = 10 - _square.row;
+		
 
 		if (isFreezeObject) {
 			//Debug.Log ("break");
@@ -1028,7 +1057,8 @@ public class Item : MonoBehaviour
 
 		falling = false;
 		justCreatedItem = false;
-
+		int addedDeph = 10 - _square.row;
+		sprRenderer.sortingOrder = startDepth + addedDeph;
         
     }
 
@@ -1115,7 +1145,8 @@ public class Item : MonoBehaviour
         }
 		else if (NextType == ItemsTypes.BEACH_BALLS)
 		{
-			anim.SetTrigger("appear");
+			//anim.SetTrigger("appear");
+			SetAppeared();
 			SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearPackage);
 			color = 555;
 		}
@@ -1123,7 +1154,7 @@ public class Item : MonoBehaviour
 		{
 			anim.SetTrigger("appear");
 			SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearPackage);
-			color = 555;
+			//color = 555;
 		}
 		else if (NextType == ItemsTypes.MONEY_BOX)
 		{
@@ -1137,18 +1168,27 @@ public class Item : MonoBehaviour
         if (NextType == ItemsTypes.NONE)
             yield break;
         // sprRenderer.enabled = true;
-        if (NextType == ItemsTypes.HORIZONTAL_STRIPPED)
-            sprRenderer.sprite = stripedItems[color].horizontal;
-        else if (NextType == ItemsTypes.VERTICAL_STRIPPED)
-            sprRenderer.sprite = stripedItems[color].vertical;
-        else if (NextType == ItemsTypes.PACKAGE)
-            sprRenderer.sprite = packageItems[color];
-        else if (NextType == ItemsTypes.BOMB)
-            sprRenderer.sprite = bombItems[0];
+		if (NextType == ItemsTypes.HORIZONTAL_STRIPPED)
+			sprRenderer.sprite = powerUpsItems [0];
+		else if (NextType == ItemsTypes.VERTICAL_STRIPPED)
+			sprRenderer.sprite = powerUpsItems [1];
+		else if (NextType == ItemsTypes.PACKAGE)
+			sprRenderer.sprite = powerUpsItems [2];
+		else if (NextType == ItemsTypes.BOMB)
+			sprRenderer.sprite = powerUpsItems [3];
 		else if (NextType == ItemsTypes.BEACH_BALLS)
-			sprRenderer.sprite = items[6];
-		else if (NextType == ItemsTypes.TIME_BOMB)
-			sprRenderer.sprite = items[7];
+			sprRenderer.sprite = items [6];
+		else if (NextType == ItemsTypes.TIME_BOMB) {
+			int _color = 0;
+			if (LevelManager.THIS.firstTurnWasPassed == false) {
+				_color = square.colorCube;
+			} else {
+				_color = LevelManager.THIS.getExpectedColor();
+			}
+			COLOR = _color;
+			COLORView = _color;
+			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [_color];
+		}
 		else if (NextType == ItemsTypes.MONEY_BOX)
 			sprRenderer.sprite = items[8];
 
@@ -1165,6 +1205,26 @@ public class Item : MonoBehaviour
         LevelManager.THIS.itemsHided = true;
         animationFinished = true;
     }
+
+
+	public void DestroyItemWithoutChecking(bool showScore = false, string anim_name = "", bool explEffect = false)
+	{
+		if (destroying)
+			return;
+		// if (nextType != ItemsTypes.NONE) return;
+		if (this == null)
+			return;
+		StopCoroutine(AnimIdleStart());
+
+
+		destroying = true;
+		square.item = null;
+
+		if (this == null)
+			return;
+
+		StartCoroutine(DestroyCor(showScore, anim_name, explEffect));
+	}
 
     #region Destroying
     public void DestroyItem(bool showScore = false, string anim_name = "", bool explEffect = false)
@@ -1236,20 +1296,14 @@ public class Item : MonoBehaviour
 				_item.DestroyItem (true,"",true);
 			}
 		}
-		List<Item> bombs = getAllNearByType (ItemsTypes.TIME_BOMB);
+		/*List<Item> bombs = getAllNearByType (ItemsTypes.TIME_BOMB);
 		foreach (Item _item in bombs) {
 			if (_item != null) {
-				//LevelManager.THIS.TargetBlocks--;
-				/*LevelManager.THIS.blocksCount[3]--;
-				if (LevelManager.THIS.blocksCount [3] < 0) {
-					LevelManager.THIS.blocksCount [3] = 0;
-				} else {
-					LevelManager.THIS.animateDownBlocks (square.gameObject, LevelManager.THIS.blocksSprites [3], SquareTypes.DOUBLEBLOCK);
-				}*/
+				
 
 				_item.DestroyItem (true,"",true);
 			}
-		}
+		}*/
 	}
 
 	public void destroyNearColorCubes()

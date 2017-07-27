@@ -45,13 +45,14 @@ public class ChallengeController : MonoBehaviour {
 	public ChallengeType getCurrentChallenge()
 	{
 		//return _currentType;
-		return ChallengeType.TreasureHuntChallenge;
+		return ChallengeType.TreeClimbChallenge;
 	}
 
 	public ChallengeState getCurrentState()
 	{
 		return _currentState;
 	}
+
 
 	public void setChallengeState(ChallengeState _state)
 	{
@@ -89,7 +90,8 @@ public class ChallengeController : MonoBehaviour {
 		if (getCurrentChallenge () == ChallengeType.StarTournament) {
 			if (_weekNumber != lastSavedStarTournament) {
 				// show tournamentPopup
-				tournamentPopup.SetActive(true);
+				//tournamentPopup.SetActive(true);
+				PopupManager.instanse.showPopup (tournamentPopup);
 				// reset challenge saves
 				PlayFabManager.instanse.findOrCreateTournamentLeaderbord();
 				PlayerPrefs.SetInt ("weekStarTournament", _weekNumber);
@@ -100,7 +102,7 @@ public class ChallengeController : MonoBehaviour {
 		} else if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge) {
 			if (_weekNumber != lastSavedTreeClambChallenge) {
 				// show TreeClimbPopup
-				TreeClambPopup.SetActive(true);
+				PopupManager.instanse.showPopup (TreeClambPopup);
 				// reset challenge saves
 				resetTreeClambLevelPoint();
 				generateTreeClambLevels ();
@@ -111,7 +113,7 @@ public class ChallengeController : MonoBehaviour {
 		} else if (getCurrentChallenge () == ChallengeType.TreasureHuntChallenge) {
 			if (_weekNumber != lastSavedTreasureHuntChallenge) {
 				// show reasureHuntPopup
-				TreasureHuntPopup.SetActive(true);
+				PopupManager.instanse.showPopup (TreasureHuntPopup);
 				// reset challenge saves
 				resetTresuareHuntLevelPoint();
 				generateTresuareHuntLevels ();
@@ -119,6 +121,10 @@ public class ChallengeController : MonoBehaviour {
 				PlayerPrefs.SetInt ("weekTreasureHunt", _weekNumber);
 				PlayerPrefs.Save ();
 			}
+		}
+
+		if (getCurrentChallenge () != ChallengeType.StarTournament) {
+			getTournamentReward ();
 		}
 	}
 
@@ -152,13 +158,17 @@ public class ChallengeController : MonoBehaviour {
 		GameObject TreeClambBtn = GameObject.Find ("CanvasMap").transform.Find ("TreeClampBtn").gameObject;
 		GameObject TreasureHuntBtn = GameObject.Find ("CanvasMap").transform.Find ("HuntBtn").gameObject;
 
+		tournamentBtn.SetActive (false);
+		TreeClambBtn.SetActive (false);
+		TreasureHuntBtn.SetActive (false);
+
 		if (getCurrentChallenge () == ChallengeType.StarTournament) {
 			tournamentBtn.SetActive (true);
 		}
 		if (getCurrentChallenge () == ChallengeType.TreasureHuntChallenge) {
 			TreasureHuntBtn.SetActive (true);
 		}
-		if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge) {
+		if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge && PlayerPrefs.GetInt ("currentTreeClambLevel") <= 5) {
 			TreeClambBtn.SetActive (true);
 		}
 	}
@@ -267,6 +277,57 @@ public class ChallengeController : MonoBehaviour {
 	public void openTreeClimbChallenge()
 	{
 		GameGUIController.instanse.goToTreeClimbChallenge ();
+	}
+
+
+	public void getTournamentReward()
+	{
+		string lastTournament = PlayerPrefs.GetString ("last_saved_leaderboard");
+		if (!string.IsNullOrEmpty (lastTournament)) {
+			GameObject _tournamentRewardPopup = GameObject.Find ("CanvasGlobal").transform.Find ("TournamentReward").gameObject;
+			GetSharedGroupDataRequest request = new GetSharedGroupDataRequest()
+			{
+				SharedGroupId = lastTournament,
+				GetMembers = true
+			};
+
+			PlayFabClientAPI.GetSharedGroupData(request, (result) => {
+				List<KeyValuePair<string,SharedGroupDataRecord >> myList = result.Data.ToList();
+
+				myList.Sort(
+					delegate(KeyValuePair<string, SharedGroupDataRecord> pair1,
+						KeyValuePair<string, SharedGroupDataRecord> pair2)
+					{
+						return pair2.Value.Value.CompareTo(pair1.Value.Value);
+					}
+				);
+
+				result.Data = myList.ToDictionary (x => x.Key, x => x.Value);
+
+				int counter = 0;
+				var enumerator = result.Data.GetEnumerator();
+				while( enumerator.MoveNext() )
+				{
+					counter++;
+					string currentId = enumerator.Current.Key;
+					if (currentId == PlayFabManager.instanse.PlayFabId)
+					{
+						if (counter == 1 || counter == 2 || counter == 3)
+						{
+							Debug.Log("you win at " + counter.ToString() + " place");
+							_tournamentRewardPopup.GetComponent<TournamentRewardController>()._currentPlace = counter;
+							PopupManager.instanse.showPopup(_tournamentRewardPopup);
+						}
+						break;
+					}
+				}
+			},
+				(error) => {
+					Debug.Log("Error logging in player with custom ID:");
+					Debug.Log(error.ErrorMessage);
+					Debug.Log(error.ErrorDetails);
+				});
+		}
 	}
 
 	public enum ChallengeType

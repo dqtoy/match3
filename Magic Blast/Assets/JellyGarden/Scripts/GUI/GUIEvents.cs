@@ -33,8 +33,14 @@ public class GUIEvents : MonoBehaviour
     {
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
 
-        if (LevelManager.THIS.gameStatus == GameState.Playing)
-            GameObject.Find("CanvasGlobal").transform.Find("MenuPause").gameObject.SetActive(true);
+		if (LevelManager.THIS.gameStatus == GameState.Playing) {
+			if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
+				GameObject.Find ("CanvasGlobal").transform.Find ("PreQuitTreeClamb").gameObject.SetActive (true);
+			} else {
+				GameObject.Find ("CanvasGlobal").transform.Find ("MenuPause").gameObject.SetActive (true);
+			}
+
+		}
 
     }
 

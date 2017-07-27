@@ -75,6 +75,10 @@ public class Square : MonoBehaviour
 
     public Item GenItem(bool falling = true)
     {
+		if (type == SquareTypes.STATIC_COLOR && colorToGen == 0) {
+			type = SquareTypes.EMPTY;
+			return null;
+		}
         if (IsNone() && !CanGoInto()) return null;
         GameObject item = Instantiate(LevelManager.THIS.itemPrefab) as GameObject;
         item.transform.localScale = Vector2.one * 0.6f;
@@ -338,12 +342,12 @@ public class Square : MonoBehaviour
             {
                 LevelManager.THIS.CheckCollectedTarget(gameObject.transform.Find("Block(Clone)").gameObject);
                 LevelManager.THIS.PopupScore(LevelManager.THIS.scoreForBlock, transform.position, 0); 
-                //LevelManager.THIS.TargetBlocks--;
-				LevelManager.THIS.blocksCount[0]--;
+                LevelManager.THIS.TargetBlocks--;
+				/*LevelManager.THIS.blocksCount[0]--;
 				if (LevelManager.THIS.blocksCount [0] < 0) {
 					LevelManager.THIS.blocksCount [0] = 0;
 				}
-				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);
+				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);*/
                 block[block.Count - 1].GetComponent<SpriteRenderer>().enabled = false;
             }
             if (type == SquareTypes.WIREBLOCK)
@@ -381,6 +385,8 @@ public class Square : MonoBehaviour
                 block[block.Count - 1].GetComponent<SpriteRenderer>().sortingOrder = 4;
                 block[block.Count - 1].AddComponent<Rigidbody2D>();
                 block[block.Count - 1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
+
+
             }
             GameObject.Destroy(block[block.Count - 1], 1.5f);
             if (block.Count > 1) type = SquareTypes.BLOCK;

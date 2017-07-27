@@ -45,6 +45,16 @@ public class GameGUIController : MonoBehaviour {
 			go.SetActive (false);
 		}
 		generateLevelMap ();
+		checkTreeClambReward ();
+	}
+
+	void checkTreeClambReward()
+	{
+		int curLevel = PlayerPrefs.GetInt ("currentTreeClambLevel");
+		if (curLevel > 5) {
+			GameObject _treeClambRewardPopup = GameObject.Find ("CanvasGlobal").transform.Find ("TreeClambReward").gameObject;
+			_treeClambRewardPopup.SetActive (true);
+		}
 	}
 
 	public void backFromTreeClimbChallenge()
@@ -57,6 +67,7 @@ public class GameGUIController : MonoBehaviour {
 		foreach (GameObject go in objectsToHide) {
 			go.SetActive (true);
 		}
+		ChallengeController.instanse.checkChallengeButtons ();
 	}
 
 	public void generateLevelMap()

@@ -15,7 +15,19 @@ public class MenuPlayController : MonoBehaviour {
 	void OnEnable()
 	{
 		loadTargetInformation ();
+		checkTreeClamb ();
+
 		//Invoke("loadTargetInformation",0.5f);
+	}
+
+	void checkTreeClamb()
+	{
+		GameObject _treeClambRoad = transform.Find ("Image").Find("TreeClampRoad").gameObject;
+		if (ChallengeController.instanse != null) {
+			if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
+				_treeClambRoad.SetActive (true);
+			}
+		}
 	}
 
 	void loadTargetInformation()

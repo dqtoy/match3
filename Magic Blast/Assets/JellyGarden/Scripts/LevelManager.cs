@@ -11,6 +11,7 @@ public class SquareBlocks
     public SquareTypes obstacle;
 	public Ingredients toys;
 	public int color;
+	public int val;
 }
 
 public enum GameState
@@ -53,6 +54,7 @@ public class LevelManager : MonoBehaviour
     public GameObject thrivingBlockPrefab;
 	public GameObject BeachBallBlockPrefab;
 	public GameObject [] ColorCubePrefabs;
+	public Sprite [] TimeBombPrefabPrefabs;
 
 	public Transform lightningPrefabs;
 	public Transform beamPrefabs;
@@ -216,6 +218,10 @@ public class LevelManager : MonoBehaviour
     public Target target;
 	private Target target2;
 	private Target target3;
+
+	private SquareTypes dontIncludeInGoalTarget1;
+	private SquareTypes dontIncludeInGoalTarget2;
+	private SquareTypes dontIncludeInGoalTarget3;
 
 	public List<Target> Alltargets = new List<Target> ();
 
@@ -506,7 +512,7 @@ public class LevelManager : MonoBehaviour
 		firstTurnWasPassed = false;
         GenerateLevel();
 		// warning
-        //GenerateOutline();
+        GenerateOutline();
         ReGenLevel();
         if (limitType == LIMIT.TIME)
         {
@@ -555,7 +561,7 @@ public class LevelManager : MonoBehaviour
 		List<Sprite> _spriteList = new List<Sprite> ();
 
 
-		if (beachBallTarget > 0) {
+		if (beachBallTarget > 0 && !dontDisplay(SquareTypes.BEACH_BALLS)) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
 			count++;
 			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
@@ -1611,6 +1617,7 @@ public class LevelManager : MonoBehaviour
             GameObject block = Instantiate(blockPrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
             block.transform.SetParent(square.transform);
             block.transform.localPosition = new Vector3(0, 0, -0.01f);
+			block.GetComponent <SpriteRenderer>().sortingOrder = 100;
             square.GetComponent<Square>().block.Add(block);
             square.GetComponent<Square>().type = SquareTypes.BLOCK;
 
@@ -1624,7 +1631,8 @@ public class LevelManager : MonoBehaviour
            // block.transform.localPosition = new Vector3(0, 0, -0.01f);
             //square.GetComponent<Square>().block.Add(block);
 			square.GetComponent<Square>().type = SquareTypes.DOUBLEBLOCK;
-			square.GetComponent<Square> ().BombTime = levelSquaresFile [row * maxCols + col].color;
+			square.GetComponent<Square> ().BombTime = levelSquaresFile [row * maxCols + col].val;
+			square.GetComponent<Square> ().colorCube = levelSquaresFile [row * maxCols + col].color;
 
             //  TargetBlocks++;
             /*block = Instantiate(blockPrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
@@ -1675,6 +1683,13 @@ public class LevelManager : MonoBehaviour
     }
 
 
+	public void setOutLineYoffSet(GameObject go)
+	{
+		//Vector3 _pos = go.transform.position;
+		//_pos.y += 0.07f;
+		//go.transform.position = _pos;
+	}
+
     void SetOutline(int col, int row, float zRot)
     {
         Square square = GetSquare(col, row, true);
@@ -1717,6 +1732,7 @@ public class LevelManager : MonoBehaviour
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
                     outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.down * 0.015f;
                 }
+				setOutLineYoffSet (outline);
             }
             else
             {
@@ -1728,6 +1744,7 @@ public class LevelManager : MonoBehaviour
                     spr.sprite = outline3;
                     outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.up * 0.015f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 180);
+					setOutLineYoffSet (outline);
                 }
                 //top right
                 if (GetSquare(col + 1, row - 1, true).type == SquareTypes.NONE && GetSquare(col, row - 1, true).type == SquareTypes.NONE && GetSquare(col + 1, row, true).type == SquareTypes.NONE)
@@ -1737,6 +1754,7 @@ public class LevelManager : MonoBehaviour
                     spr.sprite = outline3;
                     outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.up * 0.015f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
+					setOutLineYoffSet (outline);
                 }
                 //bottom left
                 if (GetSquare(col - 1, row + 1, true).type == SquareTypes.NONE && GetSquare(col, row + 1, true).type == SquareTypes.NONE && GetSquare(col - 1, row, true).type == SquareTypes.NONE)
@@ -1746,6 +1764,7 @@ public class LevelManager : MonoBehaviour
                     spr.sprite = outline3;
                     outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.down * 0.015f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 270);
+					setOutLineYoffSet (outline);
                 }
                 //bottom right
                 if (GetSquare(col + 1, row + 1, true).type == SquareTypes.NONE && GetSquare(col, row + 1, true).type == SquareTypes.NONE && GetSquare(col + 1, row, true).type == SquareTypes.NONE)
@@ -1755,6 +1774,7 @@ public class LevelManager : MonoBehaviour
                     spr.sprite = outline3;
                     outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.down * 0.015f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
+					setOutLineYoffSet (outline);
                 }
 
 
@@ -1771,6 +1791,7 @@ public class LevelManager : MonoBehaviour
                 outline.transform.localPosition = Vector3.zero;
                 outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 corner = true;
+				setOutLineYoffSet (outline);
             }
             if (GetSquare(col + 1, row, true).type != SquareTypes.NONE && GetSquare(col, row + 1, true).type != SquareTypes.NONE)
             {
@@ -1780,6 +1801,7 @@ public class LevelManager : MonoBehaviour
                 outline.transform.localPosition = Vector3.zero;
                 outline.transform.localRotation = Quaternion.Euler(0, 0, 180);
                 corner = true;
+				setOutLineYoffSet (outline);
             }
             if (GetSquare(col + 1, row, true).type != SquareTypes.NONE && GetSquare(col, row - 1, true).type != SquareTypes.NONE)
             {
@@ -1789,6 +1811,7 @@ public class LevelManager : MonoBehaviour
                 outline.transform.localPosition = Vector3.zero;
                 outline.transform.localRotation = Quaternion.Euler(0, 0, 270);
                 corner = true;
+				setOutLineYoffSet (outline);
             }
             if (GetSquare(col - 1, row, true).type != SquareTypes.NONE && GetSquare(col, row + 1, true).type != SquareTypes.NONE)
             {
@@ -1798,6 +1821,7 @@ public class LevelManager : MonoBehaviour
                 outline.transform.localPosition = Vector3.zero;
                 outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
                 corner = true;
+				setOutLineYoffSet (outline);
             }
 
 
@@ -1809,6 +1833,7 @@ public class LevelManager : MonoBehaviour
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     outline.transform.localPosition = Vector3.zero + Vector3.up * 0.395f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
+					setOutLineYoffSet (outline);
                 }
                 if (GetSquare(col, row + 1, true).type != SquareTypes.NONE)
                 {
@@ -1816,6 +1841,7 @@ public class LevelManager : MonoBehaviour
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     outline.transform.localPosition = Vector3.zero + Vector3.down * 0.395f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
+					setOutLineYoffSet (outline);
                 }
                 if (GetSquare(col - 1, row, true).type != SquareTypes.NONE)
                 {
@@ -1823,6 +1849,7 @@ public class LevelManager : MonoBehaviour
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     outline.transform.localPosition = Vector3.zero + Vector3.left * 0.395f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
+					setOutLineYoffSet (outline);
                 }
                 if (GetSquare(col + 1, row, true).type != SquareTypes.NONE)
                 {
@@ -1830,6 +1857,7 @@ public class LevelManager : MonoBehaviour
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     outline.transform.localPosition = Vector3.zero + Vector3.right * 0.395f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
+					setOutLineYoffSet (outline);
                 }
             }
         }
@@ -1858,9 +1886,11 @@ public class LevelManager : MonoBehaviour
             GameObject block = Instantiate(wireBlockPrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
             block.transform.SetParent(square.transform);
             block.transform.localPosition = new Vector3(0, 0, -0.5f);
+
             square.GetComponent<Square>().block.Add(block);
             square.GetComponent<Square>().type = SquareTypes.WIREBLOCK;
-            block.GetComponent<SpriteRenderer>().sortingOrder = 3;
+			int addedDeph = 10 - row;
+			block.GetComponent<SpriteRenderer>().sortingOrder =2 + addedDeph;
             //   TargetBlocks++;
         }
         else if ((levelSquaresFile[row * maxCols + col].obstacle == SquareTypes.SOLIDBLOCK && type == SquareTypes.NONE) || type == SquareTypes.SOLIDBLOCK)
@@ -1869,7 +1899,9 @@ public class LevelManager : MonoBehaviour
             block.transform.SetParent(square.transform);
             block.transform.localPosition = new Vector3(0, 0, -0.5f);
             square.GetComponent<Square>().block.Add(block);
-            block.GetComponent<SpriteRenderer>().sortingOrder = 3;
+			int addedDeph = 10 - row;
+			block.GetComponent<SpriteRenderer>().sortingOrder =2 + addedDeph;
+            //block.GetComponent<SpriteRenderer>().sortingOrder = 3;
             square.GetComponent<Square>().type = SquareTypes.SOLIDBLOCK;
 			square.GetComponent<Square> ().blockLevel = colorCube;
 			square.GetComponent<Square> ().updateHidenLevel ();
@@ -1890,7 +1922,9 @@ public class LevelManager : MonoBehaviour
             GameObject block = Instantiate(thrivingBlockPrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
             block.transform.SetParent(square.transform);
             block.transform.localPosition = new Vector3(0, 0, -0.5f);
-            block.GetComponent<SpriteRenderer>().sortingOrder = 3;
+			int addedDeph = 10 - row;
+			block.GetComponent<SpriteRenderer>().sortingOrder =2 + addedDeph;
+            //block.GetComponent<SpriteRenderer>().sortingOrder = 3;
             if (square.GetComponent<Square>().item != null)
                 Destroy(square.GetComponent<Square>().item.gameObject);
             square.GetComponent<Square>().block.Add(block);
@@ -1941,7 +1975,9 @@ public class LevelManager : MonoBehaviour
 			block.transform.SetParent(square.transform);
 			block.transform.localPosition = new Vector3(0, 0, -0.5f);
 			square.GetComponent<Square>().block.Add(block);
-			block.GetComponent<SpriteRenderer>().sortingOrder = 3;
+			int addedDeph = 10 - row;
+			block.GetComponent<SpriteRenderer>().sortingOrder =2 + addedDeph;
+			//block.GetComponent<SpriteRenderer>().sortingOrder = 3;
 			square.GetComponent<Square>().type = SquareTypes.COLOR_CUBE;
 			square.GetComponent<Square> ().colorCube = colorCube;
 			//  TargetBlocks++;
@@ -3333,6 +3369,10 @@ public class LevelManager : MonoBehaviour
 		Alltargets.Clear ();
 		Alltargets.TrimExcess ();
 
+		dontIncludeInGoalTarget1 = SquareTypes.NONE;
+		dontIncludeInGoalTarget2 = SquareTypes.NONE;
+		dontIncludeInGoalTarget3 = SquareTypes.NONE;
+
         string[] lines = mapText.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
         int mapLine = 0;
@@ -3365,6 +3405,14 @@ public class LevelManager : MonoBehaviour
 				target3 = (Target)int.Parse(modeString);
 				Alltargets.Add (target3);
 				//Assign game mode
+			}
+			else if (line.StartsWith("DONTINCLUDE "))
+			{
+				string blocksString = line.Replace("DONTINCLUDE", string.Empty).Trim();
+				string[] blocksNumbers = blocksString.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+				dontIncludeInGoalTarget1 = (SquareTypes)int.Parse(blocksNumbers[0]);
+				dontIncludeInGoalTarget2 = (SquareTypes)int.Parse(blocksNumbers[1]);
+				dontIncludeInGoalTarget3 = (SquareTypes)int.Parse(blocksNumbers[2]);
 			}
             else if (line.StartsWith("SIZE "))
             {
@@ -3507,6 +3555,9 @@ public class LevelManager : MonoBehaviour
 							}*/
 							levelSquaresFile[mapLine * maxCols + i].color = int.Parse(st_part[2].ToString());
 							//levelSquares[mapLine * maxCols + i].color = 0;
+							if (levelSquaresFile [mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK) {
+								levelSquaresFile[mapLine * maxCols + i].val = int.Parse(st_part[3].ToString());
+							}
 						}
 					} else {
 						levelSquaresFile[mapLine * maxCols + i].block = (SquareTypes)int.Parse(st[i][0].ToString());
@@ -3546,28 +3597,28 @@ public class LevelManager : MonoBehaviour
 		if (isContainTarget(Target.BLOCKS))
 		{
 			Debug.Log("contain type BLOCK");
-			if (isContainSquareBlockType (SquareTypes.BLOCK)) {
+			if (isContainSquareBlockType (SquareTypes.BLOCK) && !dontDisplay(SquareTypes.BLOCK)) {
 				squareTypes [0] = SquareTypes.BLOCK;
 			}
-			if (isContainSquareBlockType (SquareTypes.BEACH_BALLS)) {
+			if (isContainSquareBlockType (SquareTypes.BEACH_BALLS) && !dontDisplay(SquareTypes.BEACH_BALLS)) {
 				squareTypes [1] = SquareTypes.BEACH_BALLS;
 			}
-			if (isContainSquareBlockType (SquareTypes.COLOR_CUBE)) {
+			if (isContainSquareBlockType (SquareTypes.COLOR_CUBE) && !dontDisplay(SquareTypes.COLOR_CUBE)) {
 				squareTypes [2] = SquareTypes.COLOR_CUBE;
 			}
-			if (isContainSquareBlockType (SquareTypes.DOUBLEBLOCK)) {
+			if (isContainSquareBlockType (SquareTypes.DOUBLEBLOCK) && !dontDisplay(SquareTypes.DOUBLEBLOCK)) {
 				squareTypes [3] = SquareTypes.DOUBLEBLOCK;
 			}
-			if (isContainSquareBlockType (SquareTypes.SOLIDBLOCK)) {
+			if (isContainSquareBlockType (SquareTypes.SOLIDBLOCK) && !dontDisplay(SquareTypes.SOLIDBLOCK)) {
 				squareTypes [4] = SquareTypes.SOLIDBLOCK;
 			}
-			if (isContainSquareBlockType (SquareTypes.THRIVING)) {
+			if (isContainSquareBlockType (SquareTypes.THRIVING) && !dontDisplay(SquareTypes.THRIVING)) {
 				squareTypes [5] = SquareTypes.THRIVING;
 			}
-			if (isContainSquareBlockType (SquareTypes.UNDESTROYABLE)) {
+			if (isContainSquareBlockType (SquareTypes.UNDESTROYABLE) && !dontDisplay(SquareTypes.UNDESTROYABLE)) {
 				squareTypes [6] = SquareTypes.UNDESTROYABLE;
 			}
-			if (isContainSquareBlockType (SquareTypes.WIREBLOCK)) {
+			if (isContainSquareBlockType (SquareTypes.WIREBLOCK) && !dontDisplay(SquareTypes.WIREBLOCK)) {
 				squareTypes [7] = SquareTypes.WIREBLOCK;
 			}
 		}
@@ -3682,6 +3733,15 @@ public class LevelManager : MonoBehaviour
 	public void resetBundleAbility()
 	{
 		lastRandColor = -1;
+	}
+
+	public bool dontDisplay(SquareTypes _type)
+	{
+		if (dontIncludeInGoalTarget1 == _type || dontIncludeInGoalTarget2 == _type || dontIncludeInGoalTarget3 == _type) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
