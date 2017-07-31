@@ -23,7 +23,8 @@ public enum SquareTypes
 	BEACH_BALLS, //Пляжные мячи - их нужно лопнуть комбинацией кубиков. движимые
 	COLOR_CUBE, //Цветной блок - разрушить. Можно разрушить только кубиками рядом такого же цвета.
 	TOY, // for toys
-	STATIC_COLOR // for static color on field
+	STATIC_COLOR, // for static color on field
+	STATIC_POWER // for power up on field
 }
 
 
@@ -40,6 +41,7 @@ public class Square : MonoBehaviour
 	public int BombTime;
 	public int lastColorValue;
     public SquareTypes type;
+	public SquareTypes additiveType;
 
 	public GameObject[] hidenLevelObjects;
 
@@ -51,12 +53,12 @@ public class Square : MonoBehaviour
         // GenItem();
         if (row == LevelManager.THIS.maxRows - 1)
         {
-			if (LevelManager.THIS.isContainTarget(Target.INGREDIENT))
+			/*if (LevelManager.THIS.isContainTarget(Target.INGREDIENT))
             {
                 GameObject obj = Instantiate( Resources.Load("Prefabs/arrow_ingredients")) as GameObject;
                 obj.transform.SetParent(transform);
                 obj.transform.localPosition = Vector3.zero + Vector3.down * 0.8f;
-            }
+            }*/
         }
 
     }
@@ -386,7 +388,11 @@ public class Square : MonoBehaviour
                 block[block.Count - 1].AddComponent<Rigidbody2D>();
                 block[block.Count - 1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
 
-
+				LevelManager.THIS.blocksCount[0]--;
+				if (LevelManager.THIS.blocksCount [0] < 0) {
+					LevelManager.THIS.blocksCount [0] = 0;
+				}
+				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);
             }
             GameObject.Destroy(block[block.Count - 1], 1.5f);
             if (block.Count > 1) type = SquareTypes.BLOCK;

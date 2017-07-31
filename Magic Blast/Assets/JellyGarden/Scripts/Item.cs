@@ -17,6 +17,14 @@ public enum ItemsTypes
 	MONEY_BOX
 }
 
+public enum SymbolsTypes
+{
+	SIMPLE,
+	TNT,
+	ROTOR,
+	BOMB
+}
+
 public class Item : MonoBehaviour
 {
     public Sprite[] items;
@@ -25,7 +33,12 @@ public class Item : MonoBehaviour
     public Sprite[] bombItems;
     public Sprite[] ingredientItems;
 	public Sprite[] powerUpsItems;
+	public Sprite[] rotorSymbols;
+	public Sprite[] tntSymbols;
+	public Sprite[] bombSymbols;
+	public Sprite[] cubeSymbols;
     public SpriteRenderer sprRenderer;
+	public SpriteRenderer symRenderer;
     public Square square;
     public bool dragThis;
     public Vector3 mousePos;
@@ -119,6 +132,29 @@ public class Item : MonoBehaviour
         //StartCoroutine(GenRandomSprite());
     }
 
+	public void displaySymbols(SymbolsTypes _type)
+	{
+		if (currentType == ItemsTypes.NONE) {
+			symRenderer.gameObject.SetActive (true);	
+			symRenderer.sortingOrder = sprRenderer.sortingOrder + 1;
+			if (_type == SymbolsTypes.SIMPLE) {
+				if (COLORView < 6)
+					symRenderer.sprite = cubeSymbols [COLORView];
+			}
+			if (_type == SymbolsTypes.ROTOR) {
+				symRenderer.sprite = rotorSymbols [COLORView];
+			}
+			if (_type == SymbolsTypes.TNT) {
+				symRenderer.sprite = tntSymbols [COLORView];
+			}
+			if (_type == SymbolsTypes.BOMB) {
+				symRenderer.sprite = bombSymbols [COLORView];
+			}
+		} else {
+			symRenderer.gameObject.SetActive (false);
+		}
+	}
+
 	public void GenColor(int exceptColor = -1, bool onlyNONEType = false, bool startUpItem = false)
     {
         int row = square.row;
@@ -191,6 +227,19 @@ public class Item : MonoBehaviour
 				//DestroyItemWithoutChecking (false, "", false);
 				//return;
 			randColor = square.colorToGen-1;
+			//square.type = SquareTypes.EMPTY;
+		} else if (square.type == SquareTypes.STATIC_POWER && square.colorToGen > 0) {
+			//if (square.colorToGen == 0)
+			//DestroyItemWithoutChecking (false, "", false);
+			//return;
+			Debug.Log("check static power");
+			if (square.additiveType != SquareTypes.NONE) {
+				square.type = square.additiveType;
+				LevelManager.THIS.generateAdditiveType (square);
+			} else {
+				//square.type = SquareTypes.EMPTY;
+			}
+			NextType = (ItemsTypes)square.colorToGen;
 			//square.type = SquareTypes.EMPTY;
 		} else {
 			randColor = LevelManager.THIS.getExpectedColor ();
@@ -319,6 +368,7 @@ public class Item : MonoBehaviour
 			sprRenderer.sortingOrder = 15;
 		}
 		startDepth = sprRenderer.sortingOrder;
+		symRenderer.sortingOrder = sprRenderer.sortingOrder + 1;
 	}
 
 	public void GenerateToy(int i)
@@ -352,13 +402,13 @@ public class Item : MonoBehaviour
     {
         appeared = true;
         StartIdleAnim();
-        if (currentType == ItemsTypes.PACKAGE)
-            anim.SetBool("package_idle", true);
+        //if (currentType == ItemsTypes.PACKAGE)
+            //anim.SetBool("package_idle", true);
 
     }
     public void StartIdleAnim()
     {
-        StartCoroutine(AnimIdleStart());
+        //StartCoroutine(AnimIdleStart());
 
     }
 
@@ -1005,7 +1055,9 @@ public class Item : MonoBehaviour
     IEnumerator FallingCor(Square _square, bool animate)
     {
 		
-
+		/*int addedDeph = 10 - _square.row;
+		sprRenderer.sortingOrder = startDepth + addedDeph;
+		symRenderer.sortingOrder = sprRenderer.sortingOrder + 1;*/
 		if (isFreezeObject) {
 			//Debug.Log ("break");
 			//falling = false;
@@ -1059,6 +1111,7 @@ public class Item : MonoBehaviour
 		justCreatedItem = false;
 		int addedDeph = 10 - _square.row;
 		sprRenderer.sortingOrder = startDepth + addedDeph;
+		symRenderer.sortingOrder = sprRenderer.sortingOrder + 1;
         
     }
 
@@ -1198,6 +1251,9 @@ public class Item : MonoBehaviour
         currentType = NextType;
         NextType = ItemsTypes.NONE;
 
+		if (currentType != ItemsTypes.NONE) {
+			//symRenderer.gameObject.SetActive (false);
+		}
     }
 
     public void SetAnimationDestroyingFinished()
@@ -1229,6 +1285,11 @@ public class Item : MonoBehaviour
     #region Destroying
     public void DestroyItem(bool showScore = false, string anim_name = "", bool explEffect = false)
     {
+		if (square.type == SquareTypes.STATIC_POWER) {
+			square.type = SquareTypes.EMPTY;
+			NextType = ItemsTypes.NONE;
+		}
+
         if (destroying)
             return;
         // if (nextType != ItemsTypes.NONE) return;

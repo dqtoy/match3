@@ -19,9 +19,11 @@ public class LevelMakerEditor : EditorWindow
     int maxCols;
     public static SquareBlocks[] levelSquares = new SquareBlocks[81];
     SquareTypes squareType;
+	SquareTypes AdditiveSquareType;
 	Ingredients toysType;
 	int timeBombType;
 	CollectItems colorType;
+	ItemsTypes powerupType;
     private string fileName = "1.txt";
     private Texture squareTex;
     private Texture blockTex;
@@ -50,6 +52,11 @@ public class LevelMakerEditor : EditorWindow
 	private Texture Blue4Tex;
 	private Texture Green4Tex;
 	private Texture YellowTex;
+
+	private Texture rotorVertTex;
+	private Texture rotorHorTex;
+	private Texture tntTex;
+	private Texture bombTex;
 
 	private Texture EmptyTex;
 
@@ -197,6 +204,11 @@ public class LevelMakerEditor : EditorWindow
 			toy2Tex = lm.ingrediendSprites [10].texture;
 			toy3Tex = lm.ingrediendSprites [11].texture;
 			toy4Tex = lm.ingrediendSprites [12].texture;
+
+			rotorVertTex = (Texture)Resources.Load ("EditorTexture/11_rockets_vert") as Texture;
+			rotorHorTex = (Texture)Resources.Load ("EditorTexture/11_rockets_hor") as Texture;
+			tntTex = (Texture)Resources.Load ("EditorTexture/11_bomb") as Texture;
+			bombTex = (Texture)Resources.Load ("EditorTexture/11_cube") as Texture;
         }
     }
 
@@ -245,7 +257,7 @@ public class LevelMakerEditor : EditorWindow
 
         GUILayout.EndHorizontal();
 
-        scrollViewVector = GUI.BeginScrollView(new Rect(25, 45, position.width - 30, position.height), scrollViewVector, new Rect(0, 0, 400, 3000));
+        scrollViewVector = GUI.BeginScrollView(new Rect(25, 45, position.width - 30, position.height), scrollViewVector, new Rect(0, 0, 400, 3500));
         GUILayout.Space(-30);
 
         if (oldSelected != selected)
@@ -1621,6 +1633,9 @@ public class LevelMakerEditor : EditorWindow
 			squareType = SquareTypes.STATIC_COLOR;
 			colorType = CollectItems.None;
 		}
+
+
+
 		GUILayout.EndHorizontal ();
 
 		if (target == Target.COLLECT || target2 == Target.COLLECT || target3 == Target.COLLECT)
@@ -1714,6 +1729,8 @@ public class LevelMakerEditor : EditorWindow
                 levelSquares[i].obstacle = SquareTypes.NONE;
 				levelSquares [i].color = 0;
 				levelSquares [i].toys = Ingredients.None;
+				levelSquares [i].val = 0;
+				levelSquares[i].additiveBlock = SquareTypes.EMPTY;
             }
             //SaveLevel();
         }
@@ -1901,9 +1918,10 @@ public class LevelMakerEditor : EditorWindow
 
 		GUILayout.EndHorizontal();
        
+		GUILayout.Label(" - time bombs", EditorStyles.boldLabel);
 		GUILayout.BeginHorizontal ();
 		GUILayout.Space(30);
-		GUILayout.Label(" - time bombs", EditorStyles.boldLabel);
+
 		GUILayout.Space(30);
 
 		GUILayout.BeginHorizontal();
@@ -1961,6 +1979,69 @@ public class LevelMakerEditor : EditorWindow
 		GUILayout.EndHorizontal();
 
 		GUILayout.EndHorizontal ();
+
+		GUILayout.Label(" - power ups", EditorStyles.boldLabel);
+
+		GUILayout.BeginHorizontal();
+
+		//GUILayout.Space(60);
+
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button(rotorHorTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			squareType = SquareTypes.STATIC_POWER;
+			powerupType = ItemsTypes.HORIZONTAL_STRIPPED;
+		}
+		if (GUILayout.Button(rotorVertTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			squareType = SquareTypes.STATIC_POWER;
+			powerupType = ItemsTypes.VERTICAL_STRIPPED;
+		}
+		if (GUILayout.Button(tntTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			squareType = SquareTypes.STATIC_POWER;
+			powerupType = ItemsTypes.PACKAGE;
+		}
+		if (GUILayout.Button(bombTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			squareType = SquareTypes.STATIC_POWER;
+			powerupType = ItemsTypes.BOMB;
+		}
+		GUILayout.EndHorizontal ();
+
+		GUILayout.EndHorizontal();
+
+
+		GUILayout.Label(" - additive block", EditorStyles.boldLabel);
+
+		GUILayout.BeginHorizontal();
+
+		//GUILayout.Space(60);
+
+		GUILayout.BeginHorizontal();
+		GUILayout.Label(" - bubble", EditorStyles.boldLabel);
+		GUI.color = new Color(0,0,1,0.5f);
+		if (GUILayout.Button(EmptyTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			AdditiveSquareType = SquareTypes.BLOCK;
+		}
+		GUILayout.Label(" - wire block", EditorStyles.boldLabel);
+		GUI.color = new Color(0,0,0,0.5f);
+		if (GUILayout.Button(EmptyTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			AdditiveSquareType = SquareTypes.WIREBLOCK;
+		}
+		GUILayout.Label(" - none", EditorStyles.boldLabel);
+		GUI.color = new Color(1,1,1,0.5f);
+		if (GUILayout.Button(EmptyTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			AdditiveSquareType = SquareTypes.NONE;
+		}
+
+		GUILayout.EndHorizontal ();
+
+		GUILayout.EndHorizontal();
+
     }
 
     void GUIGameField()
@@ -2027,6 +2108,23 @@ public class LevelMakerEditor : EditorWindow
 							imageButton = EmptyTex;
 						} 
 
+						squareColor = Color.white;
+					}
+					else if (levelSquares[row * maxCols + col].obstacle == SquareTypes.STATIC_POWER)
+					{
+						ItemsTypes cur_col = (ItemsTypes)levelSquares [row * maxCols + col].color;
+						if (cur_col == ItemsTypes.HORIZONTAL_STRIPPED) {
+							imageButton = rotorHorTex;
+						} 
+						if (cur_col == ItemsTypes.VERTICAL_STRIPPED) {
+							imageButton = rotorVertTex;
+						} 
+						if (cur_col == ItemsTypes.PACKAGE) {
+							imageButton = tntTex;
+						} 
+						if (cur_col == ItemsTypes.BOMB) {
+							imageButton = bombTex;
+						} 
 						squareColor = Color.white;
 					}
 					else if (levelSquares[row * maxCols + col].obstacle == SquareTypes.WIREBLOCK)
@@ -2152,6 +2250,21 @@ public class LevelMakerEditor : EditorWindow
                     // squareColor = new Color(0.3f, 1, 1, 1f);*/
                 }
 
+				SquareTypes _addSquare = (SquareTypes)levelSquares [row * maxCols + col].additiveBlock;
+				if (_addSquare == SquareTypes.BLOCK) {
+					squareColor = new Color (0, 0, 1, 0.5f);
+				} else if (_addSquare == SquareTypes.WIREBLOCK) {
+					squareColor = new Color (0, 0, 0, 0.5f);
+				} else {
+					/*levelSquares [row * maxCols + col].block = SquareTypes.EMPTY;
+					levelSquares [row * maxCols + col].obstacle = SquareTypes.NONE;
+					levelSquares [row * maxCols + col].color = 0;
+					levelSquares [row * maxCols + col].toys = Ingredients.None;
+					levelSquares [row * maxCols + col].val = 0;*/
+					levelSquares [row * maxCols + col].additiveBlock = SquareTypes.EMPTY;
+					//squareColor = Color.white;
+				}
+
 				string txt = "";
 
 				if (levelSquares [row * maxCols + col].obstacle == SquareTypes.SOLIDBLOCK) {
@@ -2170,6 +2283,12 @@ public class LevelMakerEditor : EditorWindow
                 }))
                 {
 					Debug.Log ("click cube"+levelSquares[row * maxCols + col].obstacle);
+
+					if (AdditiveSquareType == SquareTypes.BLOCK || AdditiveSquareType == SquareTypes.WIREBLOCK) {
+						levelSquares [row * maxCols + col].additiveBlock = AdditiveSquareType;
+					} else {
+						levelSquares [row * maxCols + col].additiveBlock = SquareTypes.EMPTY;
+					}
 
 					if (squareType == SquareTypes.COLOR_CUBE ) {
 						if (levelSquares [row * maxCols + col].obstacle == SquareTypes.COLOR_CUBE) {
@@ -2221,11 +2340,14 @@ public class LevelMakerEditor : EditorWindow
 					}
 
 					if (squareType == SquareTypes.STATIC_COLOR ) {
-						if (levelSquares [row * maxCols + col].color == 0) {
-
-						}
 						if (levelSquares [row * maxCols + col].obstacle == SquareTypes.STATIC_COLOR) {
 							levelSquares [row * maxCols + col].color = (int)colorType;
+						}
+					}
+
+					if (squareType == SquareTypes.STATIC_POWER ) {
+						if (levelSquares [row * maxCols + col].obstacle == SquareTypes.STATIC_POWER) {
+							levelSquares [row * maxCols + col].color = (int)powerupType;
 						}
 					}
 
@@ -2311,12 +2433,14 @@ public class LevelMakerEditor : EditorWindow
                 levelSquares[row * maxCols + col].block = SquareTypes.DOUBLEBLOCK;
             else*/
 			levelSquares [row * maxCols + col].block = SquareTypes.BLOCK;
-		} else if (squareType == SquareTypes.WIREBLOCK || squareType == SquareTypes.SOLIDBLOCK || squareType == SquareTypes.UNDESTROYABLE || squareType == SquareTypes.THRIVING || squareType == SquareTypes.BEACH_BALLS || squareType == SquareTypes.COLOR_CUBE || squareType == SquareTypes.TOY || squareType == SquareTypes.STATIC_COLOR)
+			//levelSquares [row * maxCols + col].additiveBlock = SquareTypes.EMPTY;
+		} else if (squareType == SquareTypes.WIREBLOCK || squareType == SquareTypes.SOLIDBLOCK || squareType == SquareTypes.UNDESTROYABLE || squareType == SquareTypes.THRIVING || squareType == SquareTypes.BEACH_BALLS || squareType == SquareTypes.COLOR_CUBE || squareType == SquareTypes.TOY || squareType == SquareTypes.STATIC_COLOR || squareType == SquareTypes.STATIC_POWER)
 			levelSquares [row * maxCols + col].obstacle = squareType;
         else
         {
             levelSquares[row * maxCols + col].block = squareType;
             levelSquares[row * maxCols + col].obstacle = SquareTypes.NONE;
+			//levelSquares [row * maxCols + col].additiveBlock = SquareTypes.EMPTY;
         }
         update = true;
         //SaveLevel();
@@ -2377,7 +2501,7 @@ public class LevelMakerEditor : EditorWindow
         {
             for (int col = 0; col < maxCols; col++)
             {
-				saveString += (int)levelSquares[row * maxCols + col].block + "," + (int)levelSquares[row * maxCols + col].obstacle + "," + (int)levelSquares[row * maxCols + col].color + "," + (int)levelSquares[row * maxCols + col].val;
+				saveString += (int)levelSquares[row * maxCols + col].block + "," + (int)levelSquares[row * maxCols + col].obstacle + "," + (int)levelSquares[row * maxCols + col].color + "," + (int)levelSquares[row * maxCols + col].val + "," + (int)levelSquares[row * maxCols + col].additiveBlock;
                 //if this column not yet end of row, add space between them
                 if (col < (maxCols - 1))
                     saveString += " ";
@@ -2595,7 +2719,12 @@ public class LevelMakerEditor : EditorWindow
 
 						levelSquares[mapLine * maxCols + i].block = (SquareTypes)int.Parse(st_part[0].ToString());
 						levelSquares[mapLine * maxCols + i].obstacle = (SquareTypes)int.Parse(st_part[1].ToString());
-						if (levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.COLOR_CUBE || levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.SOLIDBLOCK || levelSquares[mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK || levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.TOY || levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_COLOR) {
+
+						if (st_part.Length > 4) {
+							levelSquares[mapLine * maxCols + i].additiveBlock = (SquareTypes)int.Parse(st_part[4].ToString());
+						}
+
+						if (levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.COLOR_CUBE || levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.SOLIDBLOCK || levelSquares[mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK || levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.TOY || levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_COLOR || levelSquares[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_POWER) {
 							/*if (st [i].Length > 3) {
 								levelSquares[mapLine * maxCols + i].color = int.Parse(st[i][2].ToString() + st[i][3].ToString());
 							} else {

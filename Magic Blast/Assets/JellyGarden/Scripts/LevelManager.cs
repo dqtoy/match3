@@ -12,6 +12,7 @@ public class SquareBlocks
 	public Ingredients toys;
 	public int color;
 	public int val;
+	public SquareTypes additiveBlock;
 }
 
 public enum GameState
@@ -521,7 +522,7 @@ public class LevelManager : MonoBehaviour
         }
         InitTargets();
         GameField.gameObject.SetActive(true);
-
+		Invoke ("calculateSymbols",0.2f);
     }
 
     void InitTargets()
@@ -1588,6 +1589,9 @@ public class LevelManager : MonoBehaviour
 
     }
 
+
+
+
     void CreateSquare(int col, int row, bool chessColor = false)
     {
         GameObject square = null;
@@ -1602,6 +1606,9 @@ public class LevelManager : MonoBehaviour
         square.GetComponent<Square>().row = row;
         square.GetComponent<Square>().col = col;
         square.GetComponent<Square>().type = SquareTypes.EMPTY;
+
+		square.GetComponent<Square> ().additiveType = levelSquaresFile [row * maxCols + col].additiveBlock;
+
         if (levelSquaresFile[row * maxCols + col].block == SquareTypes.EMPTY)
         {
 			CreateObstacles(col, row, square, SquareTypes.NONE, levelSquaresFile[row * maxCols + col].color);
@@ -1969,6 +1976,16 @@ public class LevelManager : MonoBehaviour
 
 			//   TargetBlocks++;
 		}
+		else if ((levelSquaresFile[row * maxCols + col].obstacle == SquareTypes.STATIC_POWER && type == SquareTypes.NONE) || type == SquareTypes.STATIC_POWER)
+		{
+
+			if (square.GetComponent<Square>().item != null)
+				Destroy(square.GetComponent<Square>().item.gameObject);
+			square.GetComponent<Square>().type = SquareTypes.STATIC_POWER;
+			square.GetComponent<Square> ().colorToGen = levelSquaresFile [row * maxCols + col].color;
+
+			//   TargetBlocks++;
+		}
 		else if ((levelSquaresFile[row * maxCols + col].obstacle == SquareTypes.COLOR_CUBE && type == SquareTypes.NONE) || type == SquareTypes.COLOR_CUBE)
 		{
 			GameObject block = Instantiate(ColorCubePrefabs[colorCube], firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
@@ -1986,6 +2003,28 @@ public class LevelManager : MonoBehaviour
 
     }
 
+	public void generateAdditiveType(Square _square)
+	{
+		if (_square.type == SquareTypes.WIREBLOCK) {
+			GameObject block = Instantiate(wireBlockPrefab, firstSquarePosition + new Vector2(_square.col * squareWidth, -_square.row * squareHeight), Quaternion.identity) as GameObject;
+			block.transform.SetParent(_square.transform);
+			block.transform.localPosition = new Vector3(0, 0, -0.5f);
+
+			_square.GetComponent<Square>().block.Add(block);
+			_square.GetComponent<Square>().type = SquareTypes.WIREBLOCK;
+			int addedDeph = 10 - _square.row;
+			block.GetComponent<SpriteRenderer>().sortingOrder =20 + addedDeph;
+		}
+		if (_square.type == SquareTypes.BLOCK) {
+			GameObject block = Instantiate(blockPrefab, firstSquarePosition + new Vector2(_square.col * squareWidth, -_square.row * squareHeight), Quaternion.identity) as GameObject;
+			block.transform.SetParent(_square.transform);
+			block.transform.localPosition = new Vector3(0, 0, -0.01f);
+			block.GetComponent <SpriteRenderer>().sortingOrder = 100;
+			_square.GetComponent<Square>().block.Add(block);
+			_square.GetComponent<Square>().type = SquareTypes.BLOCK;
+		}
+	}
+
     void GenerateNewItems(bool falling = true)
     {
         for (int col = 0; col < maxCols; col++)
@@ -2001,7 +2040,13 @@ public class LevelManager : MonoBehaviour
                         if ((GetSquare(col, row).item == null && !GetSquare(col, row).IsHaveSolidAbove()) || !falling)
                         {
 							if (GetSquare (col, row).type == SquareTypes.BEACH_BALLS) {
-								GetSquare (col, row).type = SquareTypes.EMPTY;
+								if (GetSquare (col, row).additiveType != SquareTypes.NONE) {
+									GetSquare (col, row).type = GetSquare (col, row).additiveType;
+									generateAdditiveType (GetSquare (col, row));
+								} else {
+									GetSquare (col, row).type = SquareTypes.EMPTY;
+								}
+
 								Item _item = GetSquare(col, row).GenItem(falling);
 								_item.currentType = ItemsTypes.NONE;
 								_item.debugType = ItemsTypes.BEACH_BALLS;
@@ -2009,7 +2054,12 @@ public class LevelManager : MonoBehaviour
 							}
 							else if (GetSquare (col, row).type == SquareTypes.DOUBLEBLOCK)
 							{
-								GetSquare (col, row).type = SquareTypes.EMPTY;
+								if (GetSquare (col, row).additiveType != SquareTypes.NONE) {
+									GetSquare (col, row).type = GetSquare (col, row).additiveType;
+									generateAdditiveType (GetSquare (col, row));
+								} else {
+									GetSquare (col, row).type = SquareTypes.EMPTY;
+								}
 								Item _item = GetSquare(col, row).GenItem(falling);
 								_item.currentType = ItemsTypes.NONE;
 								_item.debugType = ItemsTypes.TIME_BOMB;
@@ -2019,7 +2069,12 @@ public class LevelManager : MonoBehaviour
 							}
 							else if (GetSquare (col, row).type == SquareTypes.UNDESTROYABLE)
 							{
-								GetSquare (col, row).type = SquareTypes.EMPTY;
+								if (GetSquare (col, row).additiveType != SquareTypes.NONE) {
+									GetSquare (col, row).type = GetSquare (col, row).additiveType;
+									generateAdditiveType (GetSquare (col, row));
+								} else {
+									GetSquare (col, row).type = SquareTypes.EMPTY;
+								}
 								Item _item = GetSquare(col, row).GenItem(falling);
 								_item.currentType = ItemsTypes.NONE;
 								_item.debugType = ItemsTypes.MONEY_BOX;
@@ -2028,7 +2083,12 @@ public class LevelManager : MonoBehaviour
 								//_item.ChangeType ();
 							}
 							else if (GetSquare (col, row).type == SquareTypes.TOY) {
-								GetSquare (col, row).type = SquareTypes.EMPTY;
+								if (GetSquare (col, row).additiveType != SquareTypes.NONE) {
+									GetSquare (col, row).type = GetSquare (col, row).additiveType;
+									generateAdditiveType (GetSquare (col, row));
+								} else {
+									GetSquare (col, row).type = SquareTypes.EMPTY;
+								}
 								Item _item = GetSquare(col, row).GenItem(falling);
 								_item.generateToyOnStart = true;
 								//_item.GenerateToy (GetSquare(col, row).toyToGen);
@@ -2090,8 +2150,10 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             //}
         }
-        if (!onlyFalling)
-            GenerateNewItems(false);
+		if (!onlyFalling) {
+			GenerateNewItems (false);
+
+		}
         else
             LevelManager.THIS.onlyFalling = true;
         //   yield return new WaitForSeconds(1f);
@@ -2308,6 +2370,58 @@ public class LevelManager : MonoBehaviour
 			}
 		}
 		return isTimeOut;
+	}
+
+	private void calculateSymbols()
+	{
+		int counter = 0;
+		ArrayList fullItems = new ArrayList ();
+
+		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+		for (int i = 0;i < items.Length; i++) {
+			Item _curItem = items [i].GetComponent <Item>();
+
+			if (!fullItems.Contains (_curItem)) {
+				counter++;
+
+				List<Item> partItems = new List<Item> ();
+				partItems = findNearlestItems (_curItem, partItems);
+
+				if (!partItems.Contains (_curItem)) {
+					partItems.Add (_curItem);
+				}
+				fullItems.Add (_curItem);
+				foreach (Item _it in partItems) {
+					if (!fullItems.Contains (_it)) {
+						fullItems.Add (_it);
+					}
+				}
+
+				for (int j=0;j<partItems.Count;j++)
+				{
+					partItems = findNearlestItems (partItems[j],partItems);
+				}
+
+				SymbolsTypes _type = SymbolsTypes.SIMPLE;
+
+				if (partItems.Count == 5 || partItems.Count == 6) {
+					_type = SymbolsTypes.ROTOR;
+				} else if (partItems.Count == 7 || partItems.Count == 8) {
+					_type = SymbolsTypes.TNT;
+				} else if (partItems.Count >= 9) {
+					_type = SymbolsTypes.BOMB;
+				} else {
+					_type = SymbolsTypes.SIMPLE;
+				}
+
+				foreach (Item _it2 in partItems) {
+					_it2.displaySymbols (_type);
+				}
+
+				//Debug.Log ("find = " + partItems.Count);
+			}
+		}
+		//Debug.Log ("counter = "+counter);
 	}
 
 	public void FindMatchesByItem(Item _item)
@@ -2584,7 +2698,7 @@ public class LevelManager : MonoBehaviour
             //          if (destroyAnyway.Count > 0) PopupScore(scoreForItem * destroyAnyway.Count, destroyAnyway[(int)destroyAnyway.Count / 2].transform.position);
             destroyAnyway.Clear();
 
-
+			//calculateSymbols ();
 			// commit
             /*if (lastDraggedItem != null)
             {
@@ -2661,17 +2775,20 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
 			yield return new WaitForFixedUpdate ();
             GenerateNewItems();
+			//calculateSymbols ();
 			//commit
             //StartCoroutine(RegenMatches(true));
             yield return new WaitForSeconds(0.1f);
 			yield return new WaitForFixedUpdate ();
+			calculateSymbols ();
+
 
 			yield return new WaitUntil(() => IsAllItemsFallDown());
             /*while (!IsAllItemsFallDown())
             {
                 yield return new WaitForSeconds(0.01f);
             }*/
-
+			//calculateSymbols ();
             //detect near empty squares to fall into
             nearEmptySquareDetected = false;
 
@@ -2726,7 +2843,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
         }
-
+		//calculateSymbols ();
         //thrive thriving blocks
         if (!thrivingBlockDestroyed)
         {
@@ -2756,6 +2873,7 @@ public class LevelManager : MonoBehaviour
 									if (isContainTarget (Target.BLOCKS)) {
 										blocksCount [5]++;
 									}
+									calculateSymbols ();
                                     break;
                                 }
                             }
@@ -3547,7 +3665,7 @@ public class LevelManager : MonoBehaviour
 
 						levelSquaresFile[mapLine * maxCols + i].block = (SquareTypes)int.Parse(st_part[0].ToString());
 						levelSquaresFile[mapLine * maxCols + i].obstacle = (SquareTypes)int.Parse(st_part[1].ToString());
-						if (levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.COLOR_CUBE || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.SOLIDBLOCK || levelSquaresFile[mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.TOY || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_COLOR) {
+						if (levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.COLOR_CUBE || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.SOLIDBLOCK || levelSquaresFile[mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.TOY || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_COLOR || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_POWER) {
 							/*if (st [i].Length > 3) {
 								levelSquares[mapLine * maxCols + i].color = int.Parse(st[i][2].ToString() + st[i][3].ToString());
 							} else {
@@ -3559,10 +3677,14 @@ public class LevelManager : MonoBehaviour
 								levelSquaresFile[mapLine * maxCols + i].val = int.Parse(st_part[3].ToString());
 							}
 						}
+						if (st_part.Length > 4) {
+							//Debug.Log (st_part[4]);
+							levelSquaresFile[mapLine * maxCols + i].additiveBlock = (SquareTypes)int.Parse(st_part[4].ToString());
+						}
 					} else {
 						levelSquaresFile[mapLine * maxCols + i].block = (SquareTypes)int.Parse(st[i][0].ToString());
 						levelSquaresFile[mapLine * maxCols + i].obstacle = (SquareTypes)int.Parse(st[i][1].ToString());
-						if (levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.COLOR_CUBE || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.SOLIDBLOCK || levelSquaresFile[mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.TOY || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_COLOR) {
+						if (levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.COLOR_CUBE || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.SOLIDBLOCK || levelSquaresFile[mapLine * maxCols + i].block == SquareTypes.DOUBLEBLOCK || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.TOY || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_COLOR || levelSquaresFile[mapLine * maxCols + i].obstacle == SquareTypes.STATIC_POWER) {
 							if (st [i].Length > 3) {
 								levelSquaresFile[mapLine * maxCols + i].color = int.Parse(st[i][2].ToString() + st[i][3].ToString());
 							} else {
@@ -3655,7 +3777,7 @@ public class LevelManager : MonoBehaviour
 	{
 		bool isContain = false;
 		foreach (SquareBlocks _sq in levelSquaresFile) {
-			if (_sq.obstacle == _type || _sq.block == _type) {
+			if (_sq.obstacle == _type || _sq.block == _type || _sq.additiveBlock == _type) {
 				isContain = true;
 				break;
 			}
