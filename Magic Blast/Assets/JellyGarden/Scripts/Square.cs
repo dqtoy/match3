@@ -51,26 +51,21 @@ public class Square : MonoBehaviour
     void Start()
     {
         // GenItem();
-        if (row == LevelManager.THIS.maxRows - 1)
-        {
-			/*if (LevelManager.THIS.isContainTarget(Target.INGREDIENT))
-            {
-                GameObject obj = Instantiate( Resources.Load("Prefabs/arrow_ingredients")) as GameObject;
-                obj.transform.SetParent(transform);
-                obj.transform.localPosition = Vector3.zero + Vector3.down * 0.8f;
-            }*/
-        }
+        
 
     }
 
 	public void updateHidenLevel()
 	{
 		if (type == SquareTypes.SOLIDBLOCK) {
-			foreach (GameObject go in hidenLevelObjects) {
+			/*foreach (GameObject go in hidenLevelObjects) {
 				go.SetActive (false);
-			}
+			}*/
 			if (blockLevel > 0) {
-				hidenLevelObjects [blockLevel - 1].SetActive (true);
+				for (int i = 0; i < blockLevel; i++) {
+					hidenLevelObjects [i].SetActive (true);
+				}
+
 			}
 		}
 	}
@@ -298,6 +293,12 @@ public class Square : MonoBehaviour
 	public void DestroyBlock(bool canCheck = false)
     {
 		if (type == SquareTypes.SOLIDBLOCK && blockLevel > 0) {
+			
+			hidenLevelObjects[blockLevel-1].GetComponent<Animation>().Play("BrickRotate");
+			hidenLevelObjects[blockLevel-1].GetComponent<SpriteRenderer>().sortingOrder = 100;
+			hidenLevelObjects[blockLevel-1].AddComponent<Rigidbody2D>();
+			hidenLevelObjects[blockLevel-1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
+			GameObject.Destroy(hidenLevelObjects[blockLevel-1], 1.5f);
 			blockLevel--;
 			updateHidenLevel ();
 			return;
@@ -327,6 +328,11 @@ public class Square : MonoBehaviour
 								sq.DestroyBlock();
 							} else {
 								Debug.Log ("updateSolid solid");
+								sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<Animation>().Play("BrickRotate");
+								sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<SpriteRenderer>().sortingOrder = 100;
+								sq.hidenLevelObjects[sq.blockLevel-1].AddComponent<Rigidbody2D>();
+								sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
+								GameObject.Destroy(sq.hidenLevelObjects[sq.blockLevel-1], 1.5f);
 								sq.blockLevel--;
 								sq.updateHidenLevel ();
 							}
@@ -384,7 +390,7 @@ public class Square : MonoBehaviour
                 SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.block_destroy);
 
                 block[block.Count - 1].GetComponent<Animation>().Play("BrickRotate");
-                block[block.Count - 1].GetComponent<SpriteRenderer>().sortingOrder = 4;
+                block[block.Count - 1].GetComponent<SpriteRenderer>().sortingOrder = 100;
                 block[block.Count - 1].AddComponent<Rigidbody2D>();
                 block[block.Count - 1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
 

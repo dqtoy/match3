@@ -56,6 +56,7 @@ public class LevelManager : MonoBehaviour
 	public GameObject BeachBallBlockPrefab;
 	public GameObject [] ColorCubePrefabs;
 	public Sprite [] TimeBombPrefabPrefabs;
+	public Sprite [] otherSprites;
 
 	public Transform lightningPrefabs;
 	public Transform beamPrefabs;
@@ -299,12 +300,13 @@ public class LevelManager : MonoBehaviour
                 MusicBase.Instance.GetComponent<AudioSource>().clip = MusicBase.Instance.music[1];
                 MusicBase.Instance.GetComponent<AudioSource>().Play();
                 PrepareGame();
+				InitTargets ();
             }
             else if (value == GameState.WaitForPopup)
             {
 
                 InitLevel();
-
+				//calculateSymbols ();
             }
             else if (value == GameState.PreFailed)
             {
@@ -520,9 +522,9 @@ public class LevelManager : MonoBehaviour
             StopCoroutine(TimeTick());
             StartCoroutine(TimeTick());
         }
-        InitTargets();
+        //InitTargets();
         GameField.gameObject.SetActive(true);
-		Invoke ("calculateSymbols",0.2f);
+		Invoke ("calculateSymbols",0.3f);
     }
 
     void InitTargets()
@@ -560,10 +562,12 @@ public class LevelManager : MonoBehaviour
 		int count = 0;
 
 		List<Sprite> _spriteList = new List<Sprite> ();
+		List<Vector3> _scaleList = new List<Vector3> ();
 
 
 		if (beachBallTarget > 0 && !dontDisplay(SquareTypes.BEACH_BALLS)) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
+			_scaleList.Add (new Vector3(250f,250f,27.8f));
 			count++;
 			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 			counter.connectedArray = blocksCount;
@@ -575,6 +579,7 @@ public class LevelManager : MonoBehaviour
 
 		if (moneyBoxTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[6]);
+			_scaleList.Add (new Vector3(160f,160f,22.1f));
 			count++;
 			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 			counter.connectedArray = blocksCount;
@@ -585,7 +590,8 @@ public class LevelManager : MonoBehaviour
 		}
 
 		if (timeBombTarget > 0) {
-			_spriteList.Add (LevelManager.THIS.blocksSprites[3]);
+			_spriteList.Add (LevelManager.THIS.TimeBombPrefabPrefabs[0]);
+			_scaleList.Add (new Vector3(220f,220f,23.8f));
 			count++;
 			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 			counter.connectedArray = blocksCount;
@@ -601,6 +607,7 @@ public class LevelManager : MonoBehaviour
 			for (int i = 0; i < LevelManager.THIS.collectItems.Length; i++) {
 				if (LevelManager.THIS.collectItems [i] != CollectItems.None) {
 					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.collectItems[i] + 2]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					allTargetsObjectList.Add (collectItems [i]);
 					count++;
 					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
@@ -614,6 +621,7 @@ public class LevelManager : MonoBehaviour
 			for (int i = 0; i < LevelManager.THIS.ingrTarget.Length; i++) {
 				if (LevelManager.THIS.ingrTarget [i] != Ingredients.None) {
 					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.ingrTarget[i] + 8]);
+					_scaleList.Add (new Vector3(160f,160f,22.1f));
 					allTargetsObjectList.Add (ingrTarget [i]);
 					count++;
 					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
@@ -627,6 +635,7 @@ public class LevelManager : MonoBehaviour
 			for (int i = 0; i < LevelManager.THIS.squareTypes.Length; i++) {
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.BLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[0]);
+					_scaleList.Add (new Vector3(160f,160f,22.1f));
 					count++;
 					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = blocksCount;
@@ -642,7 +651,8 @@ public class LevelManager : MonoBehaviour
 					allTargetsObjectList.Add (LevelManager.THIS.squareTypes [i]);*/
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
-					_spriteList.Add (LevelManager.THIS.blocksSprites[2]);
+					_spriteList.Add (LevelManager.THIS.otherSprites[0]);
+					_scaleList.Add (new Vector3(140f,140f,22.1f));
 					count++;
 					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = blocksCount;
@@ -659,6 +669,7 @@ public class LevelManager : MonoBehaviour
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.SOLIDBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[4]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
 					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = blocksCount;
@@ -667,6 +678,7 @@ public class LevelManager : MonoBehaviour
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.THRIVING) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[5]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
 					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = blocksCount;
@@ -683,6 +695,7 @@ public class LevelManager : MonoBehaviour
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.WIREBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[7]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
 					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = blocksCount;
@@ -700,6 +713,17 @@ public class LevelManager : MonoBehaviour
 		for (int j = 0; j < _spriteList.Count; j++) {
 			ingrList [j].SetActive (true);
 			ingrList [j].GetComponent<Image> ().sprite = _spriteList [j];
+			Debug.Log(_scaleList[j]);
+			Rect _rect = ingrList [j].GetComponent <RectTransform> ().rect;
+			_rect.size = new Vector2 (_scaleList[j].x,_scaleList[j].y);
+			ingrList [j].GetComponent <RectTransform> ().sizeDelta = new Vector2 (_scaleList[j].x,_scaleList[j].y);
+
+			Vector3 _pos = ingrList [j].GetComponent <RectTransform> ().localPosition;
+			_pos.y = _scaleList[j].z;
+			if (j > 1) {
+				_pos.y -= 55.08f;
+			}
+			ingrList [j].GetComponent <RectTransform> ().localPosition = _pos;
 		}
     }
 
