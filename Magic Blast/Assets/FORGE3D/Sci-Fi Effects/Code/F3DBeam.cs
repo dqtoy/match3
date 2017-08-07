@@ -34,6 +34,7 @@ namespace Forge3D
         public float fxOffset; // Fx offset from bullet's touch point   
 
 		public Transform targetObject;
+		public Transform connectedBeam;
 
         void Awake()
         {
@@ -88,7 +89,7 @@ namespace Forge3D
             {
                 // Get current beam length and update line renderer accordingly
                 beamLength = Vector3.Distance(transform.position, hitPoint.point);
-                lineRenderer.SetPosition(1, new Vector3(0f, 0f, beamLength));
+                lineRenderer.SetPosition(1, new Vector3(0f, 0f, 0f));
 
                 // Calculate default beam proportion multiplier based on default scale and current length
                 propMult = beamLength*(beamScale/10f);
@@ -127,7 +128,7 @@ namespace Forge3D
                 {
                     // Get current beam length and update line renderer accordingly
                     beamLength = Vector3.Distance(transform.position, ray2D.point);
-                    lineRenderer.SetPosition(1, new Vector3(0f, 0f, beamLength));
+                    lineRenderer.SetPosition(1, new Vector3(0f, 0f, 0f));
 
                     // Calculate default beam proportion multiplier based on default scale and current length
                     propMult = beamLength*(beamScale/10f);
@@ -165,7 +166,8 @@ namespace Forge3D
                 {
 					if (targetObject != null) {
 						beamLength = Vector3.Distance(transform.position, targetObject.position);
-						lineRenderer.SetPosition(1, new Vector3(0f, 0f, beamLength*1.75f));
+						//lineRenderer.SetPosition(1, new Vector3(0f, 0f, beamLength*1.75f));
+						//lineRenderer.SetPosition(1, new Vector3(0f, 0f, Mathf.Lerp(0,beamLength*1.75f,5f*Time.deltaTime)));
 
 						propMult = beamLength*(beamScale/10f);
 					}
@@ -232,6 +234,14 @@ namespace Forge3D
 
         void Update()
         {
+			if (targetObject != null) {
+				//beamLength = Vector3.Distance(transform.position, targetObject.position);
+				//lineRenderer.SetPosition(1, new Vector3(0f, 0f, beamLength*1.75f));
+				lineRenderer.SetPosition(1, Vector3.Lerp(lineRenderer.GetPosition(1),new Vector3(0f, 0f, beamLength*1.75f),5f*Time.deltaTime));
+				if (connectedBeam != null) {
+					connectedBeam.transform.position = Vector3.Lerp (connectedBeam.transform.position, targetObject.position, 5f * Time.deltaTime);
+				}
+			}
             // Animate texture UV
             if (AnimateUV)
             {

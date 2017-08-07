@@ -32,7 +32,7 @@ namespace Forge3D
 
             float distToDest = Vector3.Distance(transform.position, dest.position);
 
-            lineRenderer.SetPosition(0, transform.position);
+            //lineRenderer.SetPosition(0, transform.position);
 
             float piRate = Mathf.PI/(curvePoints - 1);
 
@@ -44,9 +44,9 @@ namespace Forge3D
                 float cHeight = Mathf.Sin(piRate*i)*curveHeight;
                 midPos += transform.up*cHeight;
 
-                lineRenderer.SetPosition(i, transform.position + midPos);
+                //lineRenderer.SetPosition(i, transform.position + midPos);
             }
-            lineRenderer.SetPosition(curvePoints - 1, dest.position);
+            //lineRenderer.SetPosition(curvePoints - 1, dest.position);
 
             float propMult = distToDest*(beamScale/10f);
 

@@ -290,6 +290,18 @@ public class Square : MonoBehaviour
 		}
 	}
 
+
+	public void startDestroyBlockDelayed (float delay = 0f,bool canCheck = false)
+	{
+		StartCoroutine (DestroyBlockDelayed(delay,canCheck));
+	}
+
+	IEnumerator DestroyBlockDelayed(float delay = 0f,bool canCheck = false)
+	{
+		yield return new WaitForSeconds (delay);
+		DestroyBlock (canCheck);
+	}
+
 	public void DestroyBlock(bool canCheck = false)
     {
 		if (type == SquareTypes.SOLIDBLOCK && blockLevel > 0) {
@@ -304,6 +316,20 @@ public class Square : MonoBehaviour
 			return;
 		}
         //if (type == SquareTypes.UNDESTROYABLE) return;
+		if (type == SquareTypes.BLOCK) {
+			Debug.Log ("destroy block");
+			if (LevelManager.THIS.blocksCount [0] > 0) {
+				LevelManager.THIS.blocksCount [0]--;
+				if (LevelManager.THIS.blocksCount [0] < 0) {
+					LevelManager.THIS.blocksCount [0] = 0;
+				}
+				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);
+			} else {
+				// анимация взрыва
+			}
+
+		}
+
 		if (type == SquareTypes.UNDESTROYABLE) {
 			//LevelManager.THIS.TargetBlocks--;
 			LevelManager.THIS.blocksCount[6]--;
@@ -394,11 +420,7 @@ public class Square : MonoBehaviour
                 block[block.Count - 1].AddComponent<Rigidbody2D>();
                 block[block.Count - 1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
 
-				LevelManager.THIS.blocksCount[0]--;
-				if (LevelManager.THIS.blocksCount [0] < 0) {
-					LevelManager.THIS.blocksCount [0] = 0;
-				}
-				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);
+
             }
             GameObject.Destroy(block[block.Count - 1], 1.5f);
             if (block.Count > 1) type = SquareTypes.BLOCK;

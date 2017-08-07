@@ -163,10 +163,16 @@ public class LevelManager : MonoBehaviour
     public bool showPopupScores;
 
     public GameObject stripesEffect;
+	public GameObject stripesTNTEffect;
+	public GameObject TNTEffect;
+	public GameObject BombBackEffect;
     public GameObject star1Anim;
     public GameObject star2Anim;
     public GameObject star3Anim;
     public GameObject snowParticle;
+
+	public GameObject [] destroyCubeParticles;
+
 	public Color[] itemsColors;
     public Color[] scoresColors;
     public Color[] scoresColorsOutline;
@@ -300,7 +306,8 @@ public class LevelManager : MonoBehaviour
                 MusicBase.Instance.GetComponent<AudioSource>().clip = MusicBase.Instance.music[1];
                 MusicBase.Instance.GetComponent<AudioSource>().Play();
                 PrepareGame();
-				InitTargets ();
+				//InitTargets ();
+				Invoke("InitTargets",0.3f);
             }
             else if (value == GameState.WaitForPopup)
             {
@@ -721,7 +728,7 @@ public class LevelManager : MonoBehaviour
 			Vector3 _pos = ingrList [j].GetComponent <RectTransform> ().localPosition;
 			_pos.y = _scaleList[j].z;
 			if (j > 1) {
-				_pos.y -= 55.08f;
+				_pos.y -= 64.9f;
 			}
 			ingrList [j].GetComponent <RectTransform> ().localPosition = _pos;
 		}
@@ -890,6 +897,45 @@ public class LevelManager : MonoBehaviour
 		return isComplete;
 	}
 
+
+	public bool isTarget(GameObject _item)
+	{
+		bool isTarget = false;
+		for (int i = 0; i < 6; i++)
+		{
+			if (ingrCountTarget[i] > 0)
+			{
+				if (_item.GetComponent<Item>() != null)
+				{
+					if (_item.GetComponent<Item>().currentType == ItemsTypes.NONE)
+					{
+						if (_item.GetComponent<Item>().color == (int)collectItems[i] - 1)
+						{
+							bool bFind = false;
+							int currentPosition = 0;
+
+							for (int j = 0; j < allTargetsObjectList.Count; j++) {
+								if (allTargetsObjectList [j].GetType () == typeof(CollectItems) && !bFind) {
+									if (_item.GetComponent<Item> ().color == (int)((CollectItems)allTargetsObjectList [j]) - 1) {
+										bFind = true;
+										currentPosition = j;
+
+										isTarget = true;
+
+										break;
+									} 
+								}
+							}
+
+
+						}
+					}
+				}
+			}
+		}
+		return isTarget;
+	}
+
     public void CheckCollectedTarget(GameObject _item)
     {
 		//Debug.Log (_item.name);
@@ -922,7 +968,7 @@ public class LevelManager : MonoBehaviour
 										spr.sortingLayerName = "UI";
 										spr.sortingOrder = 1;
 
-										StartCoroutine(StartAnimateIngredient(item, i ,currentPosition , Target.COLLECT));
+										StartCoroutine(StartAnimateIngredient(item, i ,currentPosition , Target.COLLECT, _item.GetComponent<Item> ().isTaggedAsPowerUp));
 
 										break;
 									} 
@@ -1076,7 +1122,9 @@ public class LevelManager : MonoBehaviour
 					if (_type == SquareTypes.DOUBLEBLOCK) {
 						item.transform.localScale = Vector3.one / 2.5f;
 					}
-
+					if (_type == SquareTypes.BLOCK) {
+						item.transform.localScale = Vector3.one / 1.5f;
+					}
 					SpriteRenderer spr = item.AddComponent<SpriteRenderer>();
 					spr.sprite = _sprite;
 					spr.sortingLayerName = "UI";
@@ -1115,7 +1163,7 @@ public class LevelManager : MonoBehaviour
         //gm.SetActive(false);
     }
 
-	IEnumerator StartAnimateIngredient(GameObject item, int i, int currentPosition , Target _target)
+	IEnumerator StartAnimateIngredient(GameObject item, int i, int currentPosition , Target _target, bool isTagetAsPowerUp = false)
     {
 		if (_target == Target.COLLECT) {
 			//Debug.Log ("descrease "+i);
@@ -1126,6 +1174,9 @@ public class LevelManager : MonoBehaviour
 			if (toysCount[i] > 0)
 				toysCount[i]--;
 		}
+
+		bool canMove = !isTagetAsPowerUp;
+
 
 
         ingredientFly = true;
@@ -1145,17 +1196,32 @@ public class LevelManager : MonoBehaviour
 		AnimationCurve curveY = new AnimationCurve(new Keyframe(0, item.transform.localPosition.y), new Keyframe(0.5f, ingr[currentPosition].transform.position.y));
         curveY.AddKey(0.2f, item.transform.localPosition.y + UnityEngine.Random.Range(-2, 0.5f));
         float startTime = Time.time;
+
+
+
         Vector3 startPos = item.transform.localPosition;
-        float speed = UnityEngine.Random.Range(0.4f, 0.6f);
+        float speed = UnityEngine.Random.Range(0.4f, 0.5f);
         float distCovered = 0;
-        while (distCovered < 0.5f)
-        {
-            distCovered = (Time.time - startTime) * speed;
-            item.transform.localPosition = new Vector3(curveX.Evaluate(distCovered), curveY.Evaluate(distCovered), 0);
-            item.transform.Rotate(Vector3.back, Time.deltaTime * 1000);
-            yield return new WaitForFixedUpdate();
-        }
+		if (canMove) {
+			Vector3 startScale = item.transform.localScale;
+			startScale = startScale / 1.8f;
+			LeanTween.scale (item, startScale, 0.5f).delay = 0.3f;
+
+			while (distCovered < 0.5f)
+			{
+				distCovered = (Time.time - startTime) * speed;
+				item.transform.localPosition = new Vector3(curveX.Evaluate(distCovered), curveY.Evaluate(distCovered), 0);
+				//item.transform.Rotate(Vector3.back, Time.deltaTime * 1000);
+				yield return new WaitForFixedUpdate();
+				//Debug.Log ("speed = "+speed);
+				speed+=0.01f;
+			}
+		}
+        
         //     SoundBase.Instance.audio.PlayOneShot(SoundBase.Instance.getStarIngr);
+		LeanTween.cancel(ingr[currentPosition]);
+		ingr [currentPosition].transform.localScale = new Vector3 (0.5f,0.5f,0.5f);
+		LeanTween.scale(ingr[currentPosition],new Vector3(0.353f,0.353f,1f),0.3f).setEaseSpring();
         Destroy(item);
         if (gameStatus == GameState.Playing)
             CheckWinLose();
@@ -2335,9 +2401,9 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    public IEnumerator FindMatchDelay()
+	public IEnumerator FindMatchDelay(float delay = 0.2f)
     {
-        yield return new WaitForSeconds(0.2f);
+		yield return new WaitForSeconds(delay);
         LevelManager.THIS.FindMatches();
 
     }
@@ -2642,6 +2708,29 @@ public class LevelManager : MonoBehaviour
 			// check bonnus
 			if (lastDraggedItem != null) {
 				if (tempItem != null) {
+					if (tempItem.Count >= 5) {
+						GameObject _parent = new GameObject ();
+						_parent.transform.position = lastDraggedItem.transform.position;
+						foreach(Item _t in tempItem)
+						{
+							_t.setOutLine ();
+							if (_t != lastDraggedItem) {
+								_t.transform.parent = _parent.transform;
+							}
+						}
+						LeanTween.scale(_parent,new Vector3(1.1f,1.1f,1f),0.2f).setEase(LeanTweenType.easeInExpo);
+						yield return new WaitForSeconds (0.2f);
+						foreach(Item _t in tempItem)
+						{
+							if (_t != lastDraggedItem) {
+								LeanTween.cancel (_t.gameObject);
+								LeanTween.move(_t.gameObject,lastDraggedItem.transform.position,0.2f).setEase(LeanTweenType.easeInExpo);
+							}
+						}
+						//LeanTween.scale(_parent,new Vector3(1f,1f,1f),0.2f).setEase(LeanTweenType.easeOutExpo);
+						yield return new WaitForSeconds (0.2f);
+
+					}
 					if (tempItem.Count == 5 || tempItem.Count == 6) {
 						Debug.Log ("bonus 1");
 						//lastDraggedItem.falling = true;
@@ -3302,6 +3391,18 @@ public class LevelManager : MonoBehaviour
             effect.transform.Rotate(Vector3.back, 90);
         Destroy(effect, 1);
     }
+
+	public void StrippedTNTShow(GameObject obj, bool horrizontal)
+	{
+		GameObject effect = Instantiate(stripesTNTEffect, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void TNTShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(TNTEffect, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
 
     public void PopupScore(int value, Vector3 pos, int color)
     {

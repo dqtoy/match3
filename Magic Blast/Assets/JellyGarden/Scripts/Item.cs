@@ -14,7 +14,8 @@ public enum ItemsTypes
     INGREDIENT,
 	BEACH_BALLS,
 	TIME_BOMB,
-	MONEY_BOX
+	MONEY_BOX,
+	HORIZONTAL_AND_VERTICAL_STRIPPED,
 }
 
 public enum SymbolsTypes
@@ -39,6 +40,10 @@ public class Item : MonoBehaviour
 	public Sprite[] cubeSymbols;
     public SpriteRenderer sprRenderer;
 	public SpriteRenderer symRenderer;
+	public GameObject shineRenderer;
+
+	public Color[] bombBackColors;
+
     public Square square;
     public bool dragThis;
     public Vector3 mousePos;
@@ -55,6 +60,10 @@ public class Item : MonoBehaviour
 	public int lastColor;
 	public int timeBombCount = 0;
 	public bool isFreezeObject = false;
+
+	public bool isPackageAndStriped = false;
+
+	private bool isAllreadyUseBooster = false;
 
 	public TextMeshPro itemText;
 
@@ -95,8 +104,10 @@ public class Item : MonoBehaviour
     private float xScale;
     private float yScale;
 
-
+	public float destroyDelay = 0;
 	private int startDepth = 0;
+
+	public bool isTaggedAsPowerUp = false;
     // Use this for initialization
     void Start()
     {
@@ -140,18 +151,23 @@ public class Item : MonoBehaviour
 			if (_type == SymbolsTypes.SIMPLE) {
 				if (COLORView < 6)
 					symRenderer.sprite = cubeSymbols [COLORView];
+				isTaggedAsPowerUp = false;
 			}
 			if (_type == SymbolsTypes.ROTOR) {
 				symRenderer.sprite = rotorSymbols [COLORView];
+				isTaggedAsPowerUp = true;
 			}
 			if (_type == SymbolsTypes.TNT) {
 				symRenderer.sprite = tntSymbols [COLORView];
+				isTaggedAsPowerUp = true;
 			}
 			if (_type == SymbolsTypes.BOMB) {
 				symRenderer.sprite = bombSymbols [COLORView];
+				isTaggedAsPowerUp = true;
 			}
 		} else {
 			symRenderer.gameObject.SetActive (false);
+			isTaggedAsPowerUp = false;
 		}
 	}
 
@@ -256,11 +272,12 @@ public class Item : MonoBehaviour
 			sprRenderer.sprite = powerUpsItems [0];
 		else if (NextType == ItemsTypes.VERTICAL_STRIPPED) {
 			sprRenderer.sprite = powerUpsItems [1];
-		}	
-		else if (NextType == ItemsTypes.PACKAGE)
-			sprRenderer.sprite = powerUpsItems[2];
-		else if (NextType == ItemsTypes.BOMB)
-			sprRenderer.sprite = powerUpsItems[3];
+		} else if (NextType == ItemsTypes.PACKAGE)
+			sprRenderer.sprite = powerUpsItems [2];
+		else if (NextType == ItemsTypes.BOMB) {
+			sprRenderer.sprite = bombItems [lastColor];
+			setBombShine ();
+		}
 		/*else if ((LevelManager.THIS.isContainTarget(Target.INGREDIENT) && (LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient1 || LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient2 || LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient3 || LevelManager.THIS.ingrTarget[0] == Ingredients.Ingredient4)) && UnityEngine.Random.Range(0, LevelManager.THIS.Limit) == 0 && square.row + 1 < LevelManager.THIS.maxRows && !onlyNONEType && LevelManager.THIS.GetIngredients(0).Count < LevelManager.THIS.toysCount[0])
         {
             int i = 0;
@@ -535,16 +552,19 @@ public class Item : MonoBehaviour
 				}
 				if (_lastType == ItemsTypes.PACKAGE) {
 					DestroyPackageAndStriped (this);
+					LevelManager.THIS.StartCoroutine (LevelManager.THIS.FindMatchDelay(0.75f));
+					yield return new WaitForSeconds (0.55f);
 				}
 				if (_lastType == ItemsTypes.BOMB) {
-					LevelManager.THIS.SetTypeByColor(connected_stripped.lastColor, ItemsTypes.HORIZONTAL_STRIPPED);
-					yield return StartCoroutine(connected_stripped.onBombEffects());
+					//LevelManager.THIS.SetTypeByColor(connected_stripped.lastColor, ItemsTypes.HORIZONTAL_STRIPPED);
+					yield return StartCoroutine(connected_stripped.onBombEffects(ItemsTypes.HORIZONTAL_STRIPPED));
 					LevelManager.THIS.destroyAllStripped ();
 				}
 
 				connected_stripped.DestroyItem ();
 			} else {
 				if (currentType == ItemsTypes.HORIZONTAL_STRIPPED) {
+					Debug.Log ("detectDestroy HORIZONTAL_STRIPPED");
 					DestroyHorizontal ();
 				} else {
 					DestroyVertical ();
@@ -557,6 +577,7 @@ public class Item : MonoBehaviour
 			}
 			LevelManager.THIS.moveID++;
 			//yield return new WaitForEndOfFrame ();
+			//yield return new WaitForSeconds(0.2f);
 			LevelManager.THIS.FindMatches ();
 		} else if (currentType == ItemsTypes.BOMB) {
 			LevelManager.THIS.firstTurnWasPassed = true;
@@ -576,23 +597,31 @@ public class Item : MonoBehaviour
 					canGenerateBombEffect = false;
 			}
 
-			if (canGenerateBombEffect) {
-				yield return StartCoroutine(onBombEffects());
-			}
+
 
 			if (connected_stripped == null) {
+				
+				if (canGenerateBombEffect) {
+					yield return StartCoroutine(onBombEffects(ItemsTypes.NONE));
+				}
 				DestroyColor (lastColor);
-
 
 			} else {
 				ItemsTypes _lastType = connected_stripped.currentType;
-				CheckChocoBomb (this, connected_stripped);
+
 				Debug.Log ("enter="+_lastType);
 				if (_lastType == ItemsTypes.HORIZONTAL_STRIPPED || _lastType == ItemsTypes.VERTICAL_STRIPPED) {
+					if (canGenerateBombEffect) {
+						yield return StartCoroutine (onBombEffects (ItemsTypes.HORIZONTAL_STRIPPED));
+					}
 					LevelManager.THIS.destroyAllStripped ();	
-				}
-				if (_lastType == ItemsTypes.PACKAGE) {
+				} else if (_lastType == ItemsTypes.PACKAGE) {
+					if (canGenerateBombEffect) {
+						yield return StartCoroutine (onBombEffects (ItemsTypes.PACKAGE));
+					}
 					LevelManager.THIS.destroyAllPackage ();
+				} else if (_lastType == ItemsTypes.BOMB) {
+					CheckChocoBomb (this, connected_stripped);
 				}
 			}
 			if (LevelManager.Instance.limitType == LIMIT.MOVES) {
@@ -607,6 +636,8 @@ public class Item : MonoBehaviour
 		} else if (currentType == ItemsTypes.PACKAGE) {
 			LevelManager.THIS.firstTurnWasPassed = true;
 
+
+
 			LevelManager.THIS.resetBundleAbility ();
 
 			Item connected_stripped = null;
@@ -615,15 +646,18 @@ public class Item : MonoBehaviour
 			if (connected_stripped == null) connected_stripped = getNearByType (ItemsTypes.PACKAGE);
 			if (connected_stripped == null) connected_stripped = getNearByType (ItemsTypes.BOMB);
 			if (connected_stripped == null) {
+				yield return StartCoroutine (tntShake());
 				DestroyPackage ();
 			} else {
 				ItemsTypes _lastType = connected_stripped.currentType;
 				if (_lastType == ItemsTypes.HORIZONTAL_STRIPPED || _lastType == ItemsTypes.VERTICAL_STRIPPED) {
 					DestroyPackageAndStriped (this);
+					LevelManager.THIS.StartCoroutine (LevelManager.THIS.FindMatchDelay(0.75f));
+					yield return new WaitForSeconds (0.55f);
 				}
 				if (_lastType == ItemsTypes.BOMB) {
-					LevelManager.THIS.SetTypeByColor(connected_stripped.lastColor, ItemsTypes.PACKAGE);
-					yield return StartCoroutine(connected_stripped.onBombEffects());
+					//LevelManager.THIS.SetTypeByColor(connected_stripped.lastColor, ItemsTypes.PACKAGE);
+					yield return StartCoroutine(connected_stripped.onBombEffects(ItemsTypes.PACKAGE));
 					LevelManager.THIS.destroyAllPackage ();
 					connected_stripped.DestroyItem ();
 				}
@@ -642,7 +676,7 @@ public class Item : MonoBehaviour
 		//yield return new WaitForEndOfFrame ();
 	}
 
-	IEnumerator onBombEffects()
+	IEnumerator onBombEffects(ItemsTypes _type)
 	{
 		Debug.Log ("onBombEffects");
 		LevelManager.THIS.particleEffectIsNow = true;
@@ -654,24 +688,42 @@ public class Item : MonoBehaviour
 				_items.Add (item.GetComponent<Item> ());
 			}
 		}
-
+		Forge3D.F3DPoolManager.Pools["GeneratedPool"].Spawn(LevelManager.THIS.beamPrefabs, transform.position, Quaternion.identity, transform); 
 		foreach (Item _it in _items) 
 		{
 			if (_it != null) {
 				if (_it.transform != null) {
 					Transform _pref = Forge3D.F3DPoolManager.Pools["GeneratedPool"].Spawn(LevelManager.THIS.lightningPrefabs, transform.position, Quaternion.identity, transform); 
 					if (_pref != null) {
+						yield return new WaitForSeconds (0.05f);
 						_pref.LookAt (_it.transform.position);
-						Transform _boom = Forge3D.F3DPoolManager.Pools["GeneratedPool"].Spawn(LevelManager.THIS.beamPrefabs, _it.transform.position, Quaternion.identity, transform); 
+						Transform _boom = Forge3D.F3DPoolManager.Pools["GeneratedPool"].Spawn(LevelManager.THIS.beamPrefabs, transform.position, Quaternion.identity, transform); 
 						_pref.gameObject.GetComponent <Forge3D.F3DBeam>().targetObject = _it.transform;
+						_pref.gameObject.GetComponent <Forge3D.F3DBeam>().connectedBeam = _boom;
+						if (_type == ItemsTypes.NONE) {
+							_it.startShakeItem (0.5f);
+						}
+						if (_type == ItemsTypes.HORIZONTAL_STRIPPED) {
+							_it.startItemToRotor (0.5f);
+						}
+						if (_type == ItemsTypes.PACKAGE) {
+							_it.startItemToTNT (0.5f);
+						}
+						//_it.setOutLine ();
 					}
 				}
 			}
 		}
 
+		if (_type == ItemsTypes.HORIZONTAL_STRIPPED) {
+			yield return new WaitForSeconds (0.8f);
+		} else if (_type == ItemsTypes.PACKAGE) {
+			yield return new WaitForSeconds (0.8f);
+		} else {
+			yield return new WaitForSeconds (1.2f);
+		}
 
-		yield return new WaitForSeconds (1.2f);
-
+		Debug.Log ("end bomb effect");
 		LevelManager.THIS.particleEffectIsNow = false;
 	}
 
@@ -948,8 +1000,11 @@ public class Item : MonoBehaviour
             {
                 if (item != null)
                 {
-                    if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
-                        item.DestroyItem(true, "destroy_package");
+					if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT) {
+						//item.DestroyItem (true, "destroy_package");
+						LevelManager.THIS.TNTShow(item.gameObject);
+						item.DestroyItem (true, "");
+					}
                 }
             }
 
@@ -980,16 +1035,29 @@ public class Item : MonoBehaviour
 	void DestroyPackageAndStriped(Item item2)
 	{
 		int i = 0;
+		item2.currentType = ItemsTypes.VERTICAL_STRIPPED;
+		item2.NextType = ItemsTypes.VERTICAL_STRIPPED;
+		item2.debugType = ItemsTypes.VERTICAL_STRIPPED;
+		item2.nextType = ItemsTypes.VERTICAL_STRIPPED;
 		List<Item> itemsList = LevelManager.THIS.GetItemsAround(item2.square);
 		foreach (Item item in itemsList)
 		{
 			if (item != null)
 			{
+				item.isPackageAndStriped = true;
 				item.currentType = (ItemsTypes)((i) % 2) + 1;
 				i++;
+
+				if (item.currentType == ItemsTypes.HORIZONTAL_STRIPPED) {
+					item.destroyDelay += 0.2f;
+				}
+				if (item.currentType == ItemsTypes.VERTICAL_STRIPPED) {
+					item.destroyDelay += 0.3f;
+				}
 			}
 		}
-		item2.DestroyPackage();
+		LevelManager.THIS.StrippedTNTShow(item2.gameObject, true);
+		item2.DestroyPackage(false);
 	}
 
     public void CheckChocoBomb(Item item1, Item item2)
@@ -1045,6 +1113,83 @@ public class Item : MonoBehaviour
         square.item = null;
         square = _square;   //need to count all falling items and drop them down in the same time
     }
+
+	public void setBombShine()
+	{
+		GameObject _shine = (GameObject)Instantiate (LevelManager.THIS.BombBackEffect, transform);
+		shineRenderer = _shine;
+		_shine.transform.localPosition = Vector3.zero;
+		var main = _shine.GetComponent <ParticleSystem> ().main;
+		main.startColor = new ParticleSystem.MinMaxGradient(bombBackColors[lastColor]);
+		_shine.GetComponent <ParticleSystemRenderer> ().sortingOrder = sprRenderer.sortingOrder - 1;
+	}
+
+	public void setOutLine()
+	{
+		sprRenderer.sortingOrder += 10;
+		sprRenderer.gameObject.AddComponent <cakeslice.Outline>();
+	}
+
+	public void startShakeItem(float delay)
+	{
+		StartCoroutine (itemShake(delay));
+	}
+
+	IEnumerator itemShake(float delay)
+	{
+		yield return new WaitForSeconds (delay);
+		bool right = false;
+		transform.localEulerAngles = new Vector3 (0, 0, -8f);
+		LeanTween.rotateLocal (gameObject, new Vector3 (0, 0, 8f), 0.05f).setLoopPingPong ();
+		/*while (true) {
+			yield return new WaitForSeconds (0.03f);
+			right = !right;
+			if (right) {
+				transform.localEulerAngles = new Vector3 (0, 0, -8f);
+			} else {
+				transform.localEulerAngles = new Vector3 (0,0,8f);
+			}
+		}*/
+	}
+
+	public void startItemToTNT(float delay)
+	{
+		StartCoroutine (itemToTNT(delay));
+	}
+
+	IEnumerator itemToTNT(float delay)
+	{
+		yield return new WaitForSeconds (delay);
+		NextType = ItemsTypes.PACKAGE;
+		ChangeType();
+	}
+
+	public void startItemToRotor(float delay)
+	{
+		StartCoroutine (itemToRotor(delay));
+	}
+
+	IEnumerator itemToRotor(float delay)
+	{
+		yield return new WaitForSeconds (delay);
+		NextType = (ItemsTypes)UnityEngine.Random.Range(1, 3);
+		ChangeType();
+	}
+
+	IEnumerator tntShake()
+	{
+		LeanTween.scale (gameObject, new Vector3 (0.8f, 0.8f, 0.8f), 0.7f);
+		bool right = false;
+		while (transform.localScale.x < 0.8f) {
+			yield return new WaitForSeconds (0.03f);
+			right = !right;
+			if (right) {
+				transform.localEulerAngles = new Vector3 (0, 0, -8f);
+			} else {
+				transform.localEulerAngles = new Vector3 (0,0,8f);
+			}
+		}
+	}
 
     public void StartFalling()
     {
@@ -1112,7 +1257,9 @@ public class Item : MonoBehaviour
 		int addedDeph = 10 - _square.row;
 		sprRenderer.sortingOrder = startDepth + addedDeph;
 		symRenderer.sortingOrder = sprRenderer.sortingOrder + 1;
-        
+		if (shineRenderer != null) {
+			shineRenderer.GetComponent<ParticleSystemRenderer> ().sortingOrder = sprRenderer.sortingOrder - 1;
+		}
     }
 
     public bool GetNearEmptySquares()
@@ -1175,48 +1322,57 @@ public class Item : MonoBehaviour
     {
         if (NextType == ItemsTypes.HORIZONTAL_STRIPPED)
         {
-            anim.SetTrigger("appear");
+            //anim.SetTrigger("appear");
+			//SetAppeared();
+			sprRenderer.sortingOrder = 50;
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearStipedColorBomb);
         }
         else if (NextType == ItemsTypes.VERTICAL_STRIPPED)
         {
-            anim.SetTrigger("appear");
+            //anim.SetTrigger("appear");
+			//SetAppeared();
+			sprRenderer.sortingOrder = 50;
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearStipedColorBomb);
         }
         else if (NextType == ItemsTypes.PACKAGE)
         {
-            anim.SetTrigger("appear");
+			sprRenderer.sortingOrder = 50;
+			//SetAppeared();
+            //anim.SetTrigger("appear");
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearPackage);
 
         }
         else if (NextType == ItemsTypes.BOMB)
         {
-            anim.SetTrigger("appear");
+			sprRenderer.sortingOrder = 50;
+			//SetAppeared();
+            //anim.SetTrigger("appear");
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearStipedColorBomb);
-			lastColor = color;
+			if (color < 6) lastColor = color;
             color = 555;
         }
 		else if (NextType == ItemsTypes.BEACH_BALLS)
 		{
 			//anim.SetTrigger("appear");
-			SetAppeared();
+			//SetAppeared();
 			SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearPackage);
 			color = 555;
 		}
 		else if (NextType == ItemsTypes.TIME_BOMB)
 		{
-			anim.SetTrigger("appear");
+			//anim.SetTrigger("appear");
 			SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearPackage);
 			//color = 555;
 		}
 		else if (NextType == ItemsTypes.MONEY_BOX)
 		{
-			anim.SetTrigger("appear");
+			//anim.SetTrigger("appear");
 			SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearPackage);
 			color = 555;
 		}
-        while (!appeared)
-            yield return new WaitForFixedUpdate();
+		SetAppeared ();
+        //while (!appeared)
+        yield return new WaitForFixedUpdate();
 
         if (NextType == ItemsTypes.NONE)
             yield break;
@@ -1227,8 +1383,11 @@ public class Item : MonoBehaviour
 			sprRenderer.sprite = powerUpsItems [1];
 		else if (NextType == ItemsTypes.PACKAGE)
 			sprRenderer.sprite = powerUpsItems [2];
-		else if (NextType == ItemsTypes.BOMB)
-			sprRenderer.sprite = powerUpsItems [3];
+		else if (NextType == ItemsTypes.BOMB) {
+			Debug.Log ("bomb color = "+lastColor);
+			sprRenderer.sprite = bombItems [lastColor];
+
+		}
 		else if (NextType == ItemsTypes.BEACH_BALLS)
 			sprRenderer.sprite = items [6];
 		else if (NextType == ItemsTypes.TIME_BOMB) {
@@ -1252,7 +1411,10 @@ public class Item : MonoBehaviour
         NextType = ItemsTypes.NONE;
 
 		if (currentType != ItemsTypes.NONE) {
-			//symRenderer.gameObject.SetActive (false);
+			symRenderer.gameObject.SetActive (false);
+		}
+		if (debugType == ItemsTypes.BOMB) {
+			setBombShine ();
 		}
     }
 
@@ -1283,6 +1445,18 @@ public class Item : MonoBehaviour
 	}
 
     #region Destroying
+
+	public void startDestroyDelayed (float delay = 0f,bool showScore = false, string anim_name = "", bool explEffect = false)
+	{
+		StartCoroutine (DestroyDelayed(delay,showScore,anim_name,explEffect));
+	}
+
+	IEnumerator DestroyDelayed(float delay = 0f,bool showScore = false, string anim_name = "", bool explEffect = false)
+	{
+		yield return new WaitForSeconds (delay);
+		DestroyItem (showScore, anim_name, explEffect);
+	}
+
     public void DestroyItem(bool showScore = false, string anim_name = "", bool explEffect = false)
     {
 		if (square.type == SquareTypes.STATIC_POWER) {
@@ -1425,6 +1599,8 @@ public class Item : MonoBehaviour
     {
         //if (anim_name == "")
         //{
+		yield return new WaitForSeconds(destroyDelay);
+
         if (currentType == ItemsTypes.HORIZONTAL_STRIPPED)
             PlayDestroyAnimation("destroy");
         else if (currentType == ItemsTypes.VERTICAL_STRIPPED)
@@ -1446,7 +1622,7 @@ public class Item : MonoBehaviour
         }
         else if (currentType != ItemsTypes.INGREDIENT && currentType != ItemsTypes.BOMB)
         {
-            PlayDestroyAnimation("destroy");
+            /*PlayDestroyAnimation("destroy");
             // GameObject partcl = Instantiate(Resources.Load("Prefabs/Effects/ItemExpl"), transform.position, Quaternion.identity) as GameObject;
             GameObject partcl = LevelManager.THIS.GetExplFromPool();
             if (partcl != null)
@@ -1463,7 +1639,16 @@ public class Item : MonoBehaviour
                 GameObject partcl1 = Instantiate(Resources.Load("Prefabs/Effects/Replace"), transform.position, Quaternion.identity) as GameObject;
                 Destroy(partcl1, 1f);
 
-            }
+            }*/
+			if (LevelManager.THIS.isTarget (gameObject) || isTaggedAsPowerUp) {
+
+			} else {
+				GameObject partcl1 = Instantiate(LevelManager.THIS.destroyCubeParticles[color], transform.position, Quaternion.identity) as GameObject;
+				Destroy(partcl1, 2f);
+			}
+
+			yield return new WaitForSeconds (0.1f);
+			SetAnimationDestroyingFinished ();
         }
         //}
         //else
@@ -1495,12 +1680,19 @@ public class Item : MonoBehaviour
 
 
 		square.DestroyBlock();
-        if (currentType == ItemsTypes.HORIZONTAL_STRIPPED)
-            DestroyHorizontal();
-        else if (currentType == ItemsTypes.VERTICAL_STRIPPED)
-            DestroyVertical();
-        else if (currentType == ItemsTypes.PACKAGE)
-            DestroyPackage();
+		if (currentType == ItemsTypes.HORIZONTAL_STRIPPED) {
+			if (!isAllreadyUseBooster) DestroyHorizontal ();
+		} else if (currentType == ItemsTypes.VERTICAL_STRIPPED) {
+			if (!isAllreadyUseBooster) DestroyVertical ();
+		} else if (currentType == ItemsTypes.PACKAGE) {
+			if (!isAllreadyUseBooster) DestroyPackage ();
+		}
+		else if (currentType == ItemsTypes.HORIZONTAL_AND_VERTICAL_STRIPPED) {
+			if (!isAllreadyUseBooster) {
+				DestroyHorizontal ();
+				DestroyVertical ();
+			}
+		}
         else if (currentType == ItemsTypes.BOMB && LevelManager.THIS.gameStatus == GameState.PreWinAnimations)
             CheckChocoBomb(this, LevelManager.THIS.GetRandomItems(1)[0]);
 
@@ -1520,15 +1712,20 @@ public class Item : MonoBehaviour
 
     public void DestroyHorizontal()
     {
+		isAllreadyUseBooster = true;
+		Debug.Log ("destroy horisonatal");
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.strippedExplosion);
-        LevelManager.THIS.StrippedShow(gameObject, true);
+		if (!isPackageAndStriped) LevelManager.THIS.StrippedShow(gameObject, true);
         List<Item> itemsList = LevelManager.THIS.GetRow(square.row);
         foreach (Item item in itemsList)
         {
             if (item != null)
             {
-                if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
-                    item.DestroyItem(true);
+				if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT) {
+					float dis = Vector2.Distance(transform.position,item.transform.position);
+					item.destroyDelay += dis / 15f ;
+					item.DestroyItem (true);
+				}
             }
         }
         List<Square> sqList = LevelManager.THIS.GetRowSquaresObstacles(square.row);
@@ -1538,18 +1735,22 @@ public class Item : MonoBehaviour
 				item.DestroyBlock(true);
         }
     }
+		
 
     public void DestroyVertical()
     {
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.strippedExplosion);
-        LevelManager.THIS.StrippedShow(gameObject, false);
+		if (!isPackageAndStriped) LevelManager.THIS.StrippedShow(gameObject, false);
         List<Item> itemsList = LevelManager.THIS.GetColumn(square.col);
         foreach (Item item in itemsList)
         {
             if (item != null)
             {
-                if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
-                    item.DestroyItem(true);
+				if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT) {
+					float dis = Vector2.Distance(transform.position,item.transform.position);
+					item.destroyDelay += dis / 15f ;
+					item.DestroyItem (true);
+				}
             }
         }
         List<Square> sqList = LevelManager.THIS.GetColumnSquaresObstacles(square.col);
@@ -1561,7 +1762,7 @@ public class Item : MonoBehaviour
 
 
     }
-    public void DestroyPackage()
+	public void DestroyPackage(bool canShowEffect = true)
     {
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.destroyPackage);
 
@@ -1570,7 +1771,9 @@ public class Item : MonoBehaviour
 		{
 			if (_square != null)
 			{
-				if (_square.type == SquareTypes.UNDESTROYABLE) {
+				
+				//if (_square.type == SquareTypes.UNDESTROYABLE) 
+				{
 					_square.DestroyBlock ();
 				}
 			}
@@ -1580,11 +1783,13 @@ public class Item : MonoBehaviour
         foreach (Item item in itemsList)
         {
             if (item != null)
-                if (item != null)
-                {
-                    if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
-                        item.DestroyItem(true, "destroy_package");
-                }
+			{
+				if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT) {
+					//item.DestroyItem (true, "destroy_package");
+					if (canShowEffect) LevelManager.THIS.TNTShow(item.gameObject);
+					item.DestroyItem (true, "");
+				}
+            }
         }
 			
 

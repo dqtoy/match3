@@ -10,17 +10,23 @@ public class Counter_ : MonoBehaviour
 
 	public int[] connectedArray;
 	public int currentID;
+
+	public GameObject _checkBox;
 	 
 	// Use this for initialization
 	void Start ()
 	{
 		txt = GetComponent<Text> ();
+
 	}
 
 	void OnEnable ()
 	{
 		lastTime = 0;
 		alert = false;
+		if (_checkBox != null) {
+			_checkBox.SetActive (false);
+		}
 	}
 	
 	// Update is called once per frame
@@ -77,7 +83,17 @@ public class Counter_ : MonoBehaviour
 		if (name == "TargetIngr1") {
 			try
 			{
-				txt.text = "" + connectedArray[currentID];
+				if (connectedArray[currentID] > 0)
+				{
+					txt.text = "" + connectedArray[currentID];
+				}
+				else
+				{
+					txt.text = "";
+					if (_checkBox != null) {
+						_checkBox.SetActive (true);
+					}
+				}
 			}
 			catch (UnityException err) {
 
@@ -87,7 +103,17 @@ public class Counter_ : MonoBehaviour
 		if (name == "TargetIngr2") {
 			try
 			{
-				txt.text = "" + connectedArray[currentID];
+				if (connectedArray[currentID] > 0)
+				{
+					txt.text = "" + connectedArray[currentID];
+				}
+				else
+				{
+					txt.text = "";
+					if (_checkBox != null) {
+						_checkBox.SetActive (true);
+					}
+				}
 			}
 			catch (UnityException err) {
 
@@ -96,7 +122,17 @@ public class Counter_ : MonoBehaviour
 		if (name == "TargetIngr3") {
 			try
 			{
-				txt.text = "" + connectedArray[currentID];
+				if (connectedArray[currentID] > 0)
+				{
+					txt.text = "" + connectedArray[currentID];
+				}
+				else
+				{
+					txt.text = "";
+					if (_checkBox != null) {
+						_checkBox.SetActive (true);
+					}
+				}
 			}
 			catch (UnityException err) {
 
@@ -105,7 +141,17 @@ public class Counter_ : MonoBehaviour
 		if (name == "TargetIngr4") {
 			try
 			{
-				txt.text = "" + connectedArray[currentID];
+				if (connectedArray[currentID] > 0)
+				{
+					txt.text = "" + connectedArray[currentID];
+				}
+				else
+				{
+					txt.text = "";
+					if (_checkBox != null) {
+						_checkBox.SetActive (true);
+					}
+				}
 			}
 			catch (UnityException err) {
 
@@ -114,7 +160,17 @@ public class Counter_ : MonoBehaviour
 		if (name == "TargetIngr5") {
 			try
 			{
-				txt.text = "" + connectedArray[currentID];
+				if (connectedArray[currentID] > 0)
+				{
+					txt.text = "" + connectedArray[currentID];
+				}
+				else
+				{
+					txt.text = "";
+					if (_checkBox != null) {
+						_checkBox.SetActive (true);
+					}
+				}
 			}
 			catch (UnityException err) {
 
@@ -123,7 +179,17 @@ public class Counter_ : MonoBehaviour
 		if (name == "TargetIngr6") {
 			try
 			{
-				txt.text = "" + connectedArray[currentID];
+				if (connectedArray[currentID] > 0)
+				{
+					txt.text = "" + connectedArray[currentID];
+				}
+				else
+				{
+					txt.text = "";
+					if (_checkBox != null) {
+						_checkBox.SetActive (true);
+					}
+				}
 			}
 			catch (UnityException err) {
 

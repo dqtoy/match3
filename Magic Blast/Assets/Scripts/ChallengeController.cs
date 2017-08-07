@@ -45,7 +45,7 @@ public class ChallengeController : MonoBehaviour {
 	public ChallengeType getCurrentChallenge()
 	{
 		//return _currentType;
-		return ChallengeType.StarTournament;
+		return ChallengeType.TreeClimbChallenge;
 	}
 
 	public ChallengeState getCurrentState()
