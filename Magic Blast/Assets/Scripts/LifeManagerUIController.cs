@@ -22,6 +22,11 @@ public class LifeManagerUIController : MonoBehaviour {
 
 	public void onLifeChange()
 	{
+		if (_lifeManager.HasInfiniteLives) {
+			_lifeTXT.gameObject.transform.localScale = Vector3.one;
+		} else {
+			_lifeTXT.gameObject.transform.localScale = new Vector3 (0.37f,0.37f,0.37f);
+		}
 		_lifeTXT.text = _lifeManager.LivesText;
 	}
 

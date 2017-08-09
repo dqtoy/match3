@@ -58,6 +58,7 @@
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Multiply Color.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\91.txt" />
      <None Include="Assets\GameSparks\Plugins\Metro\GameSparksRT.xml" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitSolidVertexColor.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\35.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\65.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\62.txt" />
@@ -71,6 +72,8 @@
      <None Include="Assets\JellyGarden\Resources\Levels\66.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\10.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\76.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Goodies\TexturePacker\Exporter\2dtoolkit\exporter.xml" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
      <None Include="Assets\JellyGarden\Resources\Levels\97.txt" />
      <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Particle AddSoft A8.shader" />
@@ -83,6 +86,7 @@
      <None Include="Assets\LeanTween\Examples\Archived\2dUnlitWithFade.shader" />
      <None Include="Assets\OutlineEffect\Resources\OutlineShader.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\73.txt" />
+     <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMask.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\23.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\78.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\20.txt" />
@@ -100,7 +104,10 @@
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnelDistortion.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" />
      <None Include="Assets\OutlineEffect\Resources\OutlineBufferShader.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\PremulVertexColor.shader" />
+     <None Include="Assets\TK2DROOT\tk2d_demo\Credits.txt" />
      <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Smoke Scroll.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\58.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Trail.shader" />
@@ -108,10 +115,12 @@
      <None Include="Assets\JellyGarden\Resources\Levels\102.txt" />
      <None Include="Assets\LeanTween\ReadMe.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\63.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\goodies\PackedTextMesh.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\54.txt" />
      <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Add Scroll.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\99.txt" />
      <None Include="Assets\JMO Assets\WarFX\!WarFX Readme.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\Blend2TexVertexColor.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\AlphaBlended.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\7.txt" />
@@ -121,7 +130,9 @@
      <None Include="Assets\JellyGarden\Resources\Levels\74.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\5.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\95.txt" />
+     <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMaskSolid.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\15.txt" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito24.fnt" />
      <None Include="Assets\JellyGarden\Resources\Levels\29.txt" />
      <None Include="Assets\Plugins\readme.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\50.txt" />
@@ -152,6 +163,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\69.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\21.txt" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Docs\Readme.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\98.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Surface.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
@@ -163,6 +175,7 @@
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
      <None Include="Assets\JMO Assets\!JMO Assets Readme.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpDistortion.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\86.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\42.txt" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle Rim AddSmooth 2S.shader" />
@@ -177,6 +190,7 @@
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\NebulaStaticBoard.shader" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Reflective Add.shader" />
      <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Particle Multiply A8.shader" />
+     <None Include="Assets\TK2DROOT\tk2d\Editor\EditorUtility.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Holographic.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\30.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\79.txt" />
@@ -185,23 +199,29 @@
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\ExhaustFlame.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\70.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\53.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
      <None Include="Assets\TextMesh Pro\Fonts\Bangers - OFL.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\38.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\22.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\51.txt" />
+     <None Include="Assets\TK2DROOT\tk2d_demo\demobmfont\test.fnt" />
      <None Include="Assets\JellyGarden\Resources\Levels\85.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\40.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\61.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\93.txt" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Font\OldSansBlack\OldSansBlack.fnt" />
      <None Include="Assets\JellyGarden\Resources\Levels\59.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\88.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\LitBlendVertexColor.shader" />
      <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Alpha-Diffuse TintColor.shader" />
      <None Include="Assets\LeanTween\License.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\84.txt" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito16.fnt" />
      <None Include="Assets\JellyGarden\Resources\Levels\90.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\34.txt" />
      <None Include="Assets\GameSparks\link.xml" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnel.shader" />
+     <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
      <None Include="Assets\JellyGarden\Resources\Levels\28.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\60.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\33.txt" />
@@ -224,10 +244,12 @@
      <None Include="Assets\JellyGarden\Resources\levelstate.txt.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Additive.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\24.txt" />
+     <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\9.txt" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Unlit Color.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\39.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\103.txt" />
+     <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
@@ -341,6 +363,12 @@
  </Reference>
  <Reference Include="TextMeshPro-1.0.55.56.0b11-Editor">
  <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/TextMesh Pro/Plugins/Editor/TextMeshPro-1.0.55.56.0b11-Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="tk2dSkin">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/TK2DROOT/tk2d/Editor/tk2dSkin.dll</HintPath>
+ </Reference>
+ <Reference Include="tk2dExternal">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/TK2DROOT/tk2d/Editor/tk2dExternal.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

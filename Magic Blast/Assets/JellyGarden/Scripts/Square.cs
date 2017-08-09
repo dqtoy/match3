@@ -318,14 +318,16 @@ public class Square : MonoBehaviour
         //if (type == SquareTypes.UNDESTROYABLE) return;
 		if (type == SquareTypes.BLOCK) {
 			Debug.Log ("destroy block");
-			if (LevelManager.THIS.blocksCount [0] > 0) {
+			if (LevelManager.THIS.blocksCount [0] > 0 && LevelManager.THIS.isContainTarget(Target.BLOCKS)) {
 				LevelManager.THIS.blocksCount [0]--;
 				if (LevelManager.THIS.blocksCount [0] < 0) {
 					LevelManager.THIS.blocksCount [0] = 0;
 				}
 				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);
 			} else {
+				Debug.Log ("bubble anim");
 				// анимация взрыва
+				LevelManager.THIS.BubbleShow(gameObject);
 			}
 
 		}

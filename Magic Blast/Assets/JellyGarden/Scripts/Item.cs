@@ -679,7 +679,11 @@ public class Item : MonoBehaviour
 	IEnumerator onBombEffects(ItemsTypes _type)
 	{
 		Debug.Log ("onBombEffects");
+		//LeanTween.rotateZ (sprRenderer.gameObject, 360f, 0.5f).setLoopType (LeanTweenType.linear);
 		LevelManager.THIS.particleEffectIsNow = true;
+
+		LevelManager.THIS.CubeIdleShow (gameObject,lastColor);
+
 		List<Item> _items = new List<Item> ();
 		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
 		foreach (GameObject item in items)
@@ -1052,7 +1056,7 @@ public class Item : MonoBehaviour
 					item.destroyDelay += 0.2f;
 				}
 				if (item.currentType == ItemsTypes.VERTICAL_STRIPPED) {
-					item.destroyDelay += 0.3f;
+					item.destroyDelay += 0.7f;
 				}
 			}
 		}

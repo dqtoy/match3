@@ -170,6 +170,9 @@ public class LevelManager : MonoBehaviour
     public GameObject star2Anim;
     public GameObject star3Anim;
     public GameObject snowParticle;
+	public GameObject collectParticle;
+	public GameObject bubbleParticle;
+	public GameObject [] CubesIdleParticles;
 
 	public GameObject [] destroyCubeParticles;
 
@@ -2720,11 +2723,13 @@ public class LevelManager : MonoBehaviour
 						}
 						LeanTween.scale(_parent,new Vector3(1.1f,1.1f,1f),0.2f).setEase(LeanTweenType.easeInExpo);
 						yield return new WaitForSeconds (0.2f);
+						CollectShow (lastDraggedItem.gameObject);
 						foreach(Item _t in tempItem)
 						{
 							if (_t != lastDraggedItem) {
 								LeanTween.cancel (_t.gameObject);
-								LeanTween.move(_t.gameObject,lastDraggedItem.transform.position,0.2f).setEase(LeanTweenType.easeInExpo);
+								LeanTween.move(_t.gameObject,lastDraggedItem.transform.position,0.3f).setEase(LeanTweenType.easeOutExpo);
+								LeanTween.scale(_t.gameObject,new Vector3(0.5f,0.5f,0.5f),0.4f).setEase(LeanTweenType.easeOutExpo);
 							}
 						}
 						//LeanTween.scale(_parent,new Vector3(1f,1f,1f),0.2f).setEase(LeanTweenType.easeOutExpo);
@@ -3402,6 +3407,24 @@ public class LevelManager : MonoBehaviour
 	{
 		GameObject effect = Instantiate(TNTEffect, obj.transform.position, Quaternion.identity) as GameObject;
 		Destroy(effect, 2);
+	}
+
+	public void CollectShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(collectParticle, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void BubbleShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(bubbleParticle, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void CubeIdleShow(GameObject obj,int _color)
+	{
+		GameObject effect = Instantiate(CubesIdleParticles[_color], obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 3.1f);
 	}
 
     public void PopupScore(int value, Vector3 pos, int color)
