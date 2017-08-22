@@ -41,6 +41,7 @@ public class Item : MonoBehaviour
     public SpriteRenderer sprRenderer;
 	public SpriteRenderer symRenderer;
 	public GameObject shineRenderer;
+	public GameObject bombWick;
 
 	public Color[] bombBackColors;
 
@@ -145,6 +146,10 @@ public class Item : MonoBehaviour
 
 	public void displaySymbols(SymbolsTypes _type)
 	{
+		if (square.type == SquareTypes.WIREBLOCK) {
+			symRenderer.gameObject.SetActive (false);
+			return;
+		}
 		if (currentType == ItemsTypes.NONE) {
 			symRenderer.gameObject.SetActive (true);	
 			symRenderer.sortingOrder = sprRenderer.sortingOrder + 1;
@@ -177,6 +182,8 @@ public class Item : MonoBehaviour
         int col = square.col;
 
 		isFreezeObject = square.type == SquareTypes.WIREBLOCK;
+
+
 			
 
         List<int> remainColors = new List<int>();
@@ -265,6 +272,8 @@ public class Item : MonoBehaviour
         LevelManager.THIS.lastRandColor = randColor;
 
 
+		if (sprRenderer == null)
+			return;
 
         sprRenderer.sprite = items[randColor];
 		if (NextType == ItemsTypes.HORIZONTAL_STRIPPED)
@@ -272,8 +281,10 @@ public class Item : MonoBehaviour
 			sprRenderer.sprite = powerUpsItems [0];
 		else if (NextType == ItemsTypes.VERTICAL_STRIPPED) {
 			sprRenderer.sprite = powerUpsItems [1];
-		} else if (NextType == ItemsTypes.PACKAGE)
-			sprRenderer.sprite = powerUpsItems [2];
+		} else if (NextType == ItemsTypes.PACKAGE) {
+			sprRenderer.sprite = powerUpsItems [4];
+			addBombWick ();
+		}
 		else if (NextType == ItemsTypes.BOMB) {
 			sprRenderer.sprite = bombItems [lastColor];
 			setBombShine ();
@@ -358,7 +369,7 @@ public class Item : MonoBehaviour
 			}
 			COLOR = _color-1;
 			COLORView = _color-1;
-			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [_color-1];
+			sprRenderer.sprite = LevelManager.THIS.TimeBombPrefabPrefabs [LevelManager.THIS.getExpectedColor()];
 			currentType = ItemsTypes.TIME_BOMB;
 			//itemText.gameObject.SendMessage ("OnEnable");
 			timeBombCount = 5;
@@ -378,6 +389,20 @@ public class Item : MonoBehaviour
 
     }
 
+
+	void addBombWick()
+	{
+		bombWick = (GameObject)Instantiate (Resources.Load ("Prefabs/wick"),transform);
+		bombWick.transform.localPosition = new Vector3 (0.4128494f,0.589056f,0);
+	}
+
+	void activateBombWick()
+	{
+		if (bombWick != null) {
+			LeanTween.moveLocal (bombWick, new Vector3 (0.27f,0.245f,0), 0.3f);
+			LeanTween.rotateZ (bombWick, -88.71f, 0.3f);
+		}
+	}
 
 	void setDepth()
 	{
@@ -679,7 +704,11 @@ public class Item : MonoBehaviour
 	IEnumerator onBombEffects(ItemsTypes _type)
 	{
 		Debug.Log ("onBombEffects");
+		//LeanTween.rotateZ (sprRenderer.gameObject, 360f, 0.5f).setLoopType (LeanTweenType.linear);
 		LevelManager.THIS.particleEffectIsNow = true;
+
+		LevelManager.THIS.CubeIdleShow (gameObject,lastColor);
+
 		List<Item> _items = new List<Item> ();
 		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
 		foreach (GameObject item in items)
@@ -1052,7 +1081,7 @@ public class Item : MonoBehaviour
 					item.destroyDelay += 0.2f;
 				}
 				if (item.currentType == ItemsTypes.VERTICAL_STRIPPED) {
-					item.destroyDelay += 0.3f;
+					item.destroyDelay += 0.7f;
 				}
 			}
 		}
@@ -1178,6 +1207,8 @@ public class Item : MonoBehaviour
 
 	IEnumerator tntShake()
 	{
+		activateBombWick ();
+		yield return new WaitForSeconds (0.3f);
 		LeanTween.scale (gameObject, new Vector3 (0.8f, 0.8f, 0.8f), 0.7f);
 		bool right = false;
 		while (transform.localScale.x < 0.8f) {
@@ -1381,8 +1412,10 @@ public class Item : MonoBehaviour
 			sprRenderer.sprite = powerUpsItems [0];
 		else if (NextType == ItemsTypes.VERTICAL_STRIPPED)
 			sprRenderer.sprite = powerUpsItems [1];
-		else if (NextType == ItemsTypes.PACKAGE)
-			sprRenderer.sprite = powerUpsItems [2];
+		else if (NextType == ItemsTypes.PACKAGE) {
+			sprRenderer.sprite = powerUpsItems [4];
+			addBombWick ();
+		}
 		else if (NextType == ItemsTypes.BOMB) {
 			Debug.Log ("bomb color = "+lastColor);
 			sprRenderer.sprite = bombItems [lastColor];
@@ -1484,7 +1517,7 @@ public class Item : MonoBehaviour
 			if (LevelManager.THIS.blocksCount [3] < 0) {
 				LevelManager.THIS.blocksCount [3] = 0;
 			} else {
-				LevelManager.THIS.animateDownBlocks (square.gameObject, LevelManager.THIS.blocksSprites [3], SquareTypes.DOUBLEBLOCK);
+				LevelManager.THIS.animateDownBlocks (square.gameObject, LevelManager.THIS.TimeBombPrefabPrefabs [0], SquareTypes.DOUBLEBLOCK);
 			}
 		}
 
@@ -1500,7 +1533,7 @@ public class Item : MonoBehaviour
 			} else {
 				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [6], SquareTypes.UNDESTROYABLE);
 			}
-
+			LevelManager.THIS.PinataShow (gameObject);
 		}
 		destroyNearColorCubes ();
 
@@ -1549,11 +1582,11 @@ public class Item : MonoBehaviour
 				if (_sq.type == SquareTypes.COLOR_CUBE) {
 					if (_sq.colorCube == color) {
 						//LevelManager.THIS.TargetBlocks--;
-						LevelManager.THIS.blocksCount[2]--;
+						/*LevelManager.THIS.blocksCount[2]--;
 						if (LevelManager.THIS.blocksCount [2] < 0) {
 							LevelManager.THIS.blocksCount [2] = 0;
-						}
-						LevelManager.THIS.animateDownBlocks (_sq.gameObject, LevelManager.THIS.blocksSprites [2], SquareTypes.COLOR_CUBE);
+						}*/
+						//LevelManager.THIS.animateDownBlocks (_sq.gameObject, LevelManager.THIS.blocksSprites [2], SquareTypes.COLOR_CUBE);
 						_sq.DestroyBlock ();
 					}
 
@@ -1617,10 +1650,10 @@ public class Item : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
 
             GameObject partcl = Instantiate(Resources.Load("Prefabs/Effects/Firework"), transform.position, Quaternion.identity) as GameObject;
-			if (color < 6) partcl.GetComponent<ParticleSystem>().startColor = LevelManager.THIS.scoresColors[color];
+			//if (color < 6) partcl.GetComponent<ParticleSystem>().startColor = LevelManager.THIS.scoresColors[color];
             Destroy(partcl, 1f);
         }
-        else if (currentType != ItemsTypes.INGREDIENT && currentType != ItemsTypes.BOMB)
+		else if (currentType != ItemsTypes.INGREDIENT && currentType != ItemsTypes.BOMB && currentType != ItemsTypes.MONEY_BOX)
         {
             /*PlayDestroyAnimation("destroy");
             // GameObject partcl = Instantiate(Resources.Load("Prefabs/Effects/ItemExpl"), transform.position, Quaternion.identity) as GameObject;

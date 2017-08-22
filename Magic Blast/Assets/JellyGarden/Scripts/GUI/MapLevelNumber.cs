@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class MapLevelNumber : MonoBehaviour {
     
@@ -10,7 +11,7 @@ public class MapLevelNumber : MonoBehaviour {
         //renderer.sortingOrder = 2;
         int num = int.Parse( transform.parent.parent.name.Replace( "Level", "" ) );
         //GetComponent<TextMesh>().text = "" + num;
-        GetComponent<Text>().text = "" + num;
+		GetComponent<TextMeshPro>().text = "" + num;
       //  if( num >= 10 ) transform.position += Vector3.left * 0.05f;
    //     if( num == 1 || num == 11 ) transform.position -= Vector3.right * 0.05f;
 	}

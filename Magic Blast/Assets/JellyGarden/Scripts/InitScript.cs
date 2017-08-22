@@ -577,6 +577,7 @@ public class InitScript : MonoBehaviour
 
     public void OnLevelClicked(object sender, LevelReachedEventArgs args)
     {
+		Debug.Log ("click");
         if (EventSystem.current.IsPointerOverGameObject(-1))
             return;
         if (!GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.activeSelf && !GameObject.Find("CanvasGlobal").transform.Find("GemsShop").gameObject.activeSelf && !GameObject.Find("CanvasGlobal").transform.Find("LiveShop").gameObject.activeSelf)
@@ -586,9 +587,17 @@ public class InitScript : MonoBehaviour
             LevelManager.THIS.LoadLevel();
             openLevel = args.Number;
             //  currentTarget = targets[args.Number];
-            GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.SetActive(true);
+            
+			
+			StartCoroutine (loadLevelInfo());
         }
     }
+
+	IEnumerator loadLevelInfo()
+	{
+		yield return new WaitForSeconds (0.1f);
+		GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.SetActive(true);
+	}
 
 	public void onOpenTournamentLeaderboard()
 	{

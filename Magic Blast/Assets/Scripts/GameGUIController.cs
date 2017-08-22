@@ -101,6 +101,16 @@ public class GameGUIController : MonoBehaviour {
 			go.SetActive (false);
 		}
 		generateLevelMap ();
+		checkTresuareHuntReward ();
+	}
+
+	void checkTresuareHuntReward()
+	{
+		int curLevel = PlayerPrefs.GetInt ("currentTresuareHuntLevel");
+		if (curLevel > 10) {
+			GameObject _tresuareHuntPopup = GameObject.Find ("CanvasGlobal").transform.Find ("TreasureHuntReward").gameObject;
+			_tresuareHuntPopup.SetActive (true);
+		}
 	}
 
 	public void backFromTresuareHuntChallenge()

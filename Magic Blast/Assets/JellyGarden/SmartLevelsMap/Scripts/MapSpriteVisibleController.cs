@@ -12,13 +12,13 @@ public class MapSpriteVisibleController : MonoBehaviour {
 
 	void Start () {
 		_sprite = gameObject.GetComponent <SpriteRenderer>();
-		_defaultSprite = Resources.Load<Sprite> ("MapSprites/map_background_01");
+		_defaultSprite = Resources.Load<Sprite> ("MapSprites/Background/Worldmap 1");
 	}
 	
 
 
-	void OnBecameVisible() {
-		_sprite.sprite = Resources.Load<Sprite> ("MapSprites/" + _spriteName);
+	/*void OnBecameVisible() {
+		_sprite.sprite = Resources.Load<Sprite> ("MapSprites/Background/" + _spriteName);
 	}
 
 	void OnBecameInvisible() {
@@ -26,5 +26,5 @@ public class MapSpriteVisibleController : MonoBehaviour {
 		_sprite.sprite = _defaultSprite;
 		Resources.UnloadUnusedAssets ();
 		//System.GC.Collect ();
-	}
+	}*/
 }

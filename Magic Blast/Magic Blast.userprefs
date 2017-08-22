@@ -1,14 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JellyGarden/Scripts/Item.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JellyGarden/SmartLevelsMap/Scripts/LevelsMap.cs">
     <Files>
-      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="936" Column="19" />
-      <File FileName="Assets/JellyGarden/Scripts/Square.cs" Line="302" Column="25" />
-      <File FileName="Assets/Scripts/MoveLocalForward.cs" Line="1" Column="1" />
-      <File FileName="Assets/FORGE3D/Sci-Fi Effects/Code/F3DBeam.cs" Line="1" Column="1" />
-      <File FileName="Assets/JellyGarden/Scripts/Item.cs" Line="1647" Column="26" />
-      <File FileName="Assets/Scripts/RotorTNTEffect.cs" Line="38" Column="66" />
-      <File FileName="Assets/JellyGarden/Scripts/GUI/Counter_.cs" Line="158" Column="5" />
+      <File FileName="Assets/Scripts/DeviceOrientationController.cs" Line="65" Column="39" />
+      <File FileName="Assets/JellyGarden/Scripts/InitScript.cs" Line="613" Column="28" />
+      <File FileName="Assets/JellyGarden/Scripts/UnityInAppsIntegration.cs" Line="1" Column="1" />
+      <File FileName="Assets/JellyGarden/Scripts/Item.cs" Line="1520" Column="103" />
+      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="1375" Column="27" />
+      <File FileName="Assets/JellyGarden/Scripts/Square.cs" Line="311" Column="31" />
+      <File FileName="Assets/JellyGarden/Scripts/MenuPlayController.cs" Line="1" Column="1" />
+      <File FileName="Assets/JellyGarden/Scripts/GUI/PrePlay.cs" Line="70" Column="62" />
+      <File FileName="Assets/ExaGames/Common/LivesManager/Scripts/LivesManager.cs" Line="62" Column="40" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/MapLevel.cs" Line="40" Column="35" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/LevelsMap.cs" Line="104" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

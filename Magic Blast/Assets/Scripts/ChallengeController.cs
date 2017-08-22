@@ -45,7 +45,7 @@ public class ChallengeController : MonoBehaviour {
 	public ChallengeType getCurrentChallenge()
 	{
 		//return _currentType;
-		return ChallengeType.TreeClimbChallenge;
+		return ChallengeType.TreasureHuntChallenge;
 	}
 
 	public ChallengeState getCurrentState()
@@ -126,6 +126,8 @@ public class ChallengeController : MonoBehaviour {
 		if (getCurrentChallenge () != ChallengeType.StarTournament) {
 			getTournamentReward ();
 		}
+		//GameObject _tresuareHuntPopup = GameObject.Find ("CanvasGlobal").transform.Find ("TreasureHuntReward").gameObject;
+		//PopupManager.instanse.showPopup (_tresuareHuntPopup);
 	}
 
 	public void resetTreeClambLevelPoint()
@@ -165,7 +167,7 @@ public class ChallengeController : MonoBehaviour {
 		if (getCurrentChallenge () == ChallengeType.StarTournament) {
 			tournamentBtn.SetActive (true);
 		}
-		if (getCurrentChallenge () == ChallengeType.TreasureHuntChallenge) {
+		if (getCurrentChallenge () == ChallengeType.TreasureHuntChallenge && PlayerPrefs.GetInt ("currentTresuareHuntLevel") <= 10) {
 			TreasureHuntBtn.SetActive (true);
 		}
 		if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge && PlayerPrefs.GetInt ("currentTreeClambLevel") <= 5) {

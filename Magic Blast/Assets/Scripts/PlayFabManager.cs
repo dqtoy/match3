@@ -35,6 +35,7 @@ public class PlayFabManager : MonoBehaviour {
 
 	void Awake()
 	{
+		Application.targetFrameRate = 60;
 		instanse = this;
 		DontDestroyOnLoad (gameObject);
 	}
@@ -95,6 +96,7 @@ public class PlayFabManager : MonoBehaviour {
 			Debug.Log("Error logging in player with custom ID:");
 			Debug.Log(error.ErrorMessage);
 			Debug.Log(error.ErrorDetails);
+				loadMenu();
 		});
 	}
 

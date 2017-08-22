@@ -14,15 +14,65 @@ public class PreFailed : MonoBehaviour
 	void OnEnable ()
 	{
 		FailedCost = LevelManager.THIS.FailedCost;
-		transform.Find ("Buy/Price").GetComponent<Text> ().text = "" + FailedCost;
-		if (LevelManager.THIS.limitType == LIMIT.MOVES)
-			buyButton.sprite = buyButtons [0];
-		else if (LevelManager.THIS.limitType == LIMIT.TIME)
-			buyButton.sprite = buyButtons [1];
+		//transform.Find ("Buy/Price").GetComponent<Text> ().text = "" + FailedCost;
+		//if (LevelManager.THIS.limitType == LIMIT.MOVES)
+			//buyButton.sprite = buyButtons [0];
+		//else if (LevelManager.THIS.limitType == LIMIT.TIME)
+			//buyButton.sprite = buyButtons [1];
 		if (!LevelManager.THIS.enableInApps)
 			transform.Find ("Buy").gameObject.SetActive (false);
 		
-		SetTargets ();
+		//SetTargets ();
+		StartCoroutine(animatePopup());
+	}
+
+	IEnumerator animatePopup()
+	{
+		transform.localPosition = new Vector3 (-1000f,0,0);
+		yield return new WaitForSeconds (0.3f);
+		LeanTween.moveLocalX (gameObject, 0, 1.2f).setEaseOutExpo ();
+	}
+
+	IEnumerator animatePopupOut()
+	{
+		LeanTween.moveLocalX (gameObject, 1000, 0.7f).setEaseInExpo ();
+		yield return new WaitForSeconds (0.8f);
+		if (LevelManager.THIS.Limit <= 0)
+			LevelManager.THIS.gameStatus = GameState.GameOver;
+
+		gameObject.SetActive (false);
+	}
+
+	public void BuyFailed(GameObject button)
+	{
+		
+		if (InitScript.Gems >= int.Parse(button.transform.Find("Price").GetComponent<Text>().text))
+		{
+			InitScript.Instance.SpendGems(int.Parse(button.transform.Find("Price").GetComponent<Text>().text));
+			//button.GetComponent<Button>().interactable = false;
+			GoOnFailed();
+			StartCoroutine(animatePopupOut());
+		}
+		else
+		{
+			GameObject.Find("CanvasGlobal").transform.Find("GemsShop").gameObject.SetActive(true);
+		}
+		
+	}
+
+	public void GiveUp()
+	{
+		StartCoroutine(animatePopupOut());
+	}
+
+	public void GoOnFailed()
+	{
+		if (LevelManager.THIS.limitType == LIMIT.MOVES)
+			LevelManager.THIS.Limit += LevelManager.THIS.ExtraFailedMoves;
+		else
+			LevelManager.THIS.Limit += LevelManager.THIS.ExtraFailedSecs;
+		
+		LevelManager.THIS.gameStatus = GameState.Playing;
 	}
 
 	void SetTargets ()

@@ -10,6 +10,8 @@ public class MapLevel : MonoBehaviour
     public int Number;
     public bool IsLocked;
     public Transform Lock;
+	public Transform startsBack;
+	public Transform levelNumber;
     public Transform PathPivot;
     public Object LevelScene;
     public string SceneName;
@@ -82,10 +84,13 @@ public class MapLevel : MonoBehaviour
 
     public void UpdateState(int starsCount, bool isLocked)
     {
+		//isLocked = false;
         StarsCount = starsCount;
         UpdateStars(starsCount);
         IsLocked = isLocked;
         Lock.gameObject.SetActive(isLocked);
+		startsBack.gameObject.SetActive (!isLocked);
+		//levelNumber.gameObject.SetActive (!isLocked);
     }
 
     public void UpdateStars(int starsCount)

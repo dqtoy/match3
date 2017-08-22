@@ -170,6 +170,16 @@ public class LevelManager : MonoBehaviour
     public GameObject star2Anim;
     public GameObject star3Anim;
     public GameObject snowParticle;
+	public GameObject collectParticle;
+	public GameObject bubbleParticle;
+	public GameObject pinataParticle;
+	public GameObject [] CubesIdleParticles;
+	public GameObject [] ColorShieldParticles;
+	public GameObject [] ChainShieldParticles;
+
+	public GameObject SimpleShieldParticles;
+	public GameObject SolidChainParticles;
+	public GameObject IceParticles;
 
 	public GameObject [] destroyCubeParticles;
 
@@ -421,9 +431,8 @@ public class LevelManager : MonoBehaviour
         if (enable)
         {
             float aspect = (float)Screen.height / (float)Screen.width;
-            GetComponent<Camera>().orthographicSize = 5.3f;
 
-			GetComponent<Camera> ().orthographicSize = 3.9f * aspect;
+			GetComponent<Camera> ().orthographicSize = 4.3f * aspect;
 			// commit
             GetComponent<Camera>().GetComponent<MapCamera>().SetPosition(new Vector2(0, GetComponent<Camera>().transform.position.y));
 
@@ -434,7 +443,17 @@ public class LevelManager : MonoBehaviour
 
             LevelManager.THIS.latstMatchColor = -1;
 
-            GetComponent<Camera>().orthographicSize = 6.5f;
+			float aspect = (float)Screen.height / (float)Screen.width;
+
+			if (DeviceOrientationController.instanse.getCurrentOrientaion () == DevideOr.Portrait) {
+				GetComponent<Camera> ().orthographicSize = 4.3f * aspect;
+			} else {
+				GetComponent<Camera> ().orthographicSize = 6.5f * aspect;
+			}
+
+
+
+            //GetComponent<Camera>().orthographicSize = 7f;
             GameObject.Find("CanvasGlobal").GetComponent<GraphicRaycaster>().enabled = false;
             GameObject.Find("CanvasGlobal").GetComponent<GraphicRaycaster>().enabled = true;
             Level.transform.Find("Canvas").GetComponent<GraphicRaycaster>().enabled = false;
@@ -473,6 +492,11 @@ public class LevelManager : MonoBehaviour
 		}
     }
 
+	void Awake()
+	{
+		THIS = this;
+	}
+
     // Use this for initialization
     void Start()
     {
@@ -485,7 +509,7 @@ public class LevelManager : MonoBehaviour
 
         gameObject.AddComponent<UnityInAppsIntegration>();
 #endif
-        THIS = this;
+        
         Instance = this;
         if (!LevelManager.THIS.enableInApps)
             GameObject.Find("Gems").gameObject.SetActive(false);
@@ -531,7 +555,7 @@ public class LevelManager : MonoBehaviour
         }
         //InitTargets();
         GameField.gameObject.SetActive(true);
-		Invoke ("calculateSymbols",0.3f);
+		Invoke ("calculateSymbols",0.5f);
     }
 
     void InitTargets()
@@ -1020,7 +1044,7 @@ public class LevelManager : MonoBehaviour
 										item.transform.position = _item.transform.position;
 										item.transform.localScale = Vector3.one / 2f;
 										SpriteRenderer spr = item.AddComponent<SpriteRenderer>();
-										spr.sprite = _item.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+										spr.sprite = _item.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite;
 										spr.sortingLayerName = "UI";
 										spr.sortingOrder = 1;
 
@@ -1114,10 +1138,10 @@ public class LevelManager : MonoBehaviour
 					GameObject item = new GameObject();
 					item.transform.position = _block.transform.position;
 					if (_type == SquareTypes.BEACH_BALLS) {
-						item.transform.localScale = Vector3.one / 7f;
+						item.transform.localScale = Vector3.one / 2f;
 					}
 					if (_type == SquareTypes.COLOR_CUBE) {
-						item.transform.localScale = Vector3.one / 10f;
+						item.transform.localScale = Vector3.one / 1f;
 					}
 					if (_type == SquareTypes.DOUBLEBLOCK) {
 						item.transform.localScale = Vector3.one / 2.5f;
@@ -1346,8 +1370,10 @@ public class LevelManager : MonoBehaviour
                 lose = true;
 
             }
-            if (lose)
-                gameStatus = GameState.PreFailed;
+			if (lose) {
+				gameStatus = GameState.PreFailed;
+				isBombTimeOut = false;
+			}
             else if (LevelManager.Score >= LevelManager.THIS.star1 && LevelManager.THIS.target == Target.SCORE)
             {
                 gameStatus = GameState.PreWinAnimations;
@@ -1452,6 +1478,10 @@ public class LevelManager : MonoBehaviour
         GameObject.Find("Canvas").transform.Find("PreCompleteBanner").gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
         GameObject.Find("Canvas").transform.Find("PreCompleteBanner").gameObject.SetActive(false);
+
+		if (stars < 0) {
+			stars = 1;
+		}
 
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
 			ChallengeController.instanse.upClambLevel ();
@@ -1717,7 +1747,7 @@ public class LevelManager : MonoBehaviour
 			block.GetComponent <SpriteRenderer>().sortingOrder = 100;
             square.GetComponent<Square>().block.Add(block);
             square.GetComponent<Square>().type = SquareTypes.BLOCK;
-
+			square.GetComponent<Square>().additiveType = SquareTypes.BLOCK;
             // TargetBlocks++;
             CreateObstacles(col, row, square, SquareTypes.NONE);
         }
@@ -1986,7 +2016,7 @@ public class LevelManager : MonoBehaviour
 
             square.GetComponent<Square>().block.Add(block);
             square.GetComponent<Square>().type = SquareTypes.WIREBLOCK;
-			int addedDeph = 10 - row;
+			int addedDeph = 10 - row ;
 			block.GetComponent<SpriteRenderer>().sortingOrder =2 + addedDeph;
             //   TargetBlocks++;
         }
@@ -2022,8 +2052,10 @@ public class LevelManager : MonoBehaviour
 			int addedDeph = 10 - row;
 			block.GetComponent<SpriteRenderer>().sortingOrder =2 + addedDeph;
             //block.GetComponent<SpriteRenderer>().sortingOrder = 3;
-            if (square.GetComponent<Square>().item != null)
-                Destroy(square.GetComponent<Square>().item.gameObject);
+			if (square.GetComponent<Square> ().item != null) {
+				//Destroy (square.GetComponent<Square> ().item.gameObject);
+				block.GetComponent<IceAppear>()._item = square.GetComponent<Square> ().item.gameObject;
+			}
             square.GetComponent<Square>().block.Add(block);
             square.GetComponent<Square>().type = SquareTypes.THRIVING;
 
@@ -2080,7 +2112,7 @@ public class LevelManager : MonoBehaviour
 		{
 			GameObject block = Instantiate(ColorCubePrefabs[colorCube], firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
 			block.transform.SetParent(square.transform);
-			block.transform.localPosition = new Vector3(0, 0, -0.5f);
+			block.transform.localPosition = new Vector3(0, 0, 0);
 			square.GetComponent<Square>().block.Add(block);
 			int addedDeph = 10 - row;
 			block.GetComponent<SpriteRenderer>().sortingOrder =2 + addedDeph;
@@ -2106,11 +2138,14 @@ public class LevelManager : MonoBehaviour
 			block.GetComponent<SpriteRenderer>().sortingOrder =20 + addedDeph;
 		}
 		if (_square.type == SquareTypes.BLOCK) {
-			GameObject block = Instantiate(blockPrefab, firstSquarePosition + new Vector2(_square.col * squareWidth, -_square.row * squareHeight), Quaternion.identity) as GameObject;
-			block.transform.SetParent(_square.transform);
-			block.transform.localPosition = new Vector3(0, 0, -0.01f);
-			block.GetComponent <SpriteRenderer>().sortingOrder = 100;
-			_square.GetComponent<Square>().block.Add(block);
+			if (_square.GetComponent<Square> ().block.Count < 1) {
+				GameObject block = Instantiate(blockPrefab, firstSquarePosition + new Vector2(_square.col * squareWidth, -_square.row * squareHeight), Quaternion.identity) as GameObject;
+				block.transform.SetParent(_square.transform);
+				block.transform.localPosition = new Vector3(0, 0, -0.01f);
+				block.GetComponent <SpriteRenderer>().sortingOrder = 100;
+				_square.GetComponent<Square>().block.Add(block);
+			}
+
 			_square.GetComponent<Square>().type = SquareTypes.BLOCK;
 		}
 	}
@@ -2649,6 +2684,13 @@ public class LevelManager : MonoBehaviour
     }
 
 
+	IEnumerator collectionChecking()
+	{
+		particleEffectIsNow = true;
+		yield return new WaitForSeconds (0.7f);
+		particleEffectIsNow = false;
+	}
+
 	IEnumerator FallingDown(List<Item> tempItem = null)
     {
         bool nearEmptySquareDetected = false;
@@ -2709,6 +2751,7 @@ public class LevelManager : MonoBehaviour
 			if (lastDraggedItem != null) {
 				if (tempItem != null) {
 					if (tempItem.Count >= 5) {
+						StartCoroutine (collectionChecking());
 						GameObject _parent = new GameObject ();
 						_parent.transform.position = lastDraggedItem.transform.position;
 						foreach(Item _t in tempItem)
@@ -2720,11 +2763,13 @@ public class LevelManager : MonoBehaviour
 						}
 						LeanTween.scale(_parent,new Vector3(1.1f,1.1f,1f),0.2f).setEase(LeanTweenType.easeInExpo);
 						yield return new WaitForSeconds (0.2f);
+						CollectShow (lastDraggedItem.gameObject);
 						foreach(Item _t in tempItem)
 						{
 							if (_t != lastDraggedItem) {
 								LeanTween.cancel (_t.gameObject);
-								LeanTween.move(_t.gameObject,lastDraggedItem.transform.position,0.2f).setEase(LeanTweenType.easeInExpo);
+								LeanTween.move(_t.gameObject,lastDraggedItem.transform.position,0.3f).setEase(LeanTweenType.easeOutExpo);
+								LeanTween.scale(_t.gameObject,new Vector3(0.5f,0.5f,0.5f),0.4f).setEase(LeanTweenType.easeOutExpo);
 							}
 						}
 						//LeanTween.scale(_parent,new Vector3(1f,1f,1f),0.2f).setEase(LeanTweenType.easeOutExpo);
@@ -3404,6 +3449,64 @@ public class LevelManager : MonoBehaviour
 		Destroy(effect, 2);
 	}
 
+	public void CollectShow(GameObject obj)
+	{
+		if (obj == null)
+			return;
+		GameObject effect = Instantiate(collectParticle, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void SolidChainShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(SolidChainParticles, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void IceShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(IceParticles, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void SimpleShieldShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(SimpleShieldParticles, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void BubbleShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(bubbleParticle, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void PinataShow(GameObject obj)
+	{
+		GameObject effect = Instantiate(pinataParticle, obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 2);
+	}
+
+	public void CubeIdleShow(GameObject obj,int _color)
+	{
+		GameObject effect = Instantiate(CubesIdleParticles[_color], obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 3.1f);
+	}
+
+	public void ColorShieldParticlesShow(GameObject obj,int _color)
+	{
+		GameObject effect = Instantiate(ColorShieldParticles[_color], obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 3.1f);
+	}
+
+	public void ColorChainParticlesShow(GameObject obj,int _state)
+	{
+		if (_state < 0 || _state >= ChainShieldParticles.Length)
+			return;
+		GameObject effect = Instantiate(ChainShieldParticles[_state], obj.transform.position, Quaternion.identity) as GameObject;
+		Destroy(effect, 3.1f);
+	}
+
     public void PopupScore(int value, Vector3 pos, int color)
     {
         Score += value;
@@ -3615,6 +3718,17 @@ public class LevelManager : MonoBehaviour
 		dontIncludeInGoalTarget1 = SquareTypes.NONE;
 		dontIncludeInGoalTarget2 = SquareTypes.NONE;
 		dontIncludeInGoalTarget3 = SquareTypes.NONE;
+
+		squareTypes [0] = SquareTypes.NONE;
+		squareTypes [1] = SquareTypes.NONE;
+		squareTypes [2] = SquareTypes.NONE;
+		squareTypes [3] = SquareTypes.NONE;
+		squareTypes [4] = SquareTypes.NONE;
+		squareTypes [5] = SquareTypes.NONE;
+		squareTypes [6] = SquareTypes.NONE;
+		squareTypes [7] = SquareTypes.NONE;
+		squareTypes [8] = SquareTypes.NONE;
+		squareTypes [9] = SquareTypes.NONE;
 
         string[] lines = mapText.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
 

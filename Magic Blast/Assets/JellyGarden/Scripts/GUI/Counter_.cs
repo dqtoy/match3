@@ -44,8 +44,8 @@ public class Counter_ : MonoBehaviour
 				txt.text = "" + LevelManager.THIS.Limit;
 				txt.transform.localScale = Vector3.one;
 				if (LevelManager.THIS.Limit <= 5) {
-					txt.color = new Color (216f / 255f, 0, 0);
-					txt.GetComponent<Outline> ().effectColor = Color.white;
+					//txt.color = new Color (216f / 255f, 0, 0);
+					//txt.GetComponent<Outline> ().effectColor = Color.white;
 					if (!alert) {
 						alert = true;
 						SoundBase.Instance.GetComponent<AudioSource> ().PlayOneShot (SoundBase.Instance.alert);
@@ -53,8 +53,8 @@ public class Counter_ : MonoBehaviour
 
 				} else {
 					alert = false;
-					txt.color = Color.white;
-					txt.GetComponent<Outline> ().effectColor = new Color (148f / 255f, 61f / 255f, 95f / 255f);
+					//txt.color = Color.white;
+					//txt.GetComponent<Outline> ().effectColor = new Color (148f / 255f, 61f / 255f, 95f / 255f);
 				}
 
 			} else {
@@ -72,7 +72,7 @@ public class Counter_ : MonoBehaviour
 
 				} else {
 					txt.color = Color.white;
-					txt.GetComponent<Outline> ().effectColor = new Color (148f / 255f, 61f / 255f, 95f / 255f);
+					//txt.GetComponent<Outline> ().effectColor = new Color (148f / 255f, 61f / 255f, 95f / 255f);
 				}
 
 			}
@@ -200,13 +200,13 @@ public class Counter_ : MonoBehaviour
 		}
 
 		if (name == "Gems") {
-			txt.text = "" + InitScript.Gems;
+			//txt.text = "" + InitScript.Gems;
 		}
 		if (name == "TargetScore") {
 			txt.text = "" + LevelManager.THIS.star1;
 		}
 		if (name == "Level") {
-			txt.text = "" + PlayerPrefs.GetInt ("OpenLevel");
+			txt.text = "Level " + PlayerPrefs.GetInt ("OpenLevel");
 		}
 		if (name == "TargetDescription1") {
 			if (LevelManager.THIS.target == Target.SCORE)
