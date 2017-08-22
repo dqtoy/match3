@@ -245,10 +245,10 @@ public class AnimationManager : MonoBehaviour
 
     void TargetCheck(bool check, int n = 1)
     {
-        Transform TargetCheck = transform.Find("Image/TargetCheck" + n);
-        Transform TargetUnCheck = transform.Find("Image/TargetUnCheck" + n);
-        TargetCheck.gameObject.SetActive(check);
-        TargetUnCheck.gameObject.SetActive(!check);
+        //Transform TargetCheck = transform.Find("Image/TargetCheck" + n);
+        //Transform TargetUnCheck = transform.Find("Image/TargetUnCheck" + n);
+        //TargetCheck.gameObject.SetActive(check);
+        //TargetUnCheck.gameObject.SetActive(!check);
     }
 
     public void WaitForGiveUp()

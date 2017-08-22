@@ -1,22 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ChallengeController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JellyGarden/SmartLevelsMap/Scripts/LevelsMap.cs">
     <Files>
-      <File FileName="Assets/Scripts/ChallengeController.cs" Line="130" Column="5" />
-      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="2724" Column="46" />
-      <File FileName="Assets/JellyGarden/Scripts/Square.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/MoveLocalForward.cs" Line="1" Column="1" />
-      <File FileName="Assets/FORGE3D/Sci-Fi Effects/Code/F3DBeam.cs" Line="1" Column="1" />
-      <File FileName="Assets/JellyGarden/Scripts/Item.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/RotorTNTEffect.cs" Line="1" Column="1" />
-      <File FileName="Assets/JellyGarden/Scripts/GUI/Counter_.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/GameGUIController.cs" Line="111" Column="118" />
-      <File FileName="Assets/Scripts/TreasureHuntChallengeRewardController.cs" Line="20" Column="3" />
-      <File FileName="Assets/Scripts/TreeClambRewardController.cs" Line="25" Column="87" />
-      <File FileName="Assets/ExaGames/Common/LivesManager/Scripts/LivesManager.cs" Line="148" Column="3" />
-      <File FileName="Assets/Scripts/LifeManagerUIController.cs" Line="23" Column="28" />
-      <File FileName="Assets/Scripts/TournamentRewardController.cs" Line="37" Column="3" />
-      <File FileName="Assets/JellyGarden/Scripts/InitScript.cs" Line="521" Column="5" />
+      <File FileName="Assets/Scripts/DeviceOrientationController.cs" Line="65" Column="39" />
+      <File FileName="Assets/JellyGarden/Scripts/InitScript.cs" Line="613" Column="28" />
+      <File FileName="Assets/JellyGarden/Scripts/UnityInAppsIntegration.cs" Line="1" Column="1" />
+      <File FileName="Assets/JellyGarden/Scripts/Item.cs" Line="1520" Column="103" />
+      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="1375" Column="27" />
+      <File FileName="Assets/JellyGarden/Scripts/Square.cs" Line="311" Column="31" />
+      <File FileName="Assets/JellyGarden/Scripts/MenuPlayController.cs" Line="1" Column="1" />
+      <File FileName="Assets/JellyGarden/Scripts/GUI/PrePlay.cs" Line="70" Column="62" />
+      <File FileName="Assets/ExaGames/Common/LivesManager/Scripts/LivesManager.cs" Line="62" Column="40" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/MapLevel.cs" Line="40" Column="35" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/LevelsMap.cs" Line="104" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

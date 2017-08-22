@@ -8,6 +8,14 @@ public class BoostIcon : MonoBehaviour
 	public BoostType type;
 	bool check;
 
+	private GameObject _plus;
+
+
+	void Awake()
+	{
+		
+	}
+
 	void OnEnable ()
 	{
 		if (name != "Main Camera") {
@@ -19,6 +27,7 @@ public class BoostIcon : MonoBehaviour
                     gameObject.SetActive(false);
             }
 		}
+
 	}
 
 	public void ActivateBoost ()
@@ -104,7 +113,10 @@ public class BoostIcon : MonoBehaviour
 
 	void ShowPlus (bool show)
 	{
-		transform.Find ("Indicator").Find ("Plus").gameObject.SetActive (show);
+		if (_plus == null) {
+			_plus = transform.Find ("Indicator").Find ("Plus").gameObject;
+		}
+		_plus.SetActive (show);
 	}
 
 

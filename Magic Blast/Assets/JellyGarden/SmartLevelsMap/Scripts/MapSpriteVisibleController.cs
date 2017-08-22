@@ -17,7 +17,7 @@ public class MapSpriteVisibleController : MonoBehaviour {
 	
 
 
-	void OnBecameVisible() {
+	/*void OnBecameVisible() {
 		_sprite.sprite = Resources.Load<Sprite> ("MapSprites/Background/" + _spriteName);
 	}
 
@@ -26,5 +26,5 @@ public class MapSpriteVisibleController : MonoBehaviour {
 		_sprite.sprite = _defaultSprite;
 		Resources.UnloadUnusedAssets ();
 		//System.GC.Collect ();
-	}
+	}*/
 }

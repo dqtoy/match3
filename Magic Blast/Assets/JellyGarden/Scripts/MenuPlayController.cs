@@ -17,7 +17,7 @@ public class MenuPlayController : MonoBehaviour {
 		loadTargetInformation ();
 		checkTreeClamb ();
 
-		//Invoke("loadTargetInformation",0.5f);
+		//Invoke("loadTargetInformation",0.1f);
 	}
 
 	void checkTreeClamb()
@@ -59,12 +59,14 @@ public class MenuPlayController : MonoBehaviour {
 		int count = 0;
 
 		List<Sprite> _spriteList = new List<Sprite> ();
+		List<Vector3> _scaleList = new List<Vector3> ();
 
 
 		if (LevelManager.THIS.beachBallTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
+			_scaleList.Add (new Vector3(250f,250f,27.8f));
 			count++;
-			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+			Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 			counter.connectedArray = new int[1];
 			counter.connectedArray [0] = LevelManager.THIS.beachBallTarget;
 			counter.currentID = 0;
@@ -73,8 +75,9 @@ public class MenuPlayController : MonoBehaviour {
 
 		if (LevelManager.THIS.moneyBoxTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[6]);
+			_scaleList.Add (new Vector3(160f,160f,22.1f));
 			count++;
-			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+			Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 			counter.connectedArray = new int[1];
 			counter.connectedArray [0] = LevelManager.THIS.moneyBoxTarget;
 			counter.currentID = 0;
@@ -83,8 +86,9 @@ public class MenuPlayController : MonoBehaviour {
 
 		if (LevelManager.THIS.timeBombTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[3]);
+			_scaleList.Add (new Vector3(220f,220f,23.8f));
 			count++;
-			Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+			Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 			counter.connectedArray = new int[1];
 			counter.connectedArray [0] = LevelManager.THIS.timeBombTarget;
 			counter.currentID = 0;
@@ -97,8 +101,9 @@ public class MenuPlayController : MonoBehaviour {
 			for (int i = 0; i < LevelManager.THIS.collectItems.Length; i++) {
 				if (LevelManager.THIS.collectItems [i] != CollectItems.None) {
 					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.collectItems[i] + 2]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
-					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.ingrCountTarget;
 					counter.currentID = i;
 				}
@@ -109,8 +114,9 @@ public class MenuPlayController : MonoBehaviour {
 			for (int i = 0; i < LevelManager.THIS.ingrTarget.Length; i++) {
 				if (LevelManager.THIS.ingrTarget [i] != Ingredients.None) {
 					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.ingrTarget[i] + 8]);
+					_scaleList.Add (new Vector3(160f,160f,22.1f));
 					count++;
-					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.toysCount;
 					counter.currentID = i;
 				}
@@ -121,8 +127,9 @@ public class MenuPlayController : MonoBehaviour {
 			for (int i = 0; i < LevelManager.THIS.squareTypes.Length; i++) {
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.BLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[0]);
+					_scaleList.Add (new Vector3(160f,160f,22.1f));
 					count++;
-					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 0;
 				}
@@ -136,8 +143,9 @@ public class MenuPlayController : MonoBehaviour {
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[2]);
+					_scaleList.Add (new Vector3(140f,140f,22.1f));
 					count++;
-					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 2;
 				}
@@ -151,15 +159,18 @@ public class MenuPlayController : MonoBehaviour {
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.SOLIDBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[4]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
-					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 4;
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.THRIVING) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[5]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
-					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					Debug.Log ("count + "+count);
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 5;
 				}
@@ -173,8 +184,9 @@ public class MenuPlayController : MonoBehaviour {
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.WIREBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[7]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
-					Counter_ counter = GameObject.Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 7;
 				}
@@ -189,6 +201,17 @@ public class MenuPlayController : MonoBehaviour {
 		for (int j = 0; j < _spriteList.Count; j++) {
 			ingrList [j].SetActive (true);
 			ingrList [j].GetComponent<Image> ().sprite = _spriteList [j];
+
+			Rect _rect = ingrList [j].GetComponent <RectTransform> ().rect;
+			_rect.size = new Vector2 (_scaleList[j].x,_scaleList[j].y);
+			ingrList [j].GetComponent <RectTransform> ().sizeDelta = new Vector2 (_scaleList[j].x,_scaleList[j].y);
+
+			Vector3 _pos = ingrList [j].GetComponent <RectTransform> ().localPosition;
+			_pos.y = _scaleList[j].z;
+			if (j > 1) {
+				//_pos.y -= 64.9f;
+			}
+			ingrList [j].GetComponent <RectTransform> ().localPosition = _pos;
 		}
 	}
 

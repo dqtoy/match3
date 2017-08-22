@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 31cc43a7b1f0945e896f5ec2bd61d623
+timeCreated: 1502450187
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 45
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Rockwell Extra Bold
+  fontNames:
+  - Rockwell Extra Bold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

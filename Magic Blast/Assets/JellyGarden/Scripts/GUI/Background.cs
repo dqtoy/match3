@@ -13,6 +13,7 @@ public class Background : MonoBehaviour
 			//GetComponent<Image> ().sprite = pictures [(int)((float)LevelManager.Instance.currentLevel / 20f - 0.01f)];
 			int backId = (int)((float)LevelManager.Instance.currentLevel / 20f - 0.01f);
 			backId++;
+			//backId = 1;
 			Debug.Log ("back id = "+backId);
 			GetComponent<Image> ().sprite = Resources.Load<Sprite> ("MapSprites/Background/Worldmap "+backId.ToString());
 		}

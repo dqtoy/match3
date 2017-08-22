@@ -10,13 +10,34 @@ public class PrePlay : MonoBehaviour {
 
 	public GameObject[] targetsIcons;
 
+	public GameObject _girl;
+
 	// Use this for initialization
 	void OnEnable () {
-        InitTargets();
+        //InitTargets();
+		StartCoroutine(animatePopup());
+		Invoke ("InitTargets",0.2f);
+	}
+
+
+	IEnumerator animatePopup()
+	{
+		transform.localPosition = new Vector3 (-1500f,0,0);
+		_girl.GetComponent<RectTransform>().localPosition = new Vector3 (-1030.5f,51f,0);
+		yield return new WaitForSeconds (0.3f);
+		LeanTween.moveLocalX (gameObject, 0, 1.2f).setEaseOutExpo ();
+		yield return new WaitForSeconds (0.7f);
+		LeanTween.moveLocalX (_girl, -230.5f, 1f).setEaseOutExpo ();
+		yield return new WaitForSeconds (1.5f);
+		LeanTween.moveLocalX (gameObject, 1500f, 1f).setEaseInExpo ();
+		yield return new WaitForSeconds (1.1f);
+		LevelManager.THIS.gameStatus = GameState.WaitForPopup;
+		gameObject.SetActive (false);
 	}
 
     void InitTargets()
     {
+		Debug.Log ("init target");
         blocksObject.SetActive(false);
 		ingrObject.SetActive(true);
         scoreTargetObject.SetActive(false);
@@ -46,7 +67,7 @@ public class PrePlay : MonoBehaviour {
 		}
 
 		if (LevelManager.THIS.timeBombTarget > 0) {
-			_spriteList.Add (LevelManager.THIS.blocksSprites[3]);
+			_spriteList.Add (LevelManager.THIS.TimeBombPrefabPrefabs[0]);
 		}
 
 
@@ -76,7 +97,7 @@ public class PrePlay : MonoBehaviour {
 					//_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
-					_spriteList.Add (LevelManager.THIS.blocksSprites[2]);
+					_spriteList.Add (LevelManager.THIS.otherSprites[0]);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.DOUBLEBLOCK) {
 					//_spriteList.Add (LevelManager.THIS.blocksSprites[3]);

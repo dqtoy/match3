@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Alpha Masking\Editor\MaskEditor.cs" />
+     <Compile Include="Assets\ExportAnimations\AECompositionsImporter\Editor\AECompImporterWindow.cs" />
      <Compile Include="Assets\FORGE3D\HelpMenu\Editor\F3DHelpMenu.cs" />
      <Compile Include="Assets\FORGE3D\PoolManager\Editor\F3DPoolManagerEditor.cs" />
      <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Constructor\Editor\F3DTurretConstructorEditor.cs" />
@@ -212,11 +214,13 @@
      <None Include="Assets\JellyGarden\Resources\Levels\71.txt" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle AddSmooth.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\81.txt" />
+     <None Include="Assets\MobileWater\Shaders\MobileWater.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\55.txt" />
      <None Include="Assets\JMO Assets\WarFX\_Effects\MuzzleFlashes\!MuzzleFlash Differences.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\68.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\32.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\57.txt" />
+     <None Include="Assets\MaskedSprite\MaskedSpriteMobile.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\48.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnelDistortion.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -243,18 +247,22 @@
      <None Include="Assets\JellyGarden\Resources\Levels\7.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\100.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\14.txt" />
+     <None Include="Assets\SpriteMask\Sprites-Default-Mask.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\4.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\74.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\5.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\95.txt" />
      <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMaskSolid.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\15.txt" />
+     <None Include="Assets\MaskedSprite\ReadMe.txt" />
      <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito24.fnt" />
+     <None Include="Assets\Alpha Masking\Shaders 2D (Sprites)\Sprites-Alpha-Mask-WorldCoords.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\29.txt" />
      <None Include="Assets\Plugins\readme.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\50.txt" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle Rim AddSmooth.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\16.txt" />
+     <None Include="Assets\Alpha Masking\Shaders 3D\Unlit-Alpha-Mask-WorldCoords.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\37.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\49.txt" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Invert.shader" />
@@ -268,6 +276,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\104.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\56.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\41.txt" />
+     <None Include="Assets\Alpha Masking\README.txt" />
      <None Include="Assets\TextMesh Pro\Fonts\Oswald-Bold - OFL.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\6.txt" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Reflective Alpha.shader" />
@@ -279,6 +288,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\26.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\69.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\21.txt" />
+     <None Include="Assets\MaskedSprite\MaskedSprite.shader" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Docs\Readme.txt" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\98.txt" />
@@ -297,6 +307,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\42.txt" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle Rim AddSmooth 2S.shader" />
      <None Include="Assets\GameSparks\README.txt" />
+     <None Include="Assets\ExportAnimations\AECompositionsImporter\Shaders\OpacityShader.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\27.txt" />
      <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\11.txt" />
@@ -345,6 +356,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\43.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\12.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\92.txt" />
+     <None Include="Assets\MobileWater\ReadMe.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\45.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\77.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\75.txt" />
@@ -484,11 +496,11 @@
  <Reference Include="TextMeshPro-1.0.55.56.0b11-Editor">
  <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/TextMesh Pro/Plugins/Editor/TextMeshPro-1.0.55.56.0b11-Editor.dll</HintPath>
  </Reference>
- <Reference Include="tk2dSkin">
- <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/TK2DROOT/tk2d/Editor/tk2dSkin.dll</HintPath>
- </Reference>
  <Reference Include="tk2dExternal">
  <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/TK2DROOT/tk2d/Editor/tk2dExternal.dll</HintPath>
+ </Reference>
+ <Reference Include="tk2dSkin">
+ <HintPath>/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Assets/TK2DROOT/tk2d/Editor/tk2dSkin.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

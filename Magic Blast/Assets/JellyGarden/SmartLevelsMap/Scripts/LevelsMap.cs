@@ -101,7 +101,8 @@ public class LevelsMap : MonoBehaviour
 
     internal static void OnLevelSelected(int number)
     {
-        if (LevelSelected != null && !IsLevelLocked(number))  //need to fix in the map plugin
+		// important
+        //if (LevelSelected != null && !IsLevelLocked(number))  //need to fix in the map plugin
             LevelSelected(_instance, new LevelReachedEventArgs(number));
 
         if (!_instance.IsConfirmationEnabled)

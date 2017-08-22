@@ -304,19 +304,29 @@ public class Square : MonoBehaviour
 
 	public void DestroyBlock(bool canCheck = false)
     {
+		if (type == SquareTypes.THRIVING) {
+			LevelManager.THIS.IceShow (gameObject);
+		}
+		if (type == SquareTypes.WIREBLOCK) {
+			LevelManager.THIS.SolidChainShow (gameObject);
+		}
 		if (type == SquareTypes.SOLIDBLOCK && blockLevel > 0) {
 			
-			hidenLevelObjects[blockLevel-1].GetComponent<Animation>().Play("BrickRotate");
-			hidenLevelObjects[blockLevel-1].GetComponent<SpriteRenderer>().sortingOrder = 100;
-			hidenLevelObjects[blockLevel-1].AddComponent<Rigidbody2D>();
-			hidenLevelObjects[blockLevel-1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
-			GameObject.Destroy(hidenLevelObjects[blockLevel-1], 1.5f);
+			//hidenLevelObjects[blockLevel-1].GetComponent<Animation>().Play("BrickRotate");
+			//hidenLevelObjects[blockLevel-1].GetComponent<SpriteRenderer>().sortingOrder = 100;
+			//hidenLevelObjects[blockLevel-1].AddComponent<Rigidbody2D>();
+			//hidenLevelObjects[blockLevel-1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
+			GameObject.Destroy (hidenLevelObjects [blockLevel - 1]);
+			LevelManager.THIS.ColorChainParticlesShow (gameObject, blockLevel - 1);
 			blockLevel--;
 			updateHidenLevel ();
 			return;
+		} else if (blockLevel < 1 && type == SquareTypes.SOLIDBLOCK) {
+			LevelManager.THIS.SimpleShieldShow (gameObject);
 		}
+			
         //if (type == SquareTypes.UNDESTROYABLE) return;
-		if (type == SquareTypes.BLOCK) {
+		if (type == SquareTypes.BLOCK || additiveType == SquareTypes.BLOCK) {
 			Debug.Log ("destroy block");
 			if (LevelManager.THIS.blocksCount [0] > 0 && LevelManager.THIS.isContainTarget(Target.BLOCKS)) {
 				LevelManager.THIS.blocksCount [0]--;
@@ -328,6 +338,24 @@ public class Square : MonoBehaviour
 				Debug.Log ("bubble anim");
 				// анимация взрыва
 				LevelManager.THIS.BubbleShow(gameObject);
+			}
+			type = SquareTypes.NONE;
+			additiveType = SquareTypes.NONE;
+		}
+
+		if (type == SquareTypes.COLOR_CUBE) {
+			//LevelManager.THIS.ColorShieldParticlesShow(gameObject,colorCube);
+			Debug.Log ("destroy block");
+			if (LevelManager.THIS.blocksCount [2] > 0 && LevelManager.THIS.isContainTarget(Target.BLOCKS)) {
+				LevelManager.THIS.blocksCount [2]--;
+				if (LevelManager.THIS.blocksCount [2] < 0) {
+					LevelManager.THIS.blocksCount [2] = 0;
+				}
+				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.ColorCubePrefabs[colorCube].GetComponent<SpriteRenderer>().sprite, SquareTypes.COLOR_CUBE);
+			} else {
+				Debug.Log ("color shield anim");
+				// анимация взрыва
+				LevelManager.THIS.ColorShieldParticlesShow(gameObject,colorCube);
 			}
 
 		}
@@ -341,6 +369,7 @@ public class Square : MonoBehaviour
 				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [6], SquareTypes.UNDESTROYABLE);
 			}
 
+			LevelManager.THIS.PinataShow (gameObject);
 		}
 		if (type != SquareTypes.SOLIDBLOCK && type != SquareTypes.THRIVING && type != SquareTypes.COLOR_CUBE)
         {
@@ -356,13 +385,17 @@ public class Square : MonoBehaviour
 								sq.DestroyBlock();
 							} else {
 								Debug.Log ("updateSolid solid");
-								sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<Animation>().Play("BrickRotate");
-								sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<SpriteRenderer>().sortingOrder = 100;
-								sq.hidenLevelObjects[sq.blockLevel-1].AddComponent<Rigidbody2D>();
-								sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
-								GameObject.Destroy(sq.hidenLevelObjects[sq.blockLevel-1], 1.5f);
-								sq.blockLevel--;
-								sq.updateHidenLevel ();
+								//sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<Animation>().Play("BrickRotate");
+								//sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<SpriteRenderer>().sortingOrder = 100;
+								//sq.hidenLevelObjects[sq.blockLevel-1].AddComponent<Rigidbody2D>();
+								//sq.hidenLevelObjects[sq.blockLevel-1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
+								if (sq.blockLevel > 0) {
+									GameObject.Destroy(sq.hidenLevelObjects[sq.blockLevel-1]);
+									LevelManager.THIS.ColorChainParticlesShow (sq.gameObject, sq.blockLevel - 1);
+									sq.blockLevel--;
+									sq.updateHidenLevel ();
+								}
+
 							}
 						} 
 						else {
@@ -417,14 +450,20 @@ public class Square : MonoBehaviour
             {
                 SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.block_destroy);
 
-                block[block.Count - 1].GetComponent<Animation>().Play("BrickRotate");
-                block[block.Count - 1].GetComponent<SpriteRenderer>().sortingOrder = 100;
-                block[block.Count - 1].AddComponent<Rigidbody2D>();
-                block[block.Count - 1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
+                //block[block.Count - 1].GetComponent<Animation>().Play("BrickRotate");
+                //block[block.Count - 1].GetComponent<SpriteRenderer>().sortingOrder = 100;
+                //block[block.Count - 1].AddComponent<Rigidbody2D>();
+                //block[block.Count - 1].GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(Random.insideUnitCircle.x * Random.Range(30, 200), Random.Range(100, 150)), ForceMode2D.Force);
 
 
             }
-            GameObject.Destroy(block[block.Count - 1], 1.5f);
+			if (type == SquareTypes.COLOR_CUBE) {
+
+			} else {
+
+			}
+            //GameObject.Destroy(block[block.Count - 1], 1.5f);
+			GameObject.Destroy(block[block.Count - 1]);
             if (block.Count > 1) type = SquareTypes.BLOCK;
             block.Remove(block[block.Count - 1]);
 

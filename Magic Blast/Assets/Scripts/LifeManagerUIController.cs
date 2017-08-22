@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using ExaGames.Common;
+using TMPro;
 
 public class LifeManagerUIController : MonoBehaviour {
 
 	private LivesManager _lifeManager;
 
-	public Text _lifeTXT;
-	public Text _timeTXT;
+	public TextMeshProUGUI _lifeTXT;
+	public TextMeshProUGUI _timeTXT;
 	// Use this for initialization
 	void Awake () {
 		_lifeManager = gameObject.GetComponent <LivesManager>();

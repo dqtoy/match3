@@ -1,0 +1,498 @@
+fileFormatVersion: 2
+guid: efc13b62089988c47a3222c9f86afcc3
+timeCreated: 1502467870
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: trfs_0
+    21300002: trfs_1
+    21300004: trfs_2
+    21300006: trfs_3
+    21300008: trfs_4
+    21300010: trfs_5
+    21300012: trfs_6
+    21300014: trfs_7
+    21300016: trfs_8
+    21300018: trfs_9
+    21300020: trfs_10
+    21300022: trfs_11
+    21300024: trfs_12
+    21300026: trfs_13
+    21300028: trfs_14
+    21300030: trfs_15
+    21300032: trfs_16
+    21300034: trfs_17
+    21300036: trfs_18
+    21300038: trfs_19
+    21300040: trfs_20
+    21300042: trfs_21
+    21300044: trfs_22
+    21300046: trfs_23
+    21300048: trfs_24
+    21300050: trfs_25
+    21300052: trfs_26
+    21300054: trfs_27
+    21300056: trfs_28
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 1
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: trfs_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1100
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_1
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 1100
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_2
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 1100
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_3
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 1100
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_4
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 1100
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_5
+      rect:
+        serializedVersion: 2
+        x: 1190
+        y: 1100
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 880
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_7
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 880
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_8
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 880
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_9
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 880
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_10
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 880
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_11
+      rect:
+        serializedVersion: 2
+        x: 1190
+        y: 880
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 660
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_13
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 660
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_14
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 660
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_15
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 660
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_16
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 660
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_17
+      rect:
+        serializedVersion: 2
+        x: 1190
+        y: 660
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 440
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_19
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 440
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_20
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 440
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_21
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 440
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_22
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 440
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_23
+      rect:
+        serializedVersion: 2
+        x: 1190
+        y: 440
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 220
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_25
+      rect:
+        serializedVersion: 2
+        x: 238
+        y: 220
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_26
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 220
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_27
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 220
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    - serializedVersion: 2
+      name: trfs_28
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 220
+        width: 238
+        height: 220
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: -1
+    outline: []
+  spritePackingTag: Animation
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
