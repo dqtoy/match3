@@ -4,6 +4,7 @@ using System;
 using ExaGames.Common;
 
 using System.Collections.Generic;
+using System.Linq;
 #if UNITY_ADS
 using UnityEngine.Advertisements;
 #endif
@@ -625,8 +626,7 @@ public class InitScript : MonoBehaviour
 #if FACEBOOK
     public void CallFBInit()
     {
-        FB.Init(OnInitComplete, OnHideUnity);
-
+        //FB.Init(OnInitComplete, OnHideUnity);
     }
 
     private void OnInitComplete()
@@ -649,64 +649,32 @@ public class InitScript : MonoBehaviour
         }
     }
 
-
     public void CallFBLogin()
     {
-        FB.LogInWithReadPermissions(new List<string>() { "public_profile", "email", "user_friends" }, this.HandleResult);
+        FacebookManager.Instance.LogInFacebook();
     }
 
     public void CallFBLoginForPublish()
     {
-        // It is generally good behavior to split asking for read and publish
-        // permissions rather than ask for them all at once.
-        //
-        // In your own game, consider postponing this call until the moment
-        // you actually need it.
         FB.LogInWithPublishPermissions(new List<string>() { "publish_actions" }, this.HandleResult);
-    }
-
-    void LoginCallback(IPayResult result)
-    {
-
-        if (result.Error != null)
-            lastResponse = "Error Response:\n" + result.Error;
-        else if (!FB.IsLoggedIn)
-        {
-            lastResponse = "Login cancelled by Player";
-        }
-        else
-        {
-            lastResponse = "Login was successful!";
-            if (loginForSharing)
-            {
-                loginForSharing = false;
-                Share();
-            }
-        }
-        Debug.Log(lastResponse);
-    }
-
-    private void CallFBLogout()
-    {
-        FB.LogOut();
     }
 
     public void Share()
     {
-        if (!FB.IsLoggedIn)
-        {
-            loginForSharing = true;
-            LoginEnable = true;
-            Debug.Log("not logged, logging");
-        }
-        else
-        {
-            FB.FeedShare(
-                link: new Uri("http://apps.facebook.com/" + FB.AppId + "/?challenge_brag=" + (FB.IsLoggedIn ? AccessToken.CurrentAccessToken.UserId : "guest")),
-                linkCaption: "I'm got " + LevelManager.Score + " scores! Try to beat me!"
-            //picture: "https://fbexternal-a.akamaihd.net/safe_image.php?d=AQCzlvjob906zmGv&w=128&h=128&url=https%3A%2F%2Ffbcdn-photos-h-a.akamaihd.net%2Fhphotos-ak-xtp1%2Ft39.2081-0%2F11891368_513258735497916_1832270581_n.png&cfs=1"
-            );
-        }
+        //if (!FB.IsLoggedIn)
+        //{
+        //    loginForSharing = true;
+        //    LoginEnable = true;
+        //    Debug.Log("not logged, logging");
+        //}
+        //else
+        //{
+        //    FB.FeedShare(
+        //        link: new Uri("http://apps.facebook.com/" + FB.AppId + "/?challenge_brag=" + (FB.IsLoggedIn ? AccessToken.CurrentAccessToken.UserId : "guest")),
+        //        linkCaption: "I'm got " + LevelManager.Score + " scores! Try to beat me!"
+        //    //picture: "https://fbexternal-a.akamaihd.net/safe_image.php?d=AQCzlvjob906zmGv&w=128&h=128&url=https%3A%2F%2Ffbcdn-photos-h-a.akamaihd.net%2Fhphotos-ak-xtp1%2Ft39.2081-0%2F11891368_513258735497916_1832270581_n.png&cfs=1"
+        //    );
+        //}
     }
 
     protected void HandleResult(IResult result)

@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using TMPro;
 
 
 public class GUIEvents : MonoBehaviour
@@ -12,9 +14,42 @@ public class GUIEvents : MonoBehaviour
             if (!LevelManager.THIS.FacebookEnable)
                 gameObject.SetActive(false);
         }
+
+        if (name == "FaceBook")
+        {
+            if (FacebookManager.Instance.IsLoggedIn)
+            {
+                GetComponentInChildren<TextMeshProUGUI>().text = "LogOut";
+            }
+            else
+            {
+                GetComponentInChildren<TextMeshProUGUI>().text = "LogIn";
+            }
+        }
     }
 
-	public void Settings(string name = "")
+    public void InviteDialog()
+    {
+        SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
+
+        GameObject.Find("CanvasGlobal").transform.Find("InviteFriendsDialogWindow").gameObject.SetActive(true);
+    }
+
+    public void SendLivesDialog()
+    {
+        SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
+
+        GameObject.Find("CanvasGlobal").transform.Find("SendLivesDialogWindow").gameObject.SetActive(true);
+    }
+
+    public void ShowInboxDialog()
+    {
+        SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
+
+        GameObject.Find("CanvasGlobal").transform.Find("InboxWindow").gameObject.SetActive(true);
+    }
+
+    public void Settings(string name = "")
     {
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
 
@@ -47,8 +82,15 @@ public class GUIEvents : MonoBehaviour
     public void FaceBookLogin()
     {
 #if FACEBOOK
-
-        InitScript.Instance.CallFBLogin();
+        if (FacebookManager.Instance.IsLoggedIn)
+        { 
+            FacebookManager.Instance.LogOutFacebook();
+        }
+        else
+        {
+            FacebookManager.Instance.LogInFacebook();
+        }
+        //InitScript.Instance.CallFBLogin();
 #endif
     }
     public void Share()
