@@ -137,7 +137,7 @@ public class FacebookManager : MonoBehaviour
         {
             OnFbLoggedIn.Invoke();
         }
-        Debug.Log("Facebook logged in");
+        //Debug.Log("Facebook logged in");
         GetFbUserInfo();
     }
 
@@ -149,7 +149,7 @@ public class FacebookManager : MonoBehaviour
         }
         else
         {
-            Debug.Log(result.RawResult);
+            //Debug.Log(result.RawResult);
             Dictionary<string, object> responseObject = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as Dictionary<string, object>;
             StartCoroutine(GetFriendsFacebookUserInfo(responseObject["data"] as List<object>, UserType.Friend));
         }
@@ -163,7 +163,7 @@ public class FacebookManager : MonoBehaviour
         }
         else
         {
-            Debug.Log(result.RawResult);
+            //Debug.Log(result.RawResult);
             Dictionary<string, object> responseObject = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as Dictionary<string, object>;
             StartCoroutine(GetFriendsFacebookUserInfo(responseObject["data"] as List<object>, UserType.Invitable));
         }
@@ -176,7 +176,7 @@ public class FacebookManager : MonoBehaviour
             Debug.LogError("Can`t get app requests: " + result.Error);
         }
 
-        Debug.Log(result.RawResult);
+        //Debug.Log(result.RawResult);
         Dictionary<string, object> responseObject = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as Dictionary<string, object>;
 
         var dataObject = responseObject["data"] as List<object>;
@@ -258,7 +258,7 @@ public class FacebookManager : MonoBehaviour
         foreach (var permission in AccessToken.CurrentAccessToken.Permissions)
         {
             _userFacebookPermissions.Add(permission, true);
-            Debug.Log(permission);
+            //Debug.Log(permission);
         }
         StartCoroutine(GetFacebookUserInfo(graphURL: "/me?fields=id,name,picture.width(64).height(64)", userType: UserType.Current));
     }
