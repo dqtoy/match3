@@ -459,7 +459,7 @@ public class Item : MonoBehaviour
 		itemText.text = timeBombCount.ToString ();
 		if (timeBombCount <= 0) {
 			LevelManager.THIS.isBombTimeOut = true;
-			DestroyItem (false, "destroy", true);
+			//DestroyItem (false, "destroy", true);
 		}
 	}
 
@@ -574,6 +574,8 @@ public class Item : MonoBehaviour
 				if (_lastType == ItemsTypes.HORIZONTAL_STRIPPED || _lastType == ItemsTypes.VERTICAL_STRIPPED) {
 					DestroyHorizontal ();
 					DestroyVertical ();
+					connected_stripped.debugType = ItemsTypes.NONE;
+					connected_stripped.currentType = ItemsTypes.NONE;
 				}
 				if (_lastType == ItemsTypes.PACKAGE) {
 					DestroyPackageAndStriped (this);
@@ -598,6 +600,7 @@ public class Item : MonoBehaviour
 			}
 			if (LevelManager.Instance.limitType == LIMIT.MOVES) {
 				LevelManager.THIS.Limit--;
+				CharacterAnimationController.instanse.playIdleAnimation ();
 				LevelManager.THIS.checkAllTimeBomb ();
 			}
 			LevelManager.THIS.moveID++;
@@ -651,6 +654,7 @@ public class Item : MonoBehaviour
 			}
 			if (LevelManager.Instance.limitType == LIMIT.MOVES) {
 				LevelManager.THIS.Limit--;
+				CharacterAnimationController.instanse.playIdleAnimation ();
 				LevelManager.THIS.checkAllTimeBomb ();
 			}
 			LevelManager.THIS.moveID++;
@@ -692,6 +696,7 @@ public class Item : MonoBehaviour
 			}
 			if (LevelManager.Instance.limitType == LIMIT.MOVES) {
 				LevelManager.THIS.Limit--;
+				CharacterAnimationController.instanse.playIdleAnimation ();
 				LevelManager.THIS.checkAllTimeBomb ();
 			}
 			LevelManager.THIS.moveID++;
@@ -928,8 +933,10 @@ public class Item : MonoBehaviour
             {
                 if (LevelManager.THIS.ActivatedBoost.type != BoostType.Hand)
                 {
-                    if (LevelManager.Instance.limitType == LIMIT.MOVES)
-                        LevelManager.THIS.Limit--;
+					if (LevelManager.Instance.limitType == LIMIT.MOVES) {
+						LevelManager.THIS.Limit--;
+						CharacterAnimationController.instanse.playIdleAnimation ();
+					}
                     LevelManager.THIS.moveID++;
                 }
                 if (LevelManager.THIS.ActivatedBoost.type == BoostType.Hand)

@@ -1,0 +1,174 @@
+
+girl_on_window.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 43
+  size: 137, 79
+  orig: 137, 79
+  offset: 0, 0
+  index: -1
+cord_l
+  rotate: false
+  xy: 141, 19
+  size: 22, 47
+  orig: 22, 47
+  offset: 0, 0
+  index: -1
+cord_r
+  rotate: false
+  xy: 490, 465
+  size: 20, 45
+  orig: 20, 45
+  offset: 0, 0
+  index: -1
+eyebrow_l
+  rotate: false
+  xy: 183, 133
+  size: 94, 24
+  orig: 94, 24
+  offset: 0, 0
+  index: -1
+eyebrow_r
+  rotate: false
+  xy: 393, 449
+  size: 94, 24
+  orig: 94, 24
+  offset: 0, 0
+  index: -1
+eyelash_l
+  rotate: false
+  xy: 284, 164
+  size: 49, 25
+  orig: 49, 25
+  offset: 0, 0
+  index: -1
+eyelash_r
+  rotate: false
+  xy: 393, 422
+  size: 49, 25
+  orig: 49, 25
+  offset: 0, 0
+  index: -1
+eyes_open1
+  rotate: false
+  xy: 444, 413
+  size: 41, 34
+  orig: 41, 34
+  offset: 0, 0
+  index: -1
+eyes_open2
+  rotate: true
+  xy: 355, 279
+  size: 40, 33
+  orig: 40, 33
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 2, 344
+  size: 195, 166
+  orig: 195, 166
+  offset: 0, 0
+  index: -1
+hair1
+  rotate: false
+  xy: 199, 420
+  size: 192, 90
+  orig: 192, 90
+  offset: 0, 0
+  index: -1
+hair_l
+  rotate: true
+  xy: 199, 321
+  size: 97, 171
+  orig: 97, 171
+  offset: 0, 0
+  index: -1
+hair_r
+  rotate: false
+  xy: 183, 159
+  size: 99, 160
+  orig: 99, 160
+  offset: 0, 0
+  index: -1
+hand_l_1
+  rotate: false
+  xy: 284, 263
+  size: 69, 56
+  orig: 69, 56
+  offset: 0, 0
+  index: -1
+hand_l_2
+  rotate: true
+  xy: 83, 15
+  size: 26, 56
+  orig: 26, 56
+  offset: 0, 0
+  index: -1
+hand_r_1
+  rotate: true
+  xy: 284, 191
+  size: 70, 54
+  orig: 70, 54
+  offset: 0, 0
+  index: -1
+hand_r_2
+  rotate: false
+  xy: 141, 68
+  size: 27, 56
+  orig: 27, 56
+  offset: 0, 0
+  index: -1
+hands
+  rotate: true
+  xy: 141, 126
+  size: 216, 40
+  orig: 216, 40
+  offset: 0, 0
+  index: -1
+hat2
+  rotate: true
+  xy: 2, 124
+  size: 218, 137
+  orig: 218, 137
+  offset: 0, 0
+  index: -1
+mouth_normal
+  rotate: true
+  xy: 372, 323
+  size: 95, 12
+  orig: 95, 12
+  offset: 0, 0
+  index: -1
+mouth_open
+  rotate: false
+  xy: 393, 475
+  size: 95, 35
+  orig: 95, 35
+  offset: 0, 0
+  index: -1
+mouth_sad
+  rotate: false
+  xy: 2, 2
+  size: 79, 39
+  orig: 79, 39
+  offset: 0, 0
+  index: -1
+shoulder_l_1
+  rotate: false
+  xy: 340, 186
+  size: 22, 35
+  orig: 22, 35
+  offset: 0, 0
+  index: -1
+shoulder_r_1
+  rotate: false
+  xy: 340, 223
+  size: 26, 38
+  orig: 26, 38
+  offset: 0, 0
+  index: -1

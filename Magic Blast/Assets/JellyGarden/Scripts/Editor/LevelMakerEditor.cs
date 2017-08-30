@@ -7,6 +7,15 @@ using System.IO;
 using UnityEngine.UI;
 using System.Reflection;
 using UnityEditor.SceneManagement;
+
+
+public enum LevelTag
+{
+	EASY,
+	MEDIUM,
+	HARD
+}
+
 [InitializeOnLoad]
 public class LevelMakerEditor : EditorWindow
 {
@@ -67,6 +76,8 @@ public class LevelMakerEditor : EditorWindow
     Target target;
 	Target target2;
 	Target target3;
+
+	LevelTag levelTag;
 
 	SquareTypes dontIncludeInGoalTarget1;
 	SquareTypes dontIncludeInGoalTarget2;
@@ -1359,8 +1370,20 @@ public class LevelMakerEditor : EditorWindow
 
     void GUILimit()
     {
+		
+		GUILayout.BeginHorizontal();
+		GUILayout.Space(60);
+		GUILayout.Label("Level Tag:", EditorStyles.boldLabel);
+		GUILayout.EndHorizontal();
+		GUILayout.BeginHorizontal();
+		GUILayout.Space(120);
+		levelTag = (LevelTag)EditorGUILayout.EnumPopup(levelTag, GUILayout.Width(100));
+		GUILayout.EndHorizontal();
+
         GUILayout.BeginHorizontal();
         GUILayout.Space(60);
+
+
 
         GUILayout.Label("Limit:", EditorStyles.label, new GUILayoutOption[] { GUILayout.Width(50) });
         LIMIT limitTypeSave = limitType;
@@ -1475,6 +1498,9 @@ public class LevelMakerEditor : EditorWindow
         target = (Target)EditorGUILayout.EnumPopup(target, GUILayout.Width(100));
 		target2 = (Target)EditorGUILayout.EnumPopup(target2, GUILayout.Width(100));
 		target3 = (Target)EditorGUILayout.EnumPopup(target3, GUILayout.Width(100));
+
+
+
 
 		// beach ball
 		GUILayout.Space(30);
@@ -2457,6 +2483,8 @@ public class LevelMakerEditor : EditorWindow
 		saveString += "\r\n";
 		saveString += "MODE3 " + (int)target3;
 		saveString += "\r\n";
+		saveString += "TAG " + (int)levelTag;
+		saveString += "\r\n";
 		saveString += "DONTINCLUDE " + (int)dontIncludeInGoalTarget1 + "/" + (int)dontIncludeInGoalTarget2 + "/" + (int)dontIncludeInGoalTarget3;
 		saveString += "\r\n";
         saveString += "SIZE " + maxCols + "/" + maxRows;
@@ -2587,6 +2615,11 @@ public class LevelMakerEditor : EditorWindow
 			{
 				string modeString = line.Replace("MODE3", string.Empty).Trim();
 				target3 = (Target)int.Parse(modeString);
+			}
+			else if (line.StartsWith("TAG "))
+			{
+				string modeString = line.Replace("TAG", string.Empty).Trim();
+				levelTag = (LevelTag)int.Parse(modeString);
 			}
 			else if (line.StartsWith("DONTINCLUDE "))
 			{

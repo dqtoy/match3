@@ -91,6 +91,10 @@ public class Counter_ : MonoBehaviour
 				{
 					txt.text = "";
 					if (_checkBox != null) {
+						if (!_checkBox.activeInHierarchy)
+						{
+							CharacterAnimationController.instanse.playGreatAnimation();
+						}
 						_checkBox.SetActive (true);
 					}
 				}
@@ -111,6 +115,10 @@ public class Counter_ : MonoBehaviour
 				{
 					txt.text = "";
 					if (_checkBox != null) {
+						if (!_checkBox.activeInHierarchy)
+						{
+							CharacterAnimationController.instanse.playGreatAnimation();
+						}
 						_checkBox.SetActive (true);
 					}
 				}
@@ -130,6 +138,10 @@ public class Counter_ : MonoBehaviour
 				{
 					txt.text = "";
 					if (_checkBox != null) {
+						if (!_checkBox.activeInHierarchy)
+						{
+							CharacterAnimationController.instanse.playGreatAnimation();
+						}
 						_checkBox.SetActive (true);
 					}
 				}
@@ -149,6 +161,10 @@ public class Counter_ : MonoBehaviour
 				{
 					txt.text = "";
 					if (_checkBox != null) {
+						if (!_checkBox.activeInHierarchy)
+						{
+							CharacterAnimationController.instanse.playGreatAnimation();
+						}
 						_checkBox.SetActive (true);
 					}
 				}
@@ -168,6 +184,10 @@ public class Counter_ : MonoBehaviour
 				{
 					txt.text = "";
 					if (_checkBox != null) {
+						if (!_checkBox.activeInHierarchy)
+						{
+							CharacterAnimationController.instanse.playGreatAnimation();
+						}
 						_checkBox.SetActive (true);
 					}
 				}
@@ -187,6 +207,10 @@ public class Counter_ : MonoBehaviour
 				{
 					txt.text = "";
 					if (_checkBox != null) {
+						if (!_checkBox.activeInHierarchy)
+						{
+							CharacterAnimationController.instanse.playGreatAnimation();
+						}
 						_checkBox.SetActive (true);
 					}
 				}

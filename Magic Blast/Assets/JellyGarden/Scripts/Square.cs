@@ -272,6 +272,19 @@ public class Square : MonoBehaviour
 		return type != SquareTypes.SOLIDBLOCK && type != SquareTypes.UNDESTROYABLE && type != SquareTypes.NONE && type != SquareTypes.THRIVING && type != SquareTypes.WIREBLOCK && type != SquareTypes.COLOR_CUBE;
     }
 
+	public bool isSimpleCube()
+	{
+		if (item == null) {
+			return false;
+		} else {
+			if (item.currentType == ItemsTypes.NONE) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
 	public void checkBlockedBlocks(int _color)
 	{
 		if (type != SquareTypes.NONE)
@@ -326,21 +339,25 @@ public class Square : MonoBehaviour
 		}
 			
         //if (type == SquareTypes.UNDESTROYABLE) return;
-		if (type == SquareTypes.BLOCK || additiveType == SquareTypes.BLOCK) {
-			Debug.Log ("destroy block");
-			if (LevelManager.THIS.blocksCount [0] > 0 && LevelManager.THIS.isContainTarget(Target.BLOCKS)) {
-				LevelManager.THIS.blocksCount [0]--;
-				if (LevelManager.THIS.blocksCount [0] < 0) {
-					LevelManager.THIS.blocksCount [0] = 0;
+		if (additiveType == SquareTypes.BLOCK || type == SquareTypes.BLOCK) {
+			if (block.Count > 0) {
+				if (block [block.Count -1].gameObject.name == "Block(Clone)") {
+					Debug.Log ("destroy block");
+					if (LevelManager.THIS.blocksCount [0] > 0 && LevelManager.THIS.isContainTarget(Target.BLOCKS)) {
+						LevelManager.THIS.blocksCount [0]--;
+						if (LevelManager.THIS.blocksCount [0] < 0) {
+							LevelManager.THIS.blocksCount [0] = 0;
+						}
+						LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);
+					} else {
+						Debug.Log ("bubble anim");
+						// анимация взрыва
+						LevelManager.THIS.BubbleShow(gameObject);
+					}
+					type = SquareTypes.NONE;
+					additiveType = SquareTypes.NONE;
 				}
-				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [0], SquareTypes.BLOCK);
-			} else {
-				Debug.Log ("bubble anim");
-				// анимация взрыва
-				LevelManager.THIS.BubbleShow(gameObject);
 			}
-			type = SquareTypes.NONE;
-			additiveType = SquareTypes.NONE;
 		}
 
 		if (type == SquareTypes.COLOR_CUBE) {

@@ -48,6 +48,10 @@ public class LevelManager : MonoBehaviour
     public Sprite outline1;
     public Sprite outline2;
     public Sprite outline3;
+	public Sprite outline4;
+	public Sprite outline5;
+	public Sprite outline6;
+	public Sprite outline7;
     public GameObject blockPrefab;
     public GameObject wireBlockPrefab;
     public GameObject solidBlockPrefab;
@@ -219,6 +223,7 @@ public class LevelManager : MonoBehaviour
 
     public Sprite[] ingrediendSprites;
 	public Sprite[] blocksSprites;
+	public Sprite[] cubesUISprites;
     public string[] targetDiscriptions;
     public GameObject ingrObject;
     public GameObject blocksObject;
@@ -316,6 +321,8 @@ public class LevelManager : MonoBehaviour
                 MusicBase.Instance.GetComponent<AudioSource>().clip = MusicBase.Instance.music[1];
                 MusicBase.Instance.GetComponent<AudioSource>().Play();
                 PrepareGame();
+
+				SoundManager.instanse.playGameMusic (currentLevel);
 				//InitTargets ();
 				Invoke("InitTargets",0.3f);
             }
@@ -339,6 +346,8 @@ public class LevelManager : MonoBehaviour
                     MusicBase.Instance.GetComponent<AudioSource>().clip = MusicBase.Instance.music[0];
                     MusicBase.Instance.GetComponent<AudioSource>().Play();
                     EnableMap(true);
+
+					SoundManager.instanse.playMenu ();
                 }
                 else
                 {
@@ -448,7 +457,7 @@ public class LevelManager : MonoBehaviour
 			if (DeviceOrientationController.instanse.getCurrentOrientaion () == DevideOr.Portrait) {
 				GetComponent<Camera> ().orthographicSize = 4.3f * aspect;
 			} else {
-				GetComponent<Camera> ().orthographicSize = 6.5f * aspect;
+				GetComponent<Camera> ().orthographicSize = 4.3f;
 			}
 
 
@@ -637,7 +646,7 @@ public class LevelManager : MonoBehaviour
 		if (LevelManager.THIS.isContainTarget (Target.COLLECT)) {
 			for (int i = 0; i < LevelManager.THIS.collectItems.Length; i++) {
 				if (LevelManager.THIS.collectItems [i] != CollectItems.None) {
-					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.collectItems[i] + 2]);
+					_spriteList.Add (LevelManager.THIS.cubesUISprites[(int)LevelManager.THIS.collectItems[i] - 1]);
 					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					allTargetsObjectList.Add (collectItems [i]);
 					count++;
@@ -812,14 +821,7 @@ public class LevelManager : MonoBehaviour
 		toysCount [2] = 0;
 		toysCount [3] = 0;
 
-		blocksCount [0] = 0;
-		blocksCount [1] = 0;
-		blocksCount [2] = 0;
-		blocksCount [3] = 0;
-		blocksCount [4] = 0;
-		blocksCount [5] = 0;
-		blocksCount [6] = 0;
-		blocksCount [7] = 0;
+
 
         TargetBlocks = 0;
         EnableMap(false);
@@ -830,51 +832,7 @@ public class LevelManager : MonoBehaviour
 
         squaresArray = new Square[maxCols * maxRows];
         LoadLevel();
-        for (int row = 0; row < maxRows; row++)
-        {
-            for (int col = 0; col < maxCols; col++)
-            {
-				if (levelSquaresFile [row * maxCols + col].block == SquareTypes.BLOCK) {
-					blocksCount [0]++;
-				}
-				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.BEACH_BALLS) {
-					//blocksCount [1]++;
-				}
-				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.COLOR_CUBE) {
-					blocksCount [2]++;
-				}
-				if (levelSquaresFile [row * maxCols + col].block == SquareTypes.DOUBLEBLOCK) {
-					//blocksCount [3]++;
-				}
-				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.SOLIDBLOCK) {
-					blocksCount [4]++;
-				}
-				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.THRIVING) {
-					blocksCount [5]++;
-				}
-				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.UNDESTROYABLE) {
-					//blocksCount [6]++;
-				}
-				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.WIREBLOCK) {
-					blocksCount [7]++;
-				}
-
-				/*if (levelSquaresFile [row * maxCols + col].block == SquareTypes.BLOCK 
-					|| levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.SOLIDBLOCK 
-					|| levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.WIREBLOCK 
-					|| levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.THRIVING
-					|| levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.BEACH_BALLS
-					|| levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.COLOR_CUBE
-					|| levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.UNDESTROYABLE
-				) {
-					TargetBlocks++;
-					Debug.Log ("detect WIREBLOCK");
-				} else if (levelSquaresFile [row * maxCols + col].block == SquareTypes.DOUBLEBLOCK) {
-					TargetBlocks ++;
-				}*/
-
-            }
-        }
+        
         //float getSize = maxCols - 9;
         //if (getSize < maxRows - 9)
         //    getSize = maxRows - 9;
@@ -1333,11 +1291,13 @@ public class LevelManager : MonoBehaviour
 	private bool checkAllBlocksItems()
 	{
 		bool all = true;
+		int _counter = 0;
 		if (isContainTarget (Target.BLOCKS)) {
-			foreach (int _i in blocksCount) {
-				if (_i > 0) {
+			foreach (int _i in blocksCount ) {
+				if (_i > 0 ) {
 					all = false;
 				}
+				_counter++;
 			}
 		} else {
 			all = true;
@@ -1351,7 +1311,8 @@ public class LevelManager : MonoBehaviour
 		if (Limit <= 0 || isBombTimeOut)
         {
             bool lose = false;
-            Limit = 0;
+			if (!isBombTimeOut)
+            	Limit = 0;
 
 			if (LevelManager.THIS.isContainTarget(Target.BLOCKS) && !checkAllBlocksItems())
             {
@@ -1372,7 +1333,6 @@ public class LevelManager : MonoBehaviour
             }
 			if (lose) {
 				gameStatus = GameState.PreFailed;
-				isBombTimeOut = false;
 			}
             else if (LevelManager.Score >= LevelManager.THIS.star1 && LevelManager.THIS.target == Target.SCORE)
             {
@@ -1563,7 +1523,9 @@ public class LevelManager : MonoBehaviour
             if (LevelManager.THIS.gameStatus == GameState.Playing)
                 GameObject.Find("CanvasGlobal").transform.Find("MenuPause").gameObject.SetActive(true);
             else if (LevelManager.THIS.gameStatus == GameState.Map)
-                Application.Quit();
+			{
+                //Application.Quit();
+			}
         }
 
 
@@ -1659,6 +1621,7 @@ public class LevelManager : MonoBehaviour
                 if (LevelManager.Instance.limitType == LIMIT.TIME)
                 {
                     LevelManager.THIS.Limit--;
+					CharacterAnimationController.instanse.playIdleAnimation ();
                     CheckWinLose();
                 }
             }
@@ -1716,10 +1679,12 @@ public class LevelManager : MonoBehaviour
     {
         GameObject square = null;
         square = Instantiate(squarePrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
-        //if (chessColor)
-        //{
-            square.GetComponent<SpriteRenderer>().sprite = squareSprite1;
-        //}
+		/*if (row == 0 || col == 0) {
+			square.GetComponent<SpriteRenderer> ().sprite = squareSprite1;
+		} else {
+			square.GetComponent<SpriteRenderer> ().sprite = squareSprite;
+		}*/
+		square.GetComponent<SpriteRenderer> ().sprite = squareSprite;
         square.transform.SetParent(GameField);
         square.transform.localPosition = firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight);
         squaresArray[row * maxCols + col] = square.GetComponent<Square>();
@@ -1832,33 +1797,37 @@ public class LevelManager : MonoBehaviour
                 if (zRot == 90)
                     outline.transform.localPosition = Vector3.zero + Vector3.down * 0.425f;
                 if (zRot == 180)
-                    outline.transform.localPosition = Vector3.zero + Vector3.right * 0.425f;
+					outline.transform.localPosition = Vector3.zero + Vector3.right * 0.425f;
                 if (zRot == 270)
                     outline.transform.localPosition = Vector3.zero + Vector3.up * 0.425f;
-                if (row == 0 && col == 0)
-                {   //top left
-                    spr.sprite = outline3;
-                    outline.transform.localRotation = Quaternion.Euler(0, 0, 180);
-                    outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.up * 0.015f;
-                }
-                if (row == 0 && col == maxCols - 1)
-                {   //top right
-                    spr.sprite = outline3;
-                    outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
-                    outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.up * 0.015f;
-                }
-                if (row == maxRows - 1 && col == 0)
-                {   //bottom left
-                    spr.sprite = outline3;
-                    outline.transform.localRotation = Quaternion.Euler(0, 0, -90);
-                    outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.down * 0.015f;
-                }
-                if (row == maxRows - 1 && col == maxCols - 1)
-                {   //bottom right
-                    spr.sprite = outline3;
-                    outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                    outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.down * 0.015f;
-                }
+				if (row == 0 && col == 0) {   //top left
+					spr.sprite = outline4;
+					outline.transform.localRotation = Quaternion.Euler (0, 0, 180);
+					outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.up * 0.015f + Vector3.up * 0.2f;
+					//outline.SetActive (false);
+				} else if (row == 0 && col == maxCols - 1) {   //top right
+					spr.sprite = outline5;
+					outline.transform.localRotation = Quaternion.Euler (0, 0, 90);
+					outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.up * 0.015f + Vector3.up * 0.2f;
+				} else if (row == maxRows - 1 && col == 0) {   //bottom left
+					spr.sprite = outline3;
+					outline.transform.localRotation = Quaternion.Euler (0, 0, -90);
+					outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.down * 0.015f;
+					//outline.SetActive (false);
+				} else if (row == maxRows - 1 && col == maxCols - 1) {   //bottom right
+					spr.sprite = outline3;
+					outline.transform.localRotation = Quaternion.Euler (0, 0, 0);
+					outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.down * 0.015f;
+					//outline.SetActive (false);
+				} else if (zRot == 270) {
+					outline.transform.localPosition += Vector3.up * 0.2f;
+				} else if (GetSquare (col , row - 1, true).type == SquareTypes.NONE && (col == 0 || col == maxCols - 1)) {
+					spr.sprite = outline7;
+					if (col == maxCols - 1) {
+						spr.flipY = true;
+					}
+					//outline.SetActive (false);
+				}
 				setOutLineYoffSet (outline);
             }
             else
@@ -1869,9 +1838,10 @@ public class LevelManager : MonoBehaviour
                     GameObject outline = CreateOutline(square);
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     spr.sprite = outline3;
-                    outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.up * 0.015f;
+					outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.up * 0.015f + Vector3.up * 0.2f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 180);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
                 //top right
                 if (GetSquare(col + 1, row - 1, true).type == SquareTypes.NONE && GetSquare(col, row - 1, true).type == SquareTypes.NONE && GetSquare(col + 1, row, true).type == SquareTypes.NONE)
@@ -1879,9 +1849,10 @@ public class LevelManager : MonoBehaviour
                     GameObject outline = CreateOutline(square);
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     spr.sprite = outline3;
-                    outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.up * 0.015f;
+					outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.up * 0.015f + Vector3.up * 0.2f; 
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
                 //bottom left
                 if (GetSquare(col - 1, row + 1, true).type == SquareTypes.NONE && GetSquare(col, row + 1, true).type == SquareTypes.NONE && GetSquare(col - 1, row, true).type == SquareTypes.NONE)
@@ -1889,9 +1860,10 @@ public class LevelManager : MonoBehaviour
                     GameObject outline = CreateOutline(square);
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     spr.sprite = outline3;
-                    outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.down * 0.015f;
+					outline.transform.localPosition = Vector3.zero + Vector3.left * 0.015f + Vector3.down * 0.015f ;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 270);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
                 //bottom right
                 if (GetSquare(col + 1, row + 1, true).type == SquareTypes.NONE && GetSquare(col, row + 1, true).type == SquareTypes.NONE && GetSquare(col + 1, row, true).type == SquareTypes.NONE)
@@ -1899,9 +1871,10 @@ public class LevelManager : MonoBehaviour
                     GameObject outline = CreateOutline(square);
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
                     spr.sprite = outline3;
-                    outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.down * 0.015f;
+					outline.transform.localPosition = Vector3.zero + Vector3.right * 0.015f + Vector3.down * 0.015f ;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
 
 
@@ -1914,41 +1887,85 @@ public class LevelManager : MonoBehaviour
             {
                 GameObject outline = CreateOutline(square);
                 SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
-                spr.sprite = outline2;
-                outline.transform.localPosition = Vector3.zero;
+
+				if (row == maxRows - 1) {
+					spr.sprite = outline2;
+				} else {
+					spr.sprite = outline6;
+					outline.transform.localPosition = Vector3.zero + Vector3.up * 0.12f;
+				}
+
+                //spr.sprite = outline6;
+				//outline.transform.localPosition = Vector3.zero + Vector3.up * 0.09f;
                 outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 corner = true;
 				setOutLineYoffSet (outline);
+				//outline.SetActive (false);
             }
             if (GetSquare(col + 1, row, true).type != SquareTypes.NONE && GetSquare(col, row + 1, true).type != SquareTypes.NONE)
             {
                 GameObject outline = CreateOutline(square);
                 SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
-                spr.sprite = outline2;
-                outline.transform.localPosition = Vector3.zero;
+
+				if (row == 0) {
+					spr.sprite = outline3;
+					spr.flipY = true;
+					spr.flipX = true;
+					outline.transform.localPosition = Vector3.zero + Vector3.up * 0.22f;
+				} else {
+					spr.sprite = outline6;
+					outline.transform.localPosition = Vector3.zero + Vector3.up * 0.12f;
+				}
+
+                //spr.sprite = outline6;
+				//outline.transform.localPosition = Vector3.zero + Vector3.up * 0.14f;
                 outline.transform.localRotation = Quaternion.Euler(0, 0, 180);
                 corner = true;
 				setOutLineYoffSet (outline);
+				//outline.SetActive (false);
             }
             if (GetSquare(col + 1, row, true).type != SquareTypes.NONE && GetSquare(col, row - 1, true).type != SquareTypes.NONE)
             {
                 GameObject outline = CreateOutline(square);
                 SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
-                spr.sprite = outline2;
-                outline.transform.localPosition = Vector3.zero;
-                outline.transform.localRotation = Quaternion.Euler(0, 0, 270);
+				if (row == maxRows - 1) {
+					spr.sprite = outline2;
+				} else {
+					spr.sprite = outline6;
+					outline.transform.localPosition = Vector3.zero + Vector3.up * 0.12f;
+				}
+                
+
+                //outline.transform.localRotation = Quaternion.Euler(0, 0, 270);
+				outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 corner = true;
+				spr.flipX = true;
 				setOutLineYoffSet (outline);
+				//outline.SetActive (false);
             }
             if (GetSquare(col - 1, row, true).type != SquareTypes.NONE && GetSquare(col, row + 1, true).type != SquareTypes.NONE)
             {
                 GameObject outline = CreateOutline(square);
                 SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
-                spr.sprite = outline2;
-                outline.transform.localPosition = Vector3.zero;
-                outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
+
+				if (row == 0) {
+					spr.sprite = outline3;
+					spr.flipY = true;
+					outline.transform.localPosition = Vector3.zero + Vector3.up * 0.22f;
+				} else {
+					spr.sprite = outline6;
+					spr.flipX = true;
+					outline.transform.localPosition = Vector3.zero + Vector3.up * 0.12f;
+				}
+
+                
+
+                outline.transform.localRotation = Quaternion.Euler(0, 0, 180);
+
                 corner = true;
 				setOutLineYoffSet (outline);
+				outline.name = row.ToString ();
+				//outline.SetActive (false);
             }
 
 
@@ -1958,17 +1975,19 @@ public class LevelManager : MonoBehaviour
                 {
                     GameObject outline = CreateOutline(square);
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
-                    outline.transform.localPosition = Vector3.zero + Vector3.up * 0.395f;
+					outline.transform.localPosition = Vector3.zero + Vector3.up * 0.395f ;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
                 if (GetSquare(col, row + 1, true).type != SquareTypes.NONE)
                 {
                     GameObject outline = CreateOutline(square);
                     SpriteRenderer spr = outline.GetComponent<SpriteRenderer>();
-                    outline.transform.localPosition = Vector3.zero + Vector3.down * 0.395f;
+					outline.transform.localPosition = Vector3.zero + Vector3.down * 0.395f + Vector3.up * 0.2f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 90);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
                 if (GetSquare(col - 1, row, true).type != SquareTypes.NONE)
                 {
@@ -1977,6 +1996,7 @@ public class LevelManager : MonoBehaviour
                     outline.transform.localPosition = Vector3.zero + Vector3.left * 0.395f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
                 if (GetSquare(col + 1, row, true).type != SquareTypes.NONE)
                 {
@@ -1985,6 +2005,7 @@ public class LevelManager : MonoBehaviour
                     outline.transform.localPosition = Vector3.zero + Vector3.right * 0.395f;
                     outline.transform.localRotation = Quaternion.Euler(0, 0, 0);
 					setOutLineYoffSet (outline);
+					//outline.SetActive (false);
                 }
             }
         }
@@ -2447,7 +2468,7 @@ public class LevelManager : MonoBehaviour
 	{
 		List<Item> tempList = _it.square.FindMatchesAround (FindSeparating.VERTICAL, 2);
 		foreach (Item s in tempList) {
-			if (!mainList.Contains (s) && !s.isFreezeObject) {
+			if (!mainList.Contains (s) && !s.isFreezeObject && s.currentType == ItemsTypes.NONE) {
 				mainList.Add (s);
 			}
 			else if (s.isFreezeObject)
@@ -2458,7 +2479,7 @@ public class LevelManager : MonoBehaviour
 		tempList.Clear ();
 		tempList = _it.square.FindMatchesAround (FindSeparating.HORIZONTAL, 2);
 		foreach (Item s2 in tempList) {
-			if (!mainList.Contains (s2) && !s2.isFreezeObject) {
+			if (!mainList.Contains (s2) && !s2.isFreezeObject && s2.currentType == ItemsTypes.NONE) {
 				mainList.Add (s2);
 			}
 			else if (s2.isFreezeObject)
@@ -2476,6 +2497,30 @@ public class LevelManager : MonoBehaviour
 		{
 			if (item.GetComponent<Item> ().currentType == ItemsTypes.TIME_BOMB) {
 				item.GetComponent<Item> ().timeBombCount--;
+				item.GetComponent<Item> ().updateTimeBombCount ();
+			}
+		}
+	}
+
+	public void destroyAllTimeBomb()
+	{
+		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+		foreach (GameObject item in items)
+		{
+			if (item.GetComponent<Item> ().currentType == ItemsTypes.TIME_BOMB) {
+				item.GetComponent<Item> ().DestroyItem ();
+			}
+		}
+	}
+
+	public void setExtraTimeBomb()
+	{
+		isBombTimeOut = false;
+		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+		foreach (GameObject item in items)
+		{
+			if (item.GetComponent<Item> ().currentType == ItemsTypes.TIME_BOMB) {
+				item.GetComponent<Item> ().timeBombCount+=5;
 				item.GetComponent<Item> ().updateTimeBombCount ();
 			}
 		}
@@ -2574,6 +2619,7 @@ public class LevelManager : MonoBehaviour
 		if (countOfMatch >= 2) {
 			if (LevelManager.Instance.limitType == LIMIT.MOVES) {
 				LevelManager.THIS.Limit--;
+				CharacterAnimationController.instanse.playIdleAnimation ();
 				LevelManager.THIS.checkAllTimeBomb ();
 			}
 			LevelManager.THIS.moveID++;
@@ -3021,14 +3067,14 @@ public class LevelManager : MonoBehaviour
                             List<Square> sqList = GetSquare(col, row).GetAllNeghbors();
                             foreach (Square sq in sqList)
                             {
-                                if (sq.CanGoInto() && UnityEngine.Random.Range(0, 5) == 0 && sq.type == SquareTypes.EMPTY)
+								if (sq.CanGoInto() && sq.isSimpleCube() && UnityEngine.Random.Range(0, 5) == 0 && sq.type == SquareTypes.EMPTY)
                                 {
                                     //GetSquare(col, row).GenThriveBlock(sq);
                                     CreateObstacles(sq.col, sq.row, sq.gameObject, SquareTypes.THRIVING);
 
                                     thrivingBlockSelected = true;
 									//TargetBlocks++;
-									if (isContainTarget (Target.BLOCKS)) {
+									if (isContainTarget (Target.BLOCKS) && !dontDisplay(SquareTypes.THRIVING)) {
 										blocksCount [5]++;
 									}
 									calculateSymbols ();
@@ -3712,6 +3758,15 @@ public class LevelManager : MonoBehaviour
 		greenBoxPercent = 0;
 		yellowBoxPercent = 0;
 
+		blocksCount [0] = 0;
+		blocksCount [1] = 0;
+		blocksCount [2] = 0;
+		blocksCount [3] = 0;
+		blocksCount [4] = 0;
+		blocksCount [5] = 0;
+		blocksCount [6] = 0;
+		blocksCount [7] = 0;
+
 		Alltargets.Clear ();
 		Alltargets.TrimExcess ();
 
@@ -3985,6 +4040,38 @@ public class LevelManager : MonoBehaviour
 		}
 
 		setUpColorTable ();
+
+		for (int row = 0; row < maxRows; row++)
+		{
+			for (int col = 0; col < maxCols; col++)
+			{
+				if (levelSquaresFile [row * maxCols + col].block == SquareTypes.BLOCK && !dontDisplay(SquareTypes.BLOCK)) {
+					blocksCount [0]++;
+				}
+				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.BEACH_BALLS && !dontDisplay(SquareTypes.BEACH_BALLS)) {
+					//blocksCount [1]++;
+				}
+				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.COLOR_CUBE && !dontDisplay(SquareTypes.COLOR_CUBE)) {
+					blocksCount [2]++;
+				}
+				if (levelSquaresFile [row * maxCols + col].block == SquareTypes.DOUBLEBLOCK && !dontDisplay(SquareTypes.DOUBLEBLOCK)) {
+					//blocksCount [3]++;
+				}
+				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.SOLIDBLOCK && !dontDisplay(SquareTypes.SOLIDBLOCK)) {
+					blocksCount [4]++;
+				}
+				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.THRIVING && !dontDisplay(SquareTypes.THRIVING)) {
+					blocksCount [5]++;
+				}
+				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.UNDESTROYABLE && !dontDisplay(SquareTypes.UNDESTROYABLE)) {
+					//blocksCount [6]++;
+				}
+				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.WIREBLOCK && !dontDisplay(SquareTypes.WIREBLOCK)) {
+					blocksCount [7]++;
+				}
+
+			}
+		}
 
         levelLoaded = true;
     }

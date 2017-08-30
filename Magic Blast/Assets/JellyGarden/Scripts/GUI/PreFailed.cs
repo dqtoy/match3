@@ -9,6 +9,10 @@ public class PreFailed : MonoBehaviour
 	public Image buyButton;
 	int FailedCost;
 
+	public GameObject _bomb;
+	public Text _topText;
+	public Text _bottomText;
+
 	public GameObject[] targetsIcons;
 	// Use this for initialization
 	void OnEnable ()
@@ -21,6 +25,16 @@ public class PreFailed : MonoBehaviour
 			//buyButton.sprite = buyButtons [1];
 		if (!LevelManager.THIS.enableInApps)
 			transform.Find ("Buy").gameObject.SetActive (false);
+
+		if (LevelManager.THIS.isBombTimeOut) {
+			_topText.text = "The Bomb is about to explode!";
+			_bottomText.text = "Add +5 to all cube bombs.";
+			_bomb.SetActive (true);
+		} else {
+			_topText.text = "Out of Moves!";
+			_bottomText.text = "Add +5 moves to continue!";
+			_bomb.SetActive (false);
+		}
 		
 		//SetTargets ();
 		StartCoroutine(animatePopup());
@@ -37,9 +51,12 @@ public class PreFailed : MonoBehaviour
 	{
 		LeanTween.moveLocalX (gameObject, 1000, 0.7f).setEaseInExpo ();
 		yield return new WaitForSeconds (0.8f);
-		if (LevelManager.THIS.Limit <= 0)
+		if (LevelManager.THIS.Limit <= 0 || LevelManager.THIS.isBombTimeOut)
 			LevelManager.THIS.gameStatus = GameState.GameOver;
 
+		if (LevelManager.THIS.isBombTimeOut) {
+			LevelManager.THIS.destroyAllTimeBomb ();
+		}
 		gameObject.SetActive (false);
 	}
 
@@ -67,10 +84,15 @@ public class PreFailed : MonoBehaviour
 
 	public void GoOnFailed()
 	{
-		if (LevelManager.THIS.limitType == LIMIT.MOVES)
-			LevelManager.THIS.Limit += LevelManager.THIS.ExtraFailedMoves;
-		else
-			LevelManager.THIS.Limit += LevelManager.THIS.ExtraFailedSecs;
+		if (LevelManager.THIS.isBombTimeOut) {
+			LevelManager.THIS.setExtraTimeBomb ();
+		} else {
+			if (LevelManager.THIS.limitType == LIMIT.MOVES)
+				LevelManager.THIS.Limit += LevelManager.THIS.ExtraFailedMoves;
+			else
+				LevelManager.THIS.Limit += LevelManager.THIS.ExtraFailedSecs;
+		}
+
 		
 		LevelManager.THIS.gameStatus = GameState.Playing;
 	}
