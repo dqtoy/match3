@@ -23,7 +23,7 @@ public class CharacterAnimationController : MonoBehaviour {
 
 	void OnEnable()
 	{
-		playIdleAnimation ();
+		//playIdleAnimation ();
 	}
 	
 	// Update is called once per frame

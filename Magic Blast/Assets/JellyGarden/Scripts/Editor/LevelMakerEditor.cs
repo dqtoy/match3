@@ -9,12 +9,7 @@ using System.Reflection;
 using UnityEditor.SceneManagement;
 
 
-public enum LevelTag
-{
-	EASY,
-	MEDIUM,
-	HARD
-}
+
 
 [InitializeOnLoad]
 public class LevelMakerEditor : EditorWindow
@@ -2573,6 +2568,8 @@ public class LevelMakerEditor : EditorWindow
 		dontIncludeInGoalTarget1 = SquareTypes.NONE;
 		dontIncludeInGoalTarget2 = SquareTypes.NONE;
 		dontIncludeInGoalTarget3 = SquareTypes.NONE;
+
+		levelTag = LevelTag.EASY;
 
 		beachBallPercent = 0;
 		moneyBoxPercent = 0;

@@ -321,9 +321,12 @@ public class Square : MonoBehaviour
 			LevelManager.THIS.IceShow (gameObject);
 		}
 		if (type == SquareTypes.WIREBLOCK) {
+			if (item != null) {
+				item.isFreezeObject = false;
+			}
 			LevelManager.THIS.SolidChainShow (gameObject);
 		}
-		if (type == SquareTypes.SOLIDBLOCK && blockLevel > 0) {
+		if (type == SquareTypes.SOLIDBLOCK && blockLevel > 0 ) {
 			
 			//hidenLevelObjects[blockLevel-1].GetComponent<Animation>().Play("BrickRotate");
 			//hidenLevelObjects[blockLevel-1].GetComponent<SpriteRenderer>().sortingOrder = 100;
@@ -340,7 +343,7 @@ public class Square : MonoBehaviour
 			
         //if (type == SquareTypes.UNDESTROYABLE) return;
 		if (additiveType == SquareTypes.BLOCK || type == SquareTypes.BLOCK) {
-			if (block.Count > 0) {
+			if (block.Count > 0 ) {
 				if (block [block.Count -1].gameObject.name == "Block(Clone)") {
 					Debug.Log ("destroy block");
 					if (LevelManager.THIS.blocksCount [0] > 0 && LevelManager.THIS.isContainTarget(Target.BLOCKS)) {
@@ -474,9 +477,16 @@ public class Square : MonoBehaviour
 
 
             }
-			if (type == SquareTypes.COLOR_CUBE) {
+			if (type == SquareTypes.WIREBLOCK || additiveType == SquareTypes.WIREBLOCK) {
+				Debug.Log ("destroyNearBlockedCubesInside");
+				//if (square.item.color == color) {
+				//LevelManager.THIS.TargetBlocks--;
+				LevelManager.THIS.blocksCount[7]--;
+				if (LevelManager.THIS.blocksCount [7] < 0) {
+					LevelManager.THIS.blocksCount [7] = 0;
+				}
+				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [7], SquareTypes.WIREBLOCK);
 
-			} else {
 
 			}
             //GameObject.Destroy(block[block.Count - 1], 1.5f);
@@ -484,8 +494,10 @@ public class Square : MonoBehaviour
             if (block.Count > 1) type = SquareTypes.BLOCK;
             block.Remove(block[block.Count - 1]);
 
-            if (block.Count == 0)
-                type = SquareTypes.EMPTY;
+			if (block.Count == 0) {
+				type = SquareTypes.EMPTY;
+				additiveType = SquareTypes.NONE;
+			}
         }
 
     }

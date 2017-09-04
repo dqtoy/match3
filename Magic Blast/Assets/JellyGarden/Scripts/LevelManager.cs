@@ -15,6 +15,13 @@ public class SquareBlocks
 	public SquareTypes additiveBlock;
 }
 
+public enum LevelTag
+{
+	EASY,
+	MEDIUM,
+	HARD
+}
+
 public enum GameState
 {
     Map,
@@ -2272,6 +2279,35 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+	public void findNoMoreMoves()
+	{
+		if (gameStatus == GameState.Playing)
+		{
+			Debug.Log ("check no more moves!");
+
+			bool find = false;
+
+			GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+
+			foreach (GameObject item in items)
+			{
+				if (item != null) {
+					List<Item> all = item.GetComponent<Item>().square.FindMatchesAround(FindSeparating.ALL,2);
+					if (all.Count > 0) {
+						find = true;
+						break;
+					}
+				}
+
+			}
+
+			if (!find)
+			{
+				StartCoroutine(NoMatchesCor());
+			}
+		}
+	}
+
     public void ReGenLevel()
     {
         itemsHided = false;
@@ -2343,7 +2379,7 @@ public class LevelManager : MonoBehaviour
         if (gameStatus == GameState.RegenLevel)
             gameStatus = GameState.Playing;
         //StartCoroutine(CheckFallingAtStart());
-
+		calculateSymbols();
     }
 
     void SetPreBoosts()
@@ -2445,7 +2481,7 @@ public class LevelManager : MonoBehaviour
         {
             if (item != null)
             {
-                if (item.GetComponent<Item>().currentType != ItemsTypes.INGREDIENT)
+				if (item.GetComponent<Item>().currentType == ItemsTypes.NONE)
                 {
                     if (!withoutEffects)
                         item.GetComponent<Item>().DestroyItem();
@@ -2468,7 +2504,7 @@ public class LevelManager : MonoBehaviour
 	{
 		List<Item> tempList = _it.square.FindMatchesAround (FindSeparating.VERTICAL, 2);
 		foreach (Item s in tempList) {
-			if (!mainList.Contains (s) && !s.isFreezeObject && s.currentType == ItemsTypes.NONE) {
+			if (!mainList.Contains (s) && !s.isFreezeObject && (s.currentType == ItemsTypes.NONE || s.currentType == ItemsTypes.TIME_BOMB)) {
 				mainList.Add (s);
 			}
 			else if (s.isFreezeObject)
@@ -2479,7 +2515,7 @@ public class LevelManager : MonoBehaviour
 		tempList.Clear ();
 		tempList = _it.square.FindMatchesAround (FindSeparating.HORIZONTAL, 2);
 		foreach (Item s2 in tempList) {
-			if (!mainList.Contains (s2) && !s2.isFreezeObject && s2.currentType == ItemsTypes.NONE) {
+			if (!mainList.Contains (s2) && !s2.isFreezeObject && (s2.currentType == ItemsTypes.NONE || s2.currentType == ItemsTypes.TIME_BOMB)) {
 				mainList.Add (s2);
 			}
 			else if (s2.isFreezeObject)
@@ -2612,6 +2648,9 @@ public class LevelManager : MonoBehaviour
 			//_items [i].DestroyItem (false,"",false);
 			if (!_items [i].isFreezeObject)
 				countOfMatch++;
+			if (_items [i].currentType == ItemsTypes.BOMB) {
+				Debug.Log ("find bomb");
+			}
 		}
 
 		Debug.Log ("count = "+_items.Count);
@@ -2756,7 +2795,8 @@ public class LevelManager : MonoBehaviour
         {
 
             //find matches
-            yield return new WaitForSeconds(0.1f);
+            //yield return new WaitForSeconds(0.1f);
+			yield return new WaitForFixedUpdate();
 
 			// commit
             combinedItems.Clear();
@@ -2995,7 +3035,7 @@ public class LevelManager : MonoBehaviour
 			//calculateSymbols ();
             //detect near empty squares to fall into
             nearEmptySquareDetected = false;
-
+			CheckIngredient();
             for (int col = 0; col < maxCols; col++)
             {
                 for (int row = maxRows - 1; row >= 0; row--)
@@ -3020,7 +3060,7 @@ public class LevelManager : MonoBehaviour
             //while (!matchesGot)
             //    yield return new WaitForFixedUpdate();
             //matchesGot = false;
-            //CheckIngredient();
+            CheckIngredient();
 
 
 			// commit
@@ -3818,6 +3858,11 @@ public class LevelManager : MonoBehaviour
 				Alltargets.Add (target3);
 				//Assign game mode
 			}
+			else if (line.StartsWith("TAG "))
+			{
+				string modeString = line.Replace("TAG", string.Empty).Trim();
+				//levelTag = (LevelTag)int.Parse(modeString);
+			}
 			else if (line.StartsWith("DONTINCLUDE "))
 			{
 				string blocksString = line.Replace("DONTINCLUDE", string.Empty).Trim();
@@ -4045,7 +4090,7 @@ public class LevelManager : MonoBehaviour
 		{
 			for (int col = 0; col < maxCols; col++)
 			{
-				if (levelSquaresFile [row * maxCols + col].block == SquareTypes.BLOCK && !dontDisplay(SquareTypes.BLOCK)) {
+				if ((levelSquaresFile [row * maxCols + col].block == SquareTypes.BLOCK || levelSquaresFile [row * maxCols + col].additiveBlock == SquareTypes.BLOCK) && !dontDisplay(SquareTypes.BLOCK)) {
 					blocksCount [0]++;
 				}
 				if (levelSquaresFile [row * maxCols + col].obstacle == SquareTypes.BEACH_BALLS && !dontDisplay(SquareTypes.BEACH_BALLS)) {
