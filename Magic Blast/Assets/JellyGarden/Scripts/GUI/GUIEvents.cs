@@ -17,13 +17,16 @@ public class GUIEvents : MonoBehaviour
 
         if (name == "FaceBook")
         {
-            if (FacebookManager.Instance.IsLoggedIn)
+            if (FacebookManager.Instance != null)
             {
-                GetComponentInChildren<TextMeshProUGUI>().text = "LogOut";
-            }
-            else
-            {
-                GetComponentInChildren<TextMeshProUGUI>().text = "LogIn";
+                if (FacebookManager.Instance.IsLoggedIn)
+                {
+                    GetComponentInChildren<TextMeshProUGUI>().text = "LogOut";
+                }
+                else
+                {
+                    GetComponentInChildren<TextMeshProUGUI>().text = "LogIn";
+                }
             }
         }
     }

@@ -8,14 +8,20 @@ public class CharacterPhotoSetter : MonoBehaviour
 
     private FacebookUserInfo _currentUser;
 
+    private FacebookManager _fbManager;
+
     private void Start()
     {
-        FacebookManager.Instance.OnUserInfoDownloadedEvent += OnUserInfoDownloadedEvent;
+        _fbManager = FacebookManager.Instance;
+        if (_fbManager != null)
+        {
+            _fbManager.OnUserInfoDownloadedEvent += OnUserInfoDownloadedEvent;
+        }
     }
 
     private void OnUserInfoDownloadedEvent()
     {
-        _currentUser = FacebookManager.Instance.CurrentUserFacebookUserInfo;
+        _currentUser = _fbManager.CurrentUserFacebookUserInfo;
 
         if (_currentUser.ProfilePicture == null)
         {
@@ -31,9 +37,9 @@ public class CharacterPhotoSetter : MonoBehaviour
     {
         if (_characterImageComponent != null)
         {
-            if (FacebookManager.Instance.CurrentUserFacebookUserInfo.ProfilePicture != null)
+            if (_fbManager.CurrentUserFacebookUserInfo.ProfilePicture != null)
             {
-                _characterImageComponent.sprite = FacebookManager.Instance.CurrentUserFacebookUserInfo.ProfilePicture;
+                _characterImageComponent.sprite = _fbManager.CurrentUserFacebookUserInfo.ProfilePicture;
             }
         }
     }

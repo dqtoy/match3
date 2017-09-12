@@ -316,8 +316,9 @@ public class LevelManager : MonoBehaviour
                 MusicBase.Instance.GetComponent<AudioSource>().clip = MusicBase.Instance.music[1];
                 MusicBase.Instance.GetComponent<AudioSource>().Play();
                 PrepareGame();
-				//InitTargets ();
-				Invoke("InitTargets",0.3f);
+                FindObjectOfType<TabbedWindowController>().HideTabs();
+                //InitTargets ();
+                Invoke("InitTargets",0.3f);
             }
             else if (value == GameState.WaitForPopup)
             {
@@ -339,6 +340,7 @@ public class LevelManager : MonoBehaviour
                     MusicBase.Instance.GetComponent<AudioSource>().clip = MusicBase.Instance.music[0];
                     MusicBase.Instance.GetComponent<AudioSource>().Play();
                     EnableMap(true);
+                    FindObjectOfType<TabbedWindowController>().ShowTabs();
                 }
                 else
                 {
@@ -350,6 +352,7 @@ public class LevelManager : MonoBehaviour
                 {
                     if (passLevelCounter % InitScript.Instance.ShowRateEvery == 0 && InitScript.Instance.ShowRateEvery > 0 && PlayerPrefs.GetInt("Rated", 0) == 0)
                         InitScript.Instance.ShowRate();
+
                 }
             }
             else if (value == GameState.Pause)
@@ -380,6 +383,13 @@ public class LevelManager : MonoBehaviour
                 SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.complete[1]);
 
 
+                if (PlayFabManager.instanse != null)
+                {
+                    PlayFabManager.instanse.UpdatePlayerLevelsLeaderoard(currentLevel);
+                    PlayFabManager.instanse.UpdatePlayerLevelScoresLeaderboard(currentLevel, Score);
+                }
+                //currentLevel
+                //Score
 
                 //if (InitScript.Instance.ShowChartboostAdsEveryLevel > 0)
                 //{

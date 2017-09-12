@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Facebook.Unity;
+using UnityEngine.SceneManagement;
 
 public class FacebookManager : MonoBehaviour
 {
@@ -71,23 +72,21 @@ public class FacebookManager : MonoBehaviour
     public Action<string> OnFbLoginError { get; set; }
     public Action OnFbLoggedOut { get; set; }
 
-    public Action OnUserInfoDownloadedEvent;
-    public Action OnFriendsInfoDownloadedEvent;
+    public Action OnUserInfoDownloadedEvent { get; set; }
+    public Action OnFriendsInfoDownloadedEvent { get; set; }
+    public Action OnGetRequestsEvent { get; set; }
 
-    public Action OnSendInviteSuccess;
-    public Action OnSendLivesSuccess;
-    public Action OnSendLivesRequestSuccess;
+    public Action OnSendInviteSuccess { get; set; }
+    public Action OnSendLivesSuccess { get; set; }
+    public Action OnSendLivesRequestSuccess { get; set; }
 
     #region UnityMethods
     private void Awake()
     {
+        DontDestroyOnLoad(transform.gameObject);
         if (_instance == null)
         {
             _instance = this;
-        }
-        if (!FB.IsInitialized)
-        {
-            FB.Init(OnFbInitComplete);
         }
     }
 
@@ -97,6 +96,11 @@ public class FacebookManager : MonoBehaviour
         {
             FB.Init(OnFbInitComplete);
         }
+
+        SceneManager.activeSceneChanged += (sc1, sc2) =>
+        {
+            Debug.LogFormat("Scene changed: {0} to {1}", sc1.name, sc2.name);
+        };
     }
     #endregion
 
@@ -109,6 +113,10 @@ public class FacebookManager : MonoBehaviour
         if (FB.IsLoggedIn)
         {
             GetFbUserInfo();
+            if (OnFbLoggedIn != null)
+            {
+                OnFbLoggedIn.Invoke();
+            }
         }
     }
 
@@ -195,13 +203,24 @@ public class FacebookManager : MonoBehaviour
 
             if (friendDataObjectDict["data"].ToString() == "item_life")
             {
-                requestData.Type = RequestType.Life;
+                requestData.Type = RequestType.SendLife;
+            }
+            else if (friendDataObjectDict["data"].ToString() == "request_item_life")
+            {
+                requestData.Type = RequestType.RequestLife;    
             }
 
             _userRequests.Add(requestData);
         }
-    }
 
+        if (_userRequests != null && _userRequests.Any())
+        {
+            if (OnGetRequestsEvent != null)
+            {
+                OnGetRequestsEvent.Invoke();
+            }
+        }
+    }
 
     private void SendLifeRequestCallback(IAppRequestResult result)
     {
@@ -258,7 +277,6 @@ public class FacebookManager : MonoBehaviour
         foreach (var permission in AccessToken.CurrentAccessToken.Permissions)
         {
             _userFacebookPermissions.Add(permission, true);
-            //Debug.Log(permission);
         }
         StartCoroutine(GetFacebookUserInfo(graphURL: "/me?fields=id,name,picture.width(64).height(64)", userType: UserType.Current));
     }
@@ -396,10 +414,11 @@ public class FacebookManager : MonoBehaviour
                 {
                     OnFriendsInfoDownloadedEvent.Invoke();
                 }
+                GetFriendRequests();
             }
         }
 
-        GetFriendRequests();
+        //GetFriendRequests();
     }
 
     private void GetFriendRequests()
@@ -414,13 +433,14 @@ public class FacebookManager : MonoBehaviour
     #endregion
 
     #region Public Methods
-    public void UpdateFriends()
+    public FacebookManager UpdateFriends()
     {
         UpdateInventableFriendsList();
         UpdateFriendsList();
+        return this;
     }
 
-    public void LogInFacebook()
+    public FacebookManager LogInFacebook()
     {
         if (!FB.IsLoggedIn)
         {
@@ -430,9 +450,10 @@ public class FacebookManager : MonoBehaviour
             permissions[2] = "email";
             FB.LogInWithReadPermissions(permissions: permissions, callback: FbLoginCallback);
         }
+        return this;
     }
 
-    public void LogOutFacebook()
+    public FacebookManager LogOutFacebook()
     {
         if (FB.IsLoggedIn)
         {
@@ -443,29 +464,39 @@ public class FacebookManager : MonoBehaviour
                 OnFbLoggedOut.Invoke();
             }
         }
+        return this;
     }
 
-    public void ConfirmRequests(List<UserRequestInfo> requests)
+    public AccessToken GetAccessToken()
+    {
+        return AccessToken.CurrentAccessToken;
+    }
+
+    public FacebookManager ConfirmRequests(List<UserRequestInfo> requests)
     {
         foreach (var request in requests)
         {
             FB.API("/" + request.Id, HttpMethod.DELETE);
         }
+        return this;
     }
 
-    public void SendInvites(List<string> userInviteIds)
+    public FacebookManager SendInvites(List<string> userInviteIds)
     {
         FB.AppRequest("Try it!", to: userInviteIds, callback: InvitesCallback);
+        return this;
     }
 
-    public void SendLives(List<string> userIds)
+    public FacebookManager SendLives(List<string> userIds)
     {
         FB.AppRequest(message: "I sent you a life!", to: userIds, maxRecipients: null, title: "Send a life for your friends.", data: "item_life", callback: SendLiveCallback);
+        return this;
     }
 
-    public void SendLivesRequest(List<string> userIds)
+    public FacebookManager SendLivesRequest(List<string> userIds)
     {
         FB.AppRequest(message: "Help me with lives!", to: userIds, maxRecipients: null, title: "Send lives request.", data: "request_item_life", callback: SendLifeRequestCallback);
+        return this;
     }
     #endregion
 }
