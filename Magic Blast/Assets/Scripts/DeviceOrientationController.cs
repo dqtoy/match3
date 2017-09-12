@@ -62,7 +62,7 @@ public class DeviceOrientationController : MonoBehaviour {
 			if (getCurrentOrientaion () == DevideOr.Portrait) {
 				_mainCamera.orthographicSize = 4.3f * aspect;
 			} else {
-				_mainCamera.orthographicSize = 6.7f * aspect;
+				_mainCamera.orthographicSize = 4.3f;
 			}
 		}
 
@@ -78,7 +78,7 @@ public class DeviceOrientationController : MonoBehaviour {
 			_GlobalScaler.referenceResolution = new Vector2 (1280f,800f);
 			_MapScaler.referenceResolution = new Vector2 (1107f,720f);
 			_GameScaler.referenceResolution = new Vector2 (1434f,720f);
-			levelObject.transform.position = new Vector3(0.6f,-0.21f,-10f);
+			levelObject.transform.position = new Vector3(0.6f,-0.34f,-10f);
 
 			girl.transform.parent = gameTargetUILandscape.transform;
 			girl.transform.localPosition = new Vector3 (-3f,265f,0);

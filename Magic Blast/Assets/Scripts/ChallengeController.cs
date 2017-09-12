@@ -34,7 +34,7 @@ public class ChallengeController : MonoBehaviour {
 	}
 
 	void Start () {
-		
+		getAllLevelsByTag (LevelTag.MEDIUM);
 	}
 	
 	// Update is called once per frame
@@ -72,6 +72,15 @@ public class ChallengeController : MonoBehaviour {
 
 	}
 
+	bool isLevelPassed(int level)
+	{
+		bool isPassed = false;
+
+		isPassed = !LevelsMap.IsLevelLocked (level);
+
+		return isPassed;
+	}
+
 	public void checkPopup()
 	{
 		Debug.Log (getCurrentChallenge());
@@ -87,7 +96,7 @@ public class ChallengeController : MonoBehaviour {
 		int lastSavedTreasureHuntChallenge = PlayerPrefs.GetInt ("weekTreasureHunt",-1);
 		int lastSavedStarTournament = PlayerPrefs.GetInt ("weekStarTournament",-1);
 
-		if (getCurrentChallenge () == ChallengeType.StarTournament) {
+		if (getCurrentChallenge () == ChallengeType.StarTournament && isLevelPassed(30)) {
 			if (_weekNumber != lastSavedStarTournament) {
 				// show tournamentPopup
 				//tournamentPopup.SetActive(true);
@@ -99,7 +108,7 @@ public class ChallengeController : MonoBehaviour {
 				PlayerPrefs.SetInt ("startTournamentLevel", curLevel);
 				PlayerPrefs.Save ();
 			}
-		} else if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge) {
+		} else if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge && isLevelPassed(30)) {
 			if (_weekNumber != lastSavedTreeClambChallenge) {
 				// show TreeClimbPopup
 				PopupManager.instanse.showPopup (TreeClambPopup);
@@ -110,7 +119,7 @@ public class ChallengeController : MonoBehaviour {
 				PlayerPrefs.SetInt ("weekTreeClamb", _weekNumber);
 				PlayerPrefs.Save ();
 			}
-		} else if (getCurrentChallenge () == ChallengeType.TreasureHuntChallenge) {
+		} else if (getCurrentChallenge () == ChallengeType.TreasureHuntChallenge && isLevelPassed(30)) {
 			if (_weekNumber != lastSavedTreasureHuntChallenge) {
 				// show reasureHuntPopup
 				PopupManager.instanse.showPopup (TreasureHuntPopup);
@@ -152,6 +161,19 @@ public class ChallengeController : MonoBehaviour {
 	{
 		PlayerPrefs.SetString("treasuareHuntLevels","1,2,3,4,5,6,7,8,9,10");
 		PlayerPrefs.Save ();
+	}
+
+	public List<int> getAllLevelsByTag(LevelTag _tag)
+	{
+		List<int> _levels = new List<int> ();
+
+		UnityEngine.Object[] lv = Resources.LoadAll("Levels", typeof(TextAsset));
+
+		foreach (TextAsset _tx in lv) {
+			Debug.Log (_tx.name);
+		}
+
+		return _levels;
 	}
 
 	public void checkChallengeButtons()

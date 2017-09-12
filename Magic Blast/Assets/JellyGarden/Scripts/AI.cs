@@ -14,8 +14,8 @@ public class AI : MonoBehaviour
     void Start()
     {
         THIS = this;
-    //    StartCoroutine(CheckPossibleCombines());
-    //    StartCoroutine(reset());
+        //StartCoroutine(CheckPossibleCombines());
+        StartCoroutine(reset());
     }
 
     IEnumerator reset()
@@ -24,7 +24,7 @@ public class AI : MonoBehaviour
         {
             yield return new WaitForSeconds(15);
 			//commit
-            //LevelManager.THIS.ReGenLevel();
+			LevelManager.THIS.findNoMoreMoves();
         }
     }
 

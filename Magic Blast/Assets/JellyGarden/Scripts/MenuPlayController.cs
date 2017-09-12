@@ -127,7 +127,7 @@ public class MenuPlayController : MonoBehaviour {
 		if (LevelManager.THIS.isContainTarget (Target.COLLECT)) {
 			for (int i = 0; i < LevelManager.THIS.collectItems.Length; i++) {
 				if (LevelManager.THIS.collectItems [i] != CollectItems.None) {
-					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.collectItems[i] + 2]);
+					_spriteList.Add (LevelManager.THIS.cubesUISprites[(int)LevelManager.THIS.collectItems[i] - 1]);
 					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();

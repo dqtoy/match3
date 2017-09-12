@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PrePlay : MonoBehaviour {
     public GameObject ingrObject;
+	public GameObject ingrObject2;
     public GameObject blocksObject;
     public GameObject scoreTargetObject;
 
@@ -16,7 +17,7 @@ public class PrePlay : MonoBehaviour {
 	void OnEnable () {
         //InitTargets();
 		StartCoroutine(animatePopup());
-		Invoke ("InitTargets",0.2f);
+		Invoke ("InitTargets",0.4f);
 	}
 
 
@@ -74,7 +75,7 @@ public class PrePlay : MonoBehaviour {
 		if (LevelManager.THIS.isContainTarget (Target.COLLECT)) {
 			for (int i = 0; i < LevelManager.THIS.collectItems.Length; i++) {
 				if (LevelManager.THIS.collectItems [i] != CollectItems.None) {
-					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.collectItems[i] + 2]);
+					_spriteList.Add (LevelManager.THIS.cubesUISprites[(int)LevelManager.THIS.collectItems[i]-1]);
 				}
 			}
 		}
@@ -121,6 +122,8 @@ public class PrePlay : MonoBehaviour {
 		for (int j = 0; j < _spriteList.Count; j++) {
 			targetsIcons [j].SetActive (true);
 			targetsIcons [j].GetComponent<Image> ().sprite = _spriteList [j];
+			targetsIcons [j].transform.GetChild (0).GetComponent<Text> ().text = ingrObject2.transform.Find ("Ingr" + (j+1).ToString()).transform.GetChild (0).GetComponent<Text> ().text;
+
 		}
         //ingr1.GetComponent<RectTransform>().localPosition = new Vector3(-74.37f, ingr1.GetComponent<RectTransform>().localPosition.y, ingr1.GetComponent<RectTransform>().localPosition.z);
         //ingr2.GetComponent<RectTransform>().localPosition = new Vector3(50.1f, ingr2.GetComponent<RectTransform>().localPosition.y, ingr2.GetComponent<RectTransform>().localPosition.z);

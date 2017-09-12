@@ -77,7 +77,7 @@ public class ManuFailed : MonoBehaviour {
 		if (LevelManager.THIS.isContainTarget (Target.COLLECT)) {
 			for (int i = 0; i < LevelManager.THIS.collectItems.Length; i++) {
 				if (LevelManager.THIS.collectItems [i] != CollectItems.None) {
-					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.collectItems[i] + 2]);
+					_spriteList.Add (LevelManager.THIS.cubesUISprites[(int)LevelManager.THIS.collectItems[i] - 1]);
 					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.collectItems [i]));
 					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (!LevelManager.THIS.isCompleteTarget(LevelManager.THIS.collectItems [i]));
