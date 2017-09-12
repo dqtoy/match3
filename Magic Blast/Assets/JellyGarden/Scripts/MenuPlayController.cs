@@ -16,8 +16,11 @@ public class MenuPlayController : MonoBehaviour {
 	void Start ()
     {
         _leaderboardController = LeaderboardController.Instance;
-        _leaderboardController.OnLeaderbordForLevelUpdated += OnLeaderbordForLevelUpdated;
-
+        if (_leaderboardController != null)
+        {
+            _leaderboardController.OnLeaderbordForLevelUpdated += OnLeaderbordForLevelUpdated;
+        }
+        
         _scoresLeaderboardWindowController.Hide();
     }
 
