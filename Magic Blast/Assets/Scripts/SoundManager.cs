@@ -72,4 +72,9 @@ public class SoundManager : MonoBehaviour {
 	{
 		winSFX.Play ();
 	}
+
+	public void playCubeDestroySFX()
+	{
+		winSFX.Play ();
+	}
 }
