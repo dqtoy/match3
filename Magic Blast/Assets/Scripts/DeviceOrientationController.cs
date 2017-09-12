@@ -48,9 +48,23 @@ public class DeviceOrientationController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (getCurrentOrientaion() != _currentOrientation) {
-			onOrientationChange (getCurrentOrientaion());
+		if (AndroidRotationLockUtil.AllowAutorotation ()) {
+			Screen.autorotateToLandscapeLeft = true;
+			Screen.autorotateToLandscapeRight = true;
+			Screen.autorotateToPortrait = true;
+			Screen.autorotateToPortraitUpsideDown = true;
+
+			if (getCurrentOrientaion() != _currentOrientation) {
+				onOrientationChange (getCurrentOrientaion());
+			}
+		} else {
+			Screen.autorotateToLandscapeLeft = false;
+			Screen.autorotateToLandscapeRight = false;
+			Screen.autorotateToPortrait = false;
+			Screen.autorotateToPortraitUpsideDown = false;
 		}
+			
+
 	}
 
 	void onOrientationChange(DevideOr _orientaion)

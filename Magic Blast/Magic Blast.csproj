@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.6.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -147,6 +145,38 @@
     <Compile Include="Assets\ExaGames\Common\LivesManager\Demo\Scripts\DemoResultDisplayController.cs" />
     <Compile Include="Assets\ExaGames\Common\LivesManager\Demo\Scripts\DemoScript.cs" />
     <Compile Include="Assets\ExaGames\Common\LivesManager\Scripts\LivesManager.cs" />
+    <Compile Include="Assets\Examples\Scripts\AttackSpineboy.cs" />
+    <Compile Include="Assets\Examples\Scripts\DataAssetsFromExportsExample.cs" />
+    <Compile Include="Assets\Examples\Scripts\FootSoldierExample.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\BasicPlatformerController.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\ConstrainedCamera.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\Raptor.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\SpineBeginnerTwo.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\SpineBlinkPlayer.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\SpineboyBeginnerInput.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\SpineboyBeginnerModel.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\SpineboyBeginnerView.cs" />
+    <Compile Include="Assets\Examples\Scripts\Getting Started Scripts\SpineboyTargetController.cs" />
+    <Compile Include="Assets\Examples\Scripts\Goblins.cs" />
+    <Compile Include="Assets\Examples\Scripts\HurtFlashEffect.cs" />
+    <Compile Include="Assets\Examples\Scripts\MixAndMatch.cs" />
+    <Compile Include="Assets\Examples\Scripts\MixAndMatchGraphic.cs" />
+    <Compile Include="Assets\Examples\Scripts\RaggedySpineboy.cs" />
+    <Compile Include="Assets\Examples\Scripts\Rotator.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\BoneLocalOverride.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\CombinedSkin.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\Legacy\AtlasRegionAttacher.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\Legacy\CustomSkin.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\Legacy\SpriteAttacher.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\Sample VertexEffects\JitterEffectExample.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\SkeletonAnimationMulti\SkeletonAnimationMulti.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\SkeletonColorInitialize.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\SlotTintBlackFollower.cs" />
+    <Compile Include="Assets\Examples\Scripts\Sample Components\SpineEventUnityHandler.cs" />
+    <Compile Include="Assets\Examples\Scripts\SpawnFromSkeletonDataExample.cs" />
+    <Compile Include="Assets\Examples\Scripts\SpineGauge.cs" />
+    <Compile Include="Assets\Examples\Scripts\Spineboy.cs" />
+    <Compile Include="Assets\Examples\Scripts\SpineboyPole.cs" />
     <Compile Include="Assets\ExportAnimations\AECompositionsImporter\Scripts\AEComposNode.cs" />
     <Compile Include="Assets\ExportAnimations\Scripts\Helpers\BranchControl\BranchExtensionMethods.cs" />
     <Compile Include="Assets\ExportAnimations\Scripts\Helpers\BranchControl\BranchNode.cs" />
@@ -494,6 +524,7 @@
     <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\SseEvent.cs" />
     <Compile Include="Assets\Scripts\AuthorizationController.cs" />
     <Compile Include="Assets\Scripts\ChallengeController.cs" />
+    <Compile Include="Assets\Scripts\CharacterAnimationController.cs" />
     <Compile Include="Assets\Scripts\CharacterPhotoSetter.cs" />
     <Compile Include="Assets\Scripts\DeviceOrientationController.cs" />
     <Compile Include="Assets\Scripts\FacebookComponents\FacebookManager.cs" />
@@ -515,6 +546,7 @@
     <Compile Include="Assets\Scripts\PopupManager.cs" />
     <Compile Include="Assets\Scripts\RotorTNTEffect.cs" />
     <Compile Include="Assets\Scripts\ShowFPS.cs" />
+    <Compile Include="Assets\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Scripts\TournamentLeaderboard.cs" />
     <Compile Include="Assets\Scripts\TournamentPlayer.cs" />
     <Compile Include="Assets\Scripts\TournamentRewardController.cs" />
@@ -554,6 +586,47 @@
     <Compile Include="Assets\SimpleAndroidNotifications\NotificationIcon.cs" />
     <Compile Include="Assets\SimpleAndroidNotifications\NotificationManager.cs" />
     <Compile Include="Assets\SimpleAndroidNotifications\NotificationParams.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Animation.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\AnimationState.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\AnimationStateData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Atlas.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\AtlasAttachmentLoader.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\Attachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\AttachmentLoader.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\AttachmentType.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\BoundingBoxAttachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\ClippingAttachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\MeshAttachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\PathAttachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\PointAttachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\RegionAttachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Attachments\VertexAttachment.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\BlendMode.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Bone.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\BoneData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Event.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\EventData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\ExposedList.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\IConstraint.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\IUpdatable.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\IkConstraint.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\IkConstraintData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Json.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\MathUtils.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\PathConstraint.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\PathConstraintData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Skeleton.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\SkeletonBinary.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\SkeletonBounds.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\SkeletonClipping.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\SkeletonData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\SkeletonJson.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Skin.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Slot.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\SlotData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\TransformConstraint.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\TransformConstraintData.cs" />
+    <Compile Include="Assets\Spine\spine-csharp\Triangulator.cs" />
     <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCamera.cs" />
     <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraAnchor.cs" />
     <Compile Include="Assets\TK2DROOT\tk2d\Code\Camera\tk2dCameraUtil.cs" />
@@ -666,6 +739,46 @@
     <Compile Include="Assets\TextMesh Pro\Examples\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples\Scripts\WarpTextExample.cs" />
+    <Compile Include="Assets\spine-unity\Asset Types\AtlasAsset.cs" />
+    <Compile Include="Assets\spine-unity\Asset Types\SkeletonDataAsset.cs" />
+    <Compile Include="Assets\spine-unity\BoneFollower.cs" />
+    <Compile Include="Assets\spine-unity\ISkeletonAnimation.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\DoubleBuffered.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\SpineMesh.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\Unused\ArraysMeshGenerator.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\Unused\ArraysSimpleMeshGenerator.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\Unused\ArraysSubmeshSetMeshGenerator.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\Unused\ArraysSubmeshedMeshGenerator.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\Unused\DoubleBufferedMesh.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\Unused\ISimpleMeshGenerator.cs" />
+    <Compile Include="Assets\spine-unity\Mesh Generation\Unused\ISubmeshedMeshGenerator.cs" />
+    <Compile Include="Assets\spine-unity\Modules\AttachmentTools\AttachmentTools.cs" />
+    <Compile Include="Assets\spine-unity\Modules\BoundingBoxFollower\BoundingBoxFollower.cs" />
+    <Compile Include="Assets\spine-unity\Modules\CustomMaterials\SkeletonRendererCustomMaterials.cs" />
+    <Compile Include="Assets\spine-unity\Modules\Ghost\SkeletonGhost.cs" />
+    <Compile Include="Assets\spine-unity\Modules\Ghost\SkeletonGhostRenderer.cs" />
+    <Compile Include="Assets\spine-unity\Modules\Ragdoll\SkeletonRagdoll.cs" />
+    <Compile Include="Assets\spine-unity\Modules\Ragdoll\SkeletonRagdoll2D.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonGraphic\BoneFollowerGraphic.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonGraphic\SkeletonGraphic.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonRenderSeparator\SkeletonPartsRenderer.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonRenderSeparator\SkeletonRenderSeparator.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonUtility Modules\SkeletonUtilityEyeConstraint.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonUtility Modules\SkeletonUtilityGroundConstraint.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonUtility Modules\SkeletonUtilityKinematicShadow.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SlotBlendModes\SlotBlendModes.cs" />
+    <Compile Include="Assets\spine-unity\Modules\TK2D\SpriteCollectionAttachmentLoader.cs" />
+    <Compile Include="Assets\spine-unity\Modules\YieldInstructions\WaitForSpineAnimationComplete.cs" />
+    <Compile Include="Assets\spine-unity\Modules\YieldInstructions\WaitForSpineEvent.cs" />
+    <Compile Include="Assets\spine-unity\Modules\YieldInstructions\WaitForSpineTrackEntryEnd.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonAnimation.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonAnimator.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonExtensions.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonRenderer.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonUtility\SkeletonUtility.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonUtility\SkeletonUtilityBone.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonUtility\SkeletonUtilityConstraint.cs" />
+    <Compile Include="Assets\spine-unity\SpineAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Alpha Masking\README.txt" />
@@ -888,6 +1001,12 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\spine-unity\Modules\Ghost\Shaders\Spine-Special-Skeleton-Ghost.shader" />
+    <None Include="Assets\spine-unity\Modules\SkeletonGraphic\Shaders\Spine-SkeletonGraphic.shader" />
+    <None Include="Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Multiply.shader" />
+    <None Include="Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Screen.shader" />
+    <None Include="Assets\spine-unity\Shaders\Spine-Skeleton.shader" />
+    <None Include="Assets\sss\girl_on_window.atlas.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

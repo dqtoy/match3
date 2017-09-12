@@ -46,11 +46,11 @@ public class BoostIcon : MonoBehaviour
 				Check ();
 			}
 			if (type == BoostType.Packages) {
-				LevelManager.THIS.BoostPackage = 5;
+				LevelManager.THIS.BoostPackage = 1;
 				Check ();
 			}
 			if (type == BoostType.Stripes) {
-				LevelManager.THIS.BoostStriped = 5;
+				LevelManager.THIS.BoostStriped = 1;
 				Check ();
 			}
 
