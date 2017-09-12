@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3C222CB9-3B31-D144-ECC5-AFD5041F6D8A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>Editor:5</UnityProjectType>
+    <UnityBuildTarget>Android:13</UnityBuildTarget>
+    <UnityVersion>5.6.1f1</UnityVersion>
+    <RootNamespace></RootNamespace>
+    <LangVersion>4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;UNITY_PURCHASING;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_INAPPS;ANDROID_NOTIFICATIONS;ENABLE_PLAYFABSERVER_API;FACEBOOK;UNITY_HAS_GOOGLEVR</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_1;UNITY_5_6;UNITY_5;UNITY_PURCHASING;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_INAPPS;ANDROID_NOTIFICATIONS;ENABLE_PLAYFABSERVER_API;FACEBOOK;UNITY_HAS_GOOGLEVR</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TestRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEditor.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>Library\UnityAssemblies\UnityEditor.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VR">
+      <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Android.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Android.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.LinuxStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.LinuxStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.OSXStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle_GameSparks">
+      <HintPath>Assets\GameSparks\Plugins\BouncyCastle_GameSparks.dll</HintPath>
+    </Reference>
+    <Reference Include="GameSparks.Api">
+      <HintPath>Assets\GameSparks\Plugins\GameSparks.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="GameSparks">
+      <HintPath>Assets\GameSparks\Plugins\GameSparks.dll</HintPath>
+    </Reference>
+    <Reference Include="GameSparksRT">
+      <HintPath>Assets\GameSparks\Plugins\GameSparksRT.dll</HintPath>
+    </Reference>
+    <Reference Include="JMOAssets">
+      <HintPath>Assets\JMO Assets\Editor\JMOAssets.dll</HintPath>
+    </Reference>
+    <Reference Include="Editor">
+      <HintPath>Assets\Plugins\UnityPurchasing\Bin\Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Purchasing.Common">
+      <HintPath>Assets\Plugins\UnityPurchasing\Bin\Purchasing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Security">
+      <HintPath>Assets\Plugins\UnityPurchasing\Bin\Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Stores">
+      <HintPath>Assets\Plugins\UnityPurchasing\Bin\Stores.dll</HintPath>
+    </Reference>
+    <Reference Include="Apple">
+      <HintPath>Assets\Plugins\UnityPurchasing\Bin\Apple\Apple.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook">
+      <HintPath>Assets\Plugins\UnityPurchasing\Bin\Facebook\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Tizen">
+      <HintPath>Assets\Plugins\UnityPurchasing\Bin\Tizen\Tizen.dll</HintPath>
+    </Reference>
+    <Reference Include="winrt">
+      <HintPath>Assets\Plugins\UnityPurchasing\winrt\winrt.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-1.0.55.56.0b11">
+      <HintPath>Assets\TextMesh Pro\Plugins\TextMeshPro-1.0.55.56.0b11.dll</HintPath>
+    </Reference>
+    <Reference Include="TextMeshPro-1.0.55.56.0b11-Editor">
+      <HintPath>Assets\TextMesh Pro\Plugins\Editor\TextMeshPro-1.0.55.56.0b11-Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="tk2dExternal">
+      <HintPath>Assets\TK2DROOT\tk2d\Editor\tk2dExternal.dll</HintPath>
+    </Reference>
+    <Reference Include="tk2dSkin">
+      <HintPath>Assets\TK2DROOT\tk2d\Editor\tk2dSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript-firstpass">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-UnityScript">
+      <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Magic Blast.Plugins.csproj">
+      <Project>{76607BD7-EBD9-5A58-834F-98DBA93306AA}</Project>
+      <Name>Magic Blast.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="Magic Blast.csproj">
+      <Project>{8B450C83-3EC8-01FC-48AD-F853B57E6DEC}</Project>
+      <Name>Magic Blast</Name>
+    </ProjectReference>
+    <ProjectReference Include="Magic Blast.Editor.Plugins.csproj">
+      <Project>{C663FFBB-3BD4-ACA1-8C82-20FCF661B7F5}</Project>
+      <Name>Magic Blast.Editor.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Alpha Masking\Editor\MaskEditor.cs" />
+    <Compile Include="Assets\ExportAnimations\AECompositionsImporter\Editor\AECompImporterWindow.cs" />
+    <Compile Include="Assets\FORGE3D\HelpMenu\Editor\F3DHelpMenu.cs" />
+    <Compile Include="Assets\FORGE3D\PoolManager\Editor\F3DPoolManagerEditor.cs" />
+    <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Constructor\Editor\F3DTurretConstructorEditor.cs" />
+    <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Constructor\Editor\F3DTurretEditorWindow.cs" />
+    <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Editor\F3DTurretEditor.cs" />
+    <Compile Include="Assets\FORGE3D\Sci-Fi Effects\Code\Turrets\Editor\F3DTurretHandles.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookBuild.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookConsoleEndpoint.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookPostprocess.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookSettingsEditor.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\Utility.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\android\FacebookAndroidUtil.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\android\ManifestMod.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\FixupFiles.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\PListDict.cs" />
+    <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\PListParser.cs" />
+    <Compile Include="Assets\GameSparks\Editor\GameSparksEditorFormUpload.cs" />
+    <Compile Include="Assets\GameSparks\Editor\GameSparksPopUp.cs" />
+    <Compile Include="Assets\GameSparks\Editor\GameSparksRestApi.cs" />
+    <Compile Include="Assets\GameSparks\Editor\GameSparksRestWindow.cs" />
+    <Compile Include="Assets\GameSparks\Editor\GameSparksSettingsEditor.cs" />
+    <Compile Include="Assets\GameSparks\Editor\GameSparksUnityInspector.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX Easy Editor\Editor\CFXEasyEditor.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Editor\CFX_SpawnSystemEditor.cs" />
+    <Compile Include="Assets\JellyGarden\Scripts\Editor\Autorun.cs" />
+    <Compile Include="Assets\JellyGarden\Scripts\Editor\LevelMakerEditor.cs" />
+    <Compile Include="Assets\JellyGarden\Scripts\Editor\PostImporting.cs" />
+    <Compile Include="Assets\JellyGarden\Scripts\Editor\Warning.cs" />
+    <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\LevelsEditorBase.cs" />
+    <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\LevelsMapEditor.cs" />
+    <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\MapCameraEditor.cs" />
+    <Compile Include="Assets\JellyGarden\SmartLevelsMap\Scripts\Editor\SmartLevelsMap\MapLevelEditor.cs" />
+    <Compile Include="Assets\LeanTween\Editor\LeanTweenDocumentationEditor.cs" />
+    <Compile Include="Assets\PlayFabSdk\Shared\Editor\PlayFabHelp.cs" />
+    <Compile Include="Assets\PlayFabSdk\Shared\Models\Editor\MakeSharedSettingsObj.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Camera\tk2dCameraAnchorEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Camera\tk2dCameraEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Fonts\tk2dFontBuilder.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Fonts\tk2dFontEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Fonts\tk2dTextMeshEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Runtime\tk2dResourceEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Runtime\tk2dSystemUtility.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Shared\tk2dNaturalComparer.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\Atlas\tk2dAtlasBuilder.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\Atlas\tk2dAtlasRect.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\Atlas\tk2dMaxRectsBinPack.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteAnimationEditor\tk2dSpriteAnimationAnimOp.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteAnimationEditor\tk2dSpriteAnimationClipEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteAnimationEditor\tk2dSpriteAnimationClipTimelineEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteAnimationEditor\tk2dSpriteAnimationEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteAnimationEditor\tk2dSpriteAnimationEditorPopup.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteAnimationEditor\tk2dSpriteAnimationPreview.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditorFontView.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditorPopup.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditorProxy.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditorSettingsView.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditorSpriteSheetView.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditorSpriteView.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpriteCollectionEditor\tk2dSpriteCollectionEditorTextureView.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\SpritePicker\tk2dSpritePickerPopup.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\TextureProcessing\tk2dFloydSteinbergDithering.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\Triangulator\tk2dSpriteFromTextureEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\Triangulator\tk2dTriangulator.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dAnimatedSpriteEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dClippedSpriteEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSlicedSpriteEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteAnimatorEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteCollectionBuilder.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteCollectionBuilderDeprecated.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteCollectionBuilderUtil.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteCollectionLinkBuilder.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteCollectionPlatformBuilder.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteCollectionTextureWatcher.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dSpriteThumbnailCache.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dStaticSpriteBatcherEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\Sprites\tk2dTiledSpriteEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dAutoRebuild.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dEditorSkin.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dEditorUtility.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dGrid.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dGuiUtility.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dIndex.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dJSSupport.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dMenu.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dPreferencesEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dScaleUtility.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dSceneHelper.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dSpriteGuiUtility.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dUndo.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2d\Editor\tk2dUpdateWindow.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\Importer\tk2dTileMapImporter.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapBrushBuilder.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapBrushRenderer.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapEditorData.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapEditorDataInspector.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapSceneGUI.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapScratchpad.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapToolbar.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dTileMap\Editor\tk2dTileMapUtility.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIBaseItemControlEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIControlsHelperEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUICustomEditorGUILayout.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIDragItemEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIDropDownMenuEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIHoverItemEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIMultiStateToggleButtonEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIProgressBarEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIScrollableAreaEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIScrollbarEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUISoundItemEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUITextInputEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIToggleButtonEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIToggleButtonGroupEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIToggleControlEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUITweenItemEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIUpDownButtonEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Controls\tk2dUIUpDownHoverButtonEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUIItemBoundsHelper.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUIItemEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUILayoutContainerEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUILayoutContainerSizerEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUILayoutEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUIMaskEditor.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUIMethodBindingHelper.cs" />
+    <Compile Include="Assets\TK2DROOT\tk2dUI\Editor\Core\tk2dUISpriteAnimatorEditor.cs" />
+    <Compile Include="Assets\spine-unity\Asset Types\Editor\AtlasAssetInspector.cs" />
+    <Compile Include="Assets\spine-unity\Asset Types\Editor\SkeletonDataAssetInspector.cs" />
+    <Compile Include="Assets\spine-unity\Editor\AssetDatabaseAvailabilityDetector.cs" />
+    <Compile Include="Assets\spine-unity\Editor\BoneFollowerInspector.cs" />
+    <Compile Include="Assets\spine-unity\Editor\Menus.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SkeletonAnimationInspector.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SkeletonAnimatorInspector.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SkeletonBaker.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SkeletonBakingWindow.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SkeletonDebugWindow.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SkeletonRendererInspector.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SpineAttributeDrawers.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SpineEditorUtilities.cs" />
+    <Compile Include="Assets\spine-unity\Editor\SpineInspectorUtility.cs" />
+    <Compile Include="Assets\spine-unity\Modules\BoundingBoxFollower\Editor\BoundingBoxFollowerInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\CustomMaterials\Editor\SkeletonRendererCustomMaterialsInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\Ragdoll\Editor\SkeletonRagdoll2DInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\Ragdoll\Editor\SkeletonRagdollInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\Shaders\Sprite\Editor\SpineSpriteShaderGUI.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonGraphic\Editor\BoneFollowerGraphicInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonGraphic\Editor\SkeletonGraphicInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonRenderSeparator\Editor\SkeletonPartsRendererInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SkeletonRenderSeparator\Editor\SkeletonRenderSeparatorInspector.cs" />
+    <Compile Include="Assets\spine-unity\Modules\SlotBlendModes\Editor\SlotBlendModesEditor.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonUtility\Editor\SkeletonUtilityBoneInspector.cs" />
+    <Compile Include="Assets\spine-unity\SkeletonUtility\Editor\SkeletonUtilityInspector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Alpha Masking\README.txt" />
+    <None Include="Assets\Alpha Masking\Shaders 2D (Sprites)\Sprites-Alpha-Mask-WorldCoords.shader" />
+    <None Include="Assets\Alpha Masking\Shaders 3D\Unlit-Alpha-Mask-WorldCoords.shader" />
+    <None Include="Assets\ExportAnimations\AECompositionsImporter\Shaders\OpacityShader.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Additive.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\AlphaBlended.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Billboard.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Burnout.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Debris.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\ExhaustFlame.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Heat.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Holographic.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\NebulaStaticBoard.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Projectile.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\SmokeTurbulent.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Surface.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Trail.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJump.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpDistortion.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpTwist.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnel.shader" />
+    <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpTunnelDistortion.shader" />
+    <None Include="Assets\FacebookSDK\SDK\Editor\android\DefaultAndroidManifest.xml" />
+    <None Include="Assets\FacebookSDK\SDK\Scripts\Canvas\Resources\JSSDKBindings.txt" />
+    <None Include="Assets\GameSparks\Plugins\GameSparks.Api.XML" />
+    <None Include="Assets\GameSparks\Plugins\GameSparks.XML" />
+    <None Include="Assets\GameSparks\Plugins\GameSparksRT.xml" />
+    <None Include="Assets\GameSparks\Plugins\Metro\GameSparks.XML" />
+    <None Include="Assets\GameSparks\Plugins\Metro\GameSparksRT.xml" />
+    <None Include="Assets\GameSparks\Plugins\WP8\GameSparks.XML" />
+    <None Include="Assets\GameSparks\README.txt" />
+    <None Include="Assets\GameSparks\link.xml" />
+    <None Include="Assets\JMO Assets\!JMO Assets Readme.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX Easy Editor\CartoonFX Easy Editor Readme.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX\CartoonFX3 Readme.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
+    <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Invert.shader" />
+    <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Multiply Color.shader" />
+    <None Include="Assets\JMO Assets\WarFX\!WarFX Readme.txt" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Add Scroll.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Alpha-Diffuse TintColor.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Alpha-Specular TintColor.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S AlphaBlend NoSoftParticles.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S AlphaBlend Scroll.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Multiply Soft Scroll.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Multiply Soft.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Particle Add A8.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Particle AddSoft A8.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Particle Multiply A8.shader" />
+    <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Smoke Scroll.shader" />
+    <None Include="Assets\JMO Assets\WarFX\_Effects (Mobile)\MuzzleFlashes\!MuzzleFlash Differences.txt" />
+    <None Include="Assets\JMO Assets\WarFX\_Effects\MuzzleFlashes\!MuzzleFlash Differences.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\1.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\10.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\100.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\101.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\102.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\103.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\104.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\11.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\12.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\13.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\14.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\15.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\16.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\17.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\18.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\19.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\2.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\20.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\21.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\22.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\23.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\24.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\25.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\26.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\27.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\28.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\29.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\3.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\30.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\31.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\32.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\33.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\34.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\35.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\36.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\37.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\38.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\39.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\4.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\40.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\41.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\42.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\43.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\44.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\45.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\46.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\47.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\48.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\49.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\5.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\50.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\51.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\52.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\53.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\54.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\55.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\56.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\57.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\58.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\59.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\6.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\60.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\61.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\62.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\63.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\64.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\65.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\66.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\67.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\68.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\69.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\7.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\70.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\71.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\72.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\73.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\74.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\75.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\76.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\77.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\78.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\79.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\8.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\80.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\81.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\82.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\83.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\84.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\85.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\86.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\87.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\88.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\89.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\9.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\90.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\91.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\92.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\93.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\94.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\95.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\96.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\97.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\98.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\99.txt" />
+    <None Include="Assets\JellyGarden\Resources\levelstate.txt.txt" />
+    <None Include="Assets\LeanTween\Examples\Archived\2dUnlitWithFade.shader" />
+    <None Include="Assets\LeanTween\License.txt" />
+    <None Include="Assets\LeanTween\ReadMe.txt" />
+    <None Include="Assets\MaskedSprite\MaskedSprite.shader" />
+    <None Include="Assets\MaskedSprite\MaskedSpriteMobile.shader" />
+    <None Include="Assets\MaskedSprite\ReadMe.txt" />
+    <None Include="Assets\MobileWater\ReadMe.txt" />
+    <None Include="Assets\MobileWater\Shaders\MobileWater.shader" />
+    <None Include="Assets\NeatWolf\ParticleFX03\_Docs\Readme.txt" />
+    <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle AddSmooth.shader" />
+    <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle Rim AddSmooth 2S.shader" />
+    <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle Rim AddSmooth.shader" />
+    <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Reflective Add.shader" />
+    <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Reflective Alpha.shader" />
+    <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Unlit Color.shader" />
+    <None Include="Assets\OutlineEffect\Resources\OutlineBufferShader.shader" />
+    <None Include="Assets\OutlineEffect\Resources\OutlineShader.shader" />
+    <None Include="Assets\PlayFabSdk\link.xml" />
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\UnbiasedTime\UnbiasedTime_UnityPro.txt" />
+    <None Include="Assets\Plugins\readme.txt" />
+    <None Include="Assets\SpriteMask\Sprites-Default-Mask.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Editor\EditorUtility.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Goodies\TexturePacker\Exporter\2dtoolkit\exporter.xml" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\AdditiveVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\Blend2TexVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\CutoutVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\LitBlendVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\LitPremulVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\LitSolidVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\PremulVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\SolidVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\goodies\PackedTextMesh.shader" />
+    <None Include="Assets\TK2DROOT\tk2d\Shaders\resources\BlendVertexColor.shader" />
+    <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMask.shader" />
+    <None Include="Assets\TK2DROOT\tk2dUI\Shaders\DepthMaskSolid.shader" />
+    <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito16.fnt" />
+    <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito24.fnt" />
+    <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Dark\Fonts\Nunito32.fnt" />
+    <None Include="Assets\TK2DROOT\tk2dUI_demo\Assets\Font\OldSansBlack\OldSansBlack.fnt" />
+    <None Include="Assets\TK2DROOT\tk2d_demo\Credits.txt" />
+    <None Include="Assets\TK2DROOT\tk2d_demo\demobmfont\test.fnt" />
+    <None Include="Assets\TK2DROOT\tk2d_demo\democameradata\source\democamerafont.fnt" />
+    <None Include="Assets\TextMesh Pro\Fonts\Anton OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Fonts\Bangers - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Fonts\Oswald-Bold - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\spine-unity\Modules\Ghost\Shaders\Spine-Special-Skeleton-Ghost.shader" />
+    <None Include="Assets\spine-unity\Modules\SkeletonGraphic\Shaders\Spine-SkeletonGraphic.shader" />
+    <None Include="Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Multiply.shader" />
+    <None Include="Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Screen.shader" />
+    <None Include="Assets\spine-unity\Shaders\Spine-Skeleton.shader" />
+    <None Include="Assets\sss\girl_on_window.atlas.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="GenerateTargetFrameworkMonikerAttribute" />
+</Project>

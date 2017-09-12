@@ -1,5 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Assets.Scripts.FacebookComponents;
+using Assets.Scripts.UIFriendsList.ScoresLeaderboard;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,20 +8,49 @@ public class MenuPlayController : MonoBehaviour {
 
 	// Use this for initialization
 	public GameObject ingrObject;
+    [SerializeField]
+    private ScoresLeaderboardWindowController _scoresLeaderboardWindowController;
 
-	void Start () {
-		
-	}
+    private LeaderboardController _leaderboardController;
+
+	void Start ()
+    {
+        _leaderboardController = LeaderboardController.Instance;
+        if (_leaderboardController != null)
+        {
+            _leaderboardController.OnLeaderbordForLevelUpdated += OnLeaderbordForLevelUpdated;
+        }
+        
+        _scoresLeaderboardWindowController.Hide();
+    }
 
 	void OnEnable()
 	{
 		loadTargetInformation ();
 		checkTreeClamb ();
-
+        CheckLeaderboard();
+        
 		//Invoke("loadTargetInformation",0.1f);
 	}
 
-	void checkTreeClamb()
+    private void CheckLeaderboard()
+    {
+        if (_leaderboardController != null)
+        {
+            _leaderboardController.GetLeaderboardForLevel(LevelManager.THIS.currentLevel);
+        }
+    }
+
+    private void OnLeaderbordForLevelUpdated(List<UserLeaderboardData> userLeaderboardDatas)
+    {
+        if (_scoresLeaderboardWindowController != null)
+        {
+            _scoresLeaderboardWindowController.Show(userLeaderboardDatas);
+        }
+        
+    }
+
+    void checkTreeClamb()
 	{
 		GameObject _treeClambRoad = transform.Find ("Image").Find("TreeClampRoad").gameObject;
 		if (ChallengeController.instanse != null) {
@@ -217,11 +247,7 @@ public class MenuPlayController : MonoBehaviour {
 
 	void OnDisable()
 	{
-		//LevelManager.THIS.clearAllLevelData ();
-	}
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        //LevelManager.THIS.clearAllLevelData ();
+        _scoresLeaderboardWindowController.Hide();
+    }
 }

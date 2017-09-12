@@ -52,8 +52,19 @@ public class MapCamera : MonoBehaviour
         SetPosition(transform.position);
     }
 
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        return results.Count > 0;
+    }
+
     private void HandleTouchInput()
     {
+        if (IsPointerOverUIObject())
+            return;
         if (Input.touchCount == 1)
         {
             Touch touch = Input.GetTouch(0);
@@ -87,6 +98,9 @@ public class MapCamera : MonoBehaviour
 
     private void HandleMouseInput()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             deltaV = Vector2.zero;
@@ -119,7 +133,8 @@ public class MapCamera : MonoBehaviour
     }
     private void MoveCamera(Vector2 prevPosition, Vector2 curPosition)
     {
-        if (EventSystem.current.IsPointerOverGameObject(-1))
+        //-1
+        if (EventSystem.current.IsPointerOverGameObject())
             return;
         SetPosition(
             transform.localPosition +
