@@ -16,7 +16,9 @@ namespace Assets.Scripts.UIFriendsList
         [SerializeField]
         private Toggle _selectionToggle;
         [SerializeField]
-        private string[] _fields;
+        private string[] _askLivesFields;
+        [SerializeField]
+        private string[] _sendLivesFields;
 
         private Button _selectionButton;
 
@@ -34,7 +36,7 @@ namespace Assets.Scripts.UIFriendsList
 
         public GameObject GameObject
         {
-            get { return gameObject; }
+            get { return gameObject != null ? gameObject : null; }
         }
 
         public void Start()
@@ -57,12 +59,27 @@ namespace Assets.Scripts.UIFriendsList
             _requestData = data as UserRequestInfo;
             if (_requestData != null)
             {
-                if (_fields != null && _fields.Any())
+                if (_requestData.Type.Equals(RequestType.RequestLife))
                 {
-                    _actionText.text = _fields[0];
-                    _informationText.text += string.Format("{0} {1}\n", _requestData.User.firstName, _fields[1]);
-                    _informationText.text += _fields[2];
+                    if (_askLivesFields != null && _askLivesFields.Any())
+                    {
+                        _actionText.text = _askLivesFields[0];
+                        _informationText.text = "";
+                        _informationText.text += string.Format("{0} {1}\n", _requestData.User.firstName, _askLivesFields[1]);
+                        _informationText.text += _askLivesFields[2];
 
+                    }
+                }
+                else if(_requestData.Type.Equals(RequestType.SendLife))
+                {
+                    if (_sendLivesFields != null && _sendLivesFields.Any())
+                    {
+                        _actionText.text = _sendLivesFields[0];
+                        _informationText.text = "";
+                        _informationText.text += string.Format("{0} {1}\n", _requestData.User.firstName, _sendLivesFields[1]);
+                        _informationText.text += _sendLivesFields[2];
+
+                    }
                 }
 
                 if (_requestData.User.ProfilePicture != null)

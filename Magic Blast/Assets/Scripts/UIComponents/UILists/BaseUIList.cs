@@ -35,11 +35,17 @@ public abstract class BaseUIList<T> : MonoBehaviour
             Debug.LogWarning("UIList: Default list item is not assigned!");
             return;
         }
-        _selectAllToggle.onValueChanged.AddListener(SelectAllValueChanged);
-        _selectAllToggle.isOn = _toggleGroup.AllTogglesSelected;
+        if (_selectAllToggle != null)
+        {
+            _selectAllToggle.onValueChanged.AddListener(SelectAllValueChanged);
+            _selectAllToggle.isOn = _toggleGroup.AllTogglesSelected;
+        }
         _defaultListItem.SetActive(false);
 
-        _actionButton.onClick.AddListener(ActionCall);
+        if (_actionButton != null)
+        {
+            _actionButton.onClick.AddListener(ActionCall);
+        }
     }
 
     protected virtual void ActionCall()
@@ -88,35 +94,56 @@ public abstract class BaseUIList<T> : MonoBehaviour
 
     public virtual void ClearList()
     {
+        if (_toggleGroup != null)
+        {
+            _toggleGroup.ClearToggles();
+        }
+
         if (_listItems != null && _listItems.Any())
         {
             foreach (var friendsListItem in _listItems)
             {
-                Destroy(friendsListItem.GameObject);
+                if (friendsListItem != null)
+                {
+                    if (friendsListItem.GameObject != null)
+                    {
+                        Destroy(friendsListItem.GameObject);
+                    }
+                }
             }
             _listItems.Clear();
-        }
-        if (_toggleGroup != null)
-        {
-            _toggleGroup.ClearToggles();
         }
     }
 
     public virtual void UpdateList(List<T> itemsData, UIListType listType)
     {
         ClearList();
-
-        foreach (var itemData in itemsData)
+        if (itemsData != null && itemsData.Any())
         {
-            var newItem = CreateListItem();
-            newItem.SetItem(itemData, listType);
-            _listItems.Add(newItem);
-            if (_toggleGroup == null)
+            foreach (var itemData in itemsData)
             {
-                InitToggleGroup();
+                var newItem = CreateListItem();
+                newItem.SetItem(itemData, listType);
+                _listItems.Add(newItem);
+                if (_toggleGroup == null)
+                {
+                    InitToggleGroup();
+                }
+                if (newItem.SelectionToggle)
+                {
+                    _toggleGroup.AddToggle(newItem.SelectionToggle);
+                }
             }
-            _toggleGroup.AddToggle(newItem.SelectionToggle);
         }
     }
 
+    public virtual void RemoveListItem(IListItem item)
+    {
+        if (_listItems != null && _listItems.Contains(item))
+        {
+            var selectedItem = _listItems.First(li => li == item);
+            Destroy(selectedItem.GameObject);
+            _listItems.Remove(selectedItem);
+        }
+    }
 }
