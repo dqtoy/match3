@@ -117,6 +117,8 @@ public class LevelManager : MonoBehaviour
     public BoostIcon AvctivatedBoostView;
     public BoostIcon activatedBoost;
 
+	public bool powerIsDestroying = false;
+
     public BoostIcon ActivatedBoost
     {
         get
@@ -305,6 +307,8 @@ public class LevelManager : MonoBehaviour
     public Sprite doubleBlock;
     public bool FacebookEnable;
     internal int latstMatchColor;
+
+	public List<GameObject> _findingMatch;
 
 	public bool firstTurnWasPassed = false;
 
@@ -1315,6 +1319,8 @@ public class LevelManager : MonoBehaviour
 
     public void CheckWinLose()
     {
+		if (powerIsDestroying)
+			return;
 		if (Limit <= 0 || isBombTimeOut)
         {
             bool lose = false;
@@ -1325,7 +1331,7 @@ public class LevelManager : MonoBehaviour
             {
                 lose = true;
             }
-			else if (LevelManager.THIS.target == Target.COLLECT && !checkAllCollectItems())
+			else if (LevelManager.THIS.isContainTarget(Target.COLLECT) && !checkAllCollectItems())
             {
                 lose = true;
             }
@@ -1341,7 +1347,12 @@ public class LevelManager : MonoBehaviour
 			if (lose) {
 				gameStatus = GameState.PreFailed;
 			}
-            else if (LevelManager.Score >= LevelManager.THIS.star1 && LevelManager.THIS.target == Target.SCORE)
+			else if (checkAllBlocksItems () && checkAllCollectItems () && checkAllIngredientsItems ()) {
+				gameStatus = GameState.PreWinAnimations;
+			}
+
+
+            /*else if (LevelManager.Score >= LevelManager.THIS.star1 && LevelManager.THIS.target == Target.SCORE)
             {
                 gameStatus = GameState.PreWinAnimations;
 
@@ -1360,7 +1371,7 @@ public class LevelManager : MonoBehaviour
             {
                 gameStatus = GameState.PreWinAnimations;
 
-            }
+            }*/
 
 
         }
@@ -1570,33 +1581,34 @@ public class LevelManager : MonoBehaviour
                             item.mousePos = item.GetMousePosition();
                             item.deltaPos = Vector3.zero;
                         }*/
-						if (LevelManager.THIS.ActivatedBoost.type == BoostType.Bomb && item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
+						if (LevelManager.THIS.ActivatedBoost.type == BoostType.Bomb && item.currentType == ItemsTypes.NONE && item.isFreezeObject == false)
 						{
 							item.DestroyItem ();
 							FindMatches ();
 							InitScript.Instance.SpendBoost (ActivatedBoost.type);
 						}
-						if (LevelManager.THIS.ActivatedBoost.type == BoostType.Random_color && item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
-						{
-							item.DestroyHorizontal ();
-							FindMatches ();
-							InitScript.Instance.SpendBoost (ActivatedBoost.type);
-						}
-						if (LevelManager.THIS.ActivatedBoost.type == BoostType.Hand && item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
+						if (LevelManager.THIS.ActivatedBoost.type == BoostType.Random_color && item.currentType == ItemsTypes.NONE && item.isFreezeObject == false)
 						{
 							item.DestroyVertical ();
 							FindMatches ();
 							InitScript.Instance.SpendBoost (ActivatedBoost.type);
 						}
-						if ((LevelManager.THIS.ActivatedBoost.type == BoostType.ExtraMoves) && item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
+						if (LevelManager.THIS.ActivatedBoost.type == BoostType.Hand && item.currentType == ItemsTypes.NONE && item.isFreezeObject == false)
+						{
+							item.DestroyHorizontal ();
+							FindMatches ();
+							InitScript.Instance.SpendBoost (ActivatedBoost.type);
+						}
+						if ((LevelManager.THIS.ActivatedBoost.type == BoostType.ExtraMoves) && item.currentType == ItemsTypes.NONE && item.isFreezeObject == false)
 						{
 							item.DestroyColor (item.color);
 							FindMatches ();
 							InitScript.Instance.SpendBoost (ActivatedBoost.type);
 						}
-						if ((LevelManager.THIS.ActivatedBoost.type == BoostType.ExtraTime) && item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT)
+						if ((LevelManager.THIS.ActivatedBoost.type == BoostType.ExtraTime) && item.currentType == ItemsTypes.NONE && item.isFreezeObject == false)
 						{
 							item.setRandomColor ();
+							Invoke ("calculateSymbols",0.1f);
 							//FindMatches ();
 							InitScript.Instance.SpendBoost (ActivatedBoost.type);
 						}
@@ -2275,7 +2287,11 @@ public class LevelManager : MonoBehaviour
             GameObject.Find("Canvas").transform.Find("NoMoreMatches").gameObject.SetActive(true);
             gameStatus = GameState.RegenLevel;
             yield return new WaitForSeconds(1);
-            ReGenLevel();
+			regenLevel ();
+			yield return new WaitForEndOfFrame ();
+			calculateSymbols ();
+			gameStatus = GameState.Playing;
+            //ReGenLevel();
         }
     }
 
@@ -2289,14 +2305,44 @@ public class LevelManager : MonoBehaviour
 
 			GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
 
+			_findingMatch.Clear ();
+			_findingMatch.TrimExcess ();
+
 			foreach (GameObject item in items)
 			{
 				if (item != null) {
-					List<Item> all = item.GetComponent<Item>().square.FindMatchesAround(FindSeparating.ALL,2);
-					if (all.Count > 0) {
-						find = true;
-						break;
+					if (item.GetComponent<Item> ().currentType == ItemsTypes.NONE && item.GetComponent<Item> ().isFreezeObject == false) {
+						int count = 0;
+
+						List<Item> all = item.GetComponent<Item>().square.FindMatchesAround(FindSeparating.ALL,1);
+						foreach (Item _it in all) {
+							if (_it.currentType == ItemsTypes.NONE && _it.isFreezeObject == false && _it.gameObject != item) {
+								count++;
+								_findingMatch.Add (_it.gameObject);
+							}
+						}
+						//all.TrimExcess ();
+						if (count > 0) {
+							_findingMatch.Add (item);
+							find = true;
+							break;
+						}
+
+						/*List<Item> all2 = item.GetComponent<Item>().square.FindMatchesAround(FindSeparating.VERTICAL,2);
+						foreach (Item _it2 in all2) {
+							if (_it2.currentType == ItemsTypes.NONE && _it2.isFreezeObject == false) {
+								count++;
+								_findingMatch.Add (_it2.gameObject);
+							}
+						}
+						//all.TrimExcess ();
+						if (count > 0) {
+							_findingMatch.Add (item);
+							find = true;
+							break;
+						}*/
 					}
+
 				}
 
 			}
@@ -2319,8 +2365,22 @@ public class LevelManager : MonoBehaviour
             DestroyItems(true);
 		}
 		// commit
+		//regenLevel();
+		//calculateSymbols ();
         StartCoroutine(RegenMatches());
     }
+
+	public void regenLevel()
+	{
+		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+		for (int i = 0;i < items.Length; i++) {
+			Item _curItem = items [i].GetComponent <Item>();
+
+			if (_curItem.currentType == ItemsTypes.NONE && _curItem.isFreezeObject == false) {
+				_curItem.GenRandom ();
+			}
+		}
+	}
 
     IEnumerator RegenMatches(bool onlyFalling = false)
     {
@@ -2372,13 +2432,15 @@ public class LevelManager : MonoBehaviour
             //     yield return new WaitForFixedUpdate();
         //} while (combs.Count > 0);
         yield return new WaitForFixedUpdate();
-        SetPreBoosts();
+        
         if (!onlyFalling)
             DragBlocked = false;
         LevelManager.THIS.onlyFalling = false;
         if (gameStatus == GameState.RegenLevel)
             gameStatus = GameState.Playing;
         //StartCoroutine(CheckFallingAtStart());
+		Invoke("SetPreBoosts",0.2f);
+		//SetPreBoosts();
 		calculateSymbols();
     }
 
@@ -2414,6 +2476,7 @@ public class LevelManager : MonoBehaviour
             }
             BoostStriped = 0;
         }
+		calculateSymbols ();
     }
 
 
@@ -2426,7 +2489,7 @@ public class LevelManager : MonoBehaviour
             count = items.Length;
         foreach (GameObject item in items)
         {
-            if (item.GetComponent<Item>().currentType == ItemsTypes.NONE && item.GetComponent<Item>().NextType == ItemsTypes.NONE)
+			if (item.GetComponent<Item>().currentType == ItemsTypes.NONE && item.GetComponent<Item>().NextType == ItemsTypes.NONE && item.GetComponent<Item>().isFreezeObject == false)
             {
                 list.Add(item.GetComponent<Item>());
             }
@@ -2449,7 +2512,10 @@ public class LevelManager : MonoBehaviour
         GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
         foreach (GameObject item in items)
         {
-            if (item.GetComponent<Item>().currentType != ItemsTypes.NONE)
+			if (item.GetComponent<Item>().currentType == ItemsTypes.HORIZONTAL_STRIPPED ||
+				item.GetComponent<Item>().currentType == ItemsTypes.VERTICAL_STRIPPED ||
+				item.GetComponent<Item>().currentType == ItemsTypes.PACKAGE ||
+				item.GetComponent<Item>().currentType == ItemsTypes.BOMB)
             {
                 list.Add(item.GetComponent<Item>());
             }
@@ -2481,7 +2547,7 @@ public class LevelManager : MonoBehaviour
         {
             if (item != null)
             {
-				if (item.GetComponent<Item>().currentType == ItemsTypes.NONE)
+				if (item.GetComponent<Item>().currentType == ItemsTypes.NONE && item.GetComponent<Item>().isFreezeObject == false)
                 {
                     if (!withoutEffects)
                         item.GetComponent<Item>().DestroyItem();
@@ -2587,7 +2653,7 @@ public class LevelManager : MonoBehaviour
 		for (int i = 0;i < items.Length; i++) {
 			Item _curItem = items [i].GetComponent <Item>();
 
-			if (!fullItems.Contains (_curItem)) {
+			if (!fullItems.Contains (_curItem) && (_curItem.currentType == ItemsTypes.NONE || _curItem.currentType == ItemsTypes.TIME_BOMB )) {
 				counter++;
 
 				List<Item> partItems = new List<Item> ();
@@ -3005,10 +3071,10 @@ public class LevelManager : MonoBehaviour
 							if (GetSquare(col, row).item != null)
                             {
                                 GetSquare(col, row).item.StartFalling();
-                                //if (row == maxRows - 1 && GetSquare(col, row).item.currentType == ItemsTypes.INGREDIENT)
-                                //{
-                                //    destroyAnyway.Add(GetSquare(col, row).item);
-                                //}
+                                /*if (row == maxRows - 1 && GetSquare(col, row).item.currentType == ItemsTypes.INGREDIENT)
+                                {
+                                    destroyAnyway.Add(GetSquare(col, row).item);
+                                }*/
                             }
                         }
                     }
@@ -3060,7 +3126,7 @@ public class LevelManager : MonoBehaviour
             //while (!matchesGot)
             //    yield return new WaitForFixedUpdate();
             //matchesGot = false;
-            CheckIngredient();
+            //CheckIngredient();
 
 
 			// commit
@@ -3156,6 +3222,7 @@ public class LevelManager : MonoBehaviour
 
 	IEnumerator startDestroyAllStripped()
 	{
+		powerIsDestroying = true;
 		yield return new WaitForSeconds (1.2f);
 		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
 		foreach (GameObject item in items)
@@ -3174,6 +3241,8 @@ public class LevelManager : MonoBehaviour
 				}
 			}
 		}
+		powerIsDestroying = false;
+		StartCoroutine(FallingDown());
 	}
 
 	public void destroyAllPackage()
@@ -3183,6 +3252,7 @@ public class LevelManager : MonoBehaviour
 
 	IEnumerator startDestroyAllPackage()
 	{
+		powerIsDestroying = true;
 		yield return new WaitForSeconds (1.2f);
 		GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
 		foreach (GameObject item in items)
@@ -3197,6 +3267,8 @@ public class LevelManager : MonoBehaviour
 				}
 			}
 		}
+		powerIsDestroying = false;
+		StartCoroutine(FallingDown());
 	}
 
     public void DestroyDoubleBomb(int col)
@@ -3209,11 +3281,15 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = col; i < maxCols; i++)
         {
-            List<Item> list = GetColumn(i);
-            foreach (Item item in list)
+			List<Square> list = GetColumnSquares(i);
+			foreach (Square _square in list)
             {
-                if (item != null)
-                    item.DestroyItem(true, "", true);
+				if (_square.item != null) {
+					_square.item.DestroyItem (true, "", true);
+				} else {
+					_square.DestroyBlock ();
+				}
+
             }
             yield return new WaitForSeconds(0.3f);
             //GenerateNewItems();
@@ -3227,12 +3303,15 @@ public class LevelManager : MonoBehaviour
     {
         for (int i = col - 1; i >= 0; i--)
         {
-            List<Item> list = GetColumn(i);
-            foreach (Item item in list)
-            {
-                if (item != null)
-                    item.DestroyItem(true, "", true);
-            }
+			List<Square> list = GetColumnSquares(i);
+			foreach (Square _square in list)
+			{
+				if (_square.item != null) {
+					_square.item.DestroyItem (true, "", true);
+				} else {
+					_square.DestroyBlock ();
+				}
+			}
             yield return new WaitForSeconds(0.3f);
             //GenerateNewItems();
             //yield return new WaitForSeconds(0.3f);
@@ -3345,6 +3424,26 @@ public class LevelManager : MonoBehaviour
         return itemsList;
     }
 
+	public List<Square> GetColumnSquares(int col)
+	{
+		List<Square> itemsList = new List<Square>();
+		for (int row = 0; row < maxRows; row++)
+		{
+			itemsList.Add(GetSquare(col, row, true));
+		}
+		return itemsList;
+	}
+
+	public List<Square> GetRowSquares(int row)
+	{
+		List<Square> itemsList = new List<Square>();
+		for (int col = 0; col < maxCols; col++)
+		{
+			itemsList.Add(GetSquare(col, row, true));
+		}
+		return itemsList;
+	}
+
     public List<Item> GetItemsAround(Square square)
     {
         int col = square.col;
@@ -3438,7 +3537,7 @@ public class LevelManager : MonoBehaviour
                     item.GetComponent<Item>().NextType = nextType;
 
                 item.GetComponent<Item>().ChangeType();
-                if (nextType == ItemsTypes.NONE)
+				if (nextType == ItemsTypes.NONE && nextType != ItemsTypes.INGREDIENT)
                     destroyAnyway.Add(item.GetComponent<Item>());
             }
         }
@@ -3446,6 +3545,7 @@ public class LevelManager : MonoBehaviour
 
     public void CheckIngredient()
     {
+		
         int row = maxRows;
         List<Square> sqList = GetBottomRow();
         foreach (Square sq in sqList)
@@ -3454,6 +3554,7 @@ public class LevelManager : MonoBehaviour
             {
                 if (sq.item.currentType == ItemsTypes.INGREDIENT)
                 {
+					Debug.Log ("CheckIngredient");
                     destroyAnyway.Add(sq.item);
                 }
             }

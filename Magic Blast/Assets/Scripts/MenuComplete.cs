@@ -14,6 +14,7 @@ public class MenuComplete : MonoBehaviour {
 	void OnEnable()
 	{
 		loadTargetInformation ();
+		SoundManager.instanse.playWinSFX ();
 	}
 
 	void loadTargetInformation()

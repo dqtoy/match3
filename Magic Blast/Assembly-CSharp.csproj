@@ -610,6 +610,7 @@
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Burnout.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\3.txt" />
+     <None Include="Assets\JellyGarden\Resources\Levels\86.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Heat.shader" />
      <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Alpha-Specular TintColor.shader" />
      <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
@@ -715,11 +716,9 @@
      <None Include="Assets\JMO Assets\!JMO Assets Readme.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpDistortion.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Shaders\LitCutoutVertexColor.shader" />
-     <None Include="Assets\JellyGarden\Resources\Levels\86.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\42.txt" />
      <None Include="Assets\spine-unity\Modules\Ghost\Shaders\Spine-Special-Skeleton-Ghost.shader" />
      <None Include="Assets\NeatWolf\ParticleFX03\_Shaders\NW_Particle Rim AddSmooth 2S.shader" />
-     <None Include="Assets\JellyGarden\Resources\Levels\105.txt" />
      <None Include="Assets\GameSparks\README.txt" />
      <None Include="Assets\ExportAnimations\AECompositionsImporter\Shaders\OpacityShader.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\27.txt" />

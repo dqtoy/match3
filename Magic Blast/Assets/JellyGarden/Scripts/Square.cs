@@ -323,6 +323,8 @@ public class Square : MonoBehaviour
 		if (type == SquareTypes.WIREBLOCK) {
 			if (item != null) {
 				item.isFreezeObject = false;
+				item.leftAsWireBlock = true;
+				Debug.Log ("detect wire block");
 			}
 			LevelManager.THIS.SolidChainShow (gameObject);
 		}
@@ -343,7 +345,7 @@ public class Square : MonoBehaviour
 			
         //if (type == SquareTypes.UNDESTROYABLE) return;
 		if (additiveType == SquareTypes.BLOCK || type == SquareTypes.BLOCK) {
-			if (block.Count > 0 ) {
+			if (block.Count > 0 && type != SquareTypes.THRIVING) {
 				if (block [block.Count -1].gameObject.name == "Block(Clone)") {
 					Debug.Log ("destroy block");
 					if (LevelManager.THIS.blocksCount [0] > 0 && LevelManager.THIS.isContainTarget(Target.BLOCKS)) {
@@ -454,7 +456,7 @@ public class Square : MonoBehaviour
 				}
 				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [4], SquareTypes.SOLIDBLOCK);
             }
-            if (type == SquareTypes.THRIVING)
+			if (type == SquareTypes.THRIVING)
             {
                 LevelManager.THIS.PopupScore(LevelManager.THIS.scoreForThrivingBlock, transform.position, 0);
                 LevelManager.Instance.thrivingBlockDestroyed = true;

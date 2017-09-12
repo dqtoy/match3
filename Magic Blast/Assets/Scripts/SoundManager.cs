@@ -9,6 +9,9 @@ public class SoundManager : MonoBehaviour {
 	public AudioSource gameSFX;
 	public AudioSource game2SFX;
 
+	public AudioSource winSFX;
+	public AudioSource cubeDestroySFX;
+
 	public static SoundManager instanse;
 
 	private int currentLevel = 0;
@@ -63,5 +66,10 @@ public class SoundManager : MonoBehaviour {
 	{
 		game2SFX.Play ();
 		menuSFX.Stop ();
+	}
+
+	public void playWinSFX()
+	{
+		winSFX.Play ();
 	}
 }
