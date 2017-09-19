@@ -149,6 +149,11 @@ public class LevelsMap : MonoBehaviour
         return _instance.IsClickEnabled;
     }
 
+    public static void SetClickEnabled(bool enabled)
+    {
+        _instance.IsClickEnabled = enabled;
+    }
+
     public static bool GetIsConfirmationEnabled()
     {
         return _instance.IsConfirmationEnabled;

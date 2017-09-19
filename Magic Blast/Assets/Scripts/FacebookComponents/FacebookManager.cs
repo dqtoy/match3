@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using Facebook.Unity;
@@ -333,7 +334,7 @@ public class FacebookManager : MonoBehaviour
 
         if (userInfo.pictureUrl != null)
         {
-            yield return StartCoroutine(LoadImage(userInfo.pictureUrl, (texture) =>
+            yield return StartCoroutine(LoadImage(userInfo.id, userInfo.pictureUrl, (texture) =>
             {
                 userInfo.ProfilePicture = Sprite.Create(texture, new Rect(0, 0, 64, 64), new Vector2(0.5f, 0.5f));
             }));
@@ -360,10 +361,26 @@ public class FacebookManager : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadImage(string url, Action<Texture2D> onImageLoaded)
+    private IEnumerator LoadImage(string userId, string url, Action<Texture2D> onImageLoaded)
     {
-        WWW www = new WWW(url);
+        WWW www;
+        www = new WWW(url);
+        //FileInfo photoFileInfo = new FileInfo(Application.persistentDataPath + "/images/"+userId+".png");
+        //if (photoFileInfo != null && photoFileInfo.Exists)
+        //{
+        //    www = new WWW(url);
+        //}
+        //else
+        //{
+        //    www = new WWW(url);
+        //}
         yield return www;
+
+        //check if we contains photo with id
+
+        //if no contains - load from url
+
+        //if contains - return image
 
         if (www.isDone)
         {
@@ -372,6 +389,15 @@ public class FacebookManager : MonoBehaviour
                 onImageLoaded.Invoke(www.texture);
             }
         }
+    }
+
+    private void SaveTextureToFile(Texture2D texture, string filename)
+    {
+        var bytes = texture.EncodeToPNG();
+        var fileSave = new FileStream(Application.persistentDataPath + "/images/" + filename, FileMode.Create);
+        var binary = new BinaryWriter(fileSave);
+        binary.Write(bytes);
+        fileSave.Close();
     }
 
     private void UpdateInventableFriendsList()

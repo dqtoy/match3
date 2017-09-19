@@ -13,14 +13,17 @@ public class MenuPlayController : MonoBehaviour {
 
     private LeaderboardController _leaderboardController;
 
-	void Start ()
+    private void Awake()
     {
         _leaderboardController = LeaderboardController.Instance;
         if (_leaderboardController != null)
         {
             _leaderboardController.OnLeaderbordForLevelUpdated += OnLeaderbordForLevelUpdated;
         }
-        
+    }
+
+	void Start ()
+    {
         _scoresLeaderboardWindowController.Hide();
     }
 
@@ -29,7 +32,6 @@ public class MenuPlayController : MonoBehaviour {
 		loadTargetInformation ();
 		checkTreeClamb ();
         CheckLeaderboard();
-        
 		//Invoke("loadTargetInformation",0.1f);
 	}
 

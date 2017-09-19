@@ -233,12 +233,83 @@ public class PlayFabManager : MonoBehaviour {
 
     public PlayFabManager GetLevelScoresLeaderboard(int level)
     {
-        if (level > 0)
+        if (PlayFabClientAPI.IsClientLoggedIn())
         {
-            var levelLeaderboardData = new List<UserLeaderboardData>();
+            if (level > 0)
+            {
+                var levelLeaderboardData = new List<UserLeaderboardData>();
 
-            var statisticName = string.Format(_levelScoresLeaderboardId, level);
+                var statisticName = string.Format(_levelScoresLeaderboardId, level);
 
+                List<PlayerLeaderboardEntry> respone = null;
+
+                PlayerProfileViewConstraints profileViewConstraints = new PlayerProfileViewConstraints()
+                {
+                    ShowDisplayName = true,
+                    ShowLinkedAccounts = true
+                };
+
+                GetFriendLeaderboardRequest request = new GetFriendLeaderboardRequest()
+                {
+                    StatisticName = statisticName,
+                    MaxResultsCount = 25,
+                    IncludeFacebookFriends = true,
+                    ProfileConstraints = profileViewConstraints
+                };
+
+                PlayFabClientAPI.GetFriendLeaderboard(request, (result) =>
+                    {
+                        respone = result.Leaderboard;
+
+                        foreach (var playerLeaderboardEntry in respone)
+                        {
+                            string fbId = "";
+
+                            var linkedAccounts = playerLeaderboardEntry.Profile.LinkedAccounts;
+
+                            if (linkedAccounts != null && linkedAccounts.Any())
+                            {
+                                foreach (var linkedPlatformAccountModel in linkedAccounts)
+                                {
+                                    if (linkedPlatformAccountModel.Platform.Equals(LoginIdentityProvider.Facebook))
+                                    {
+                                        fbId = linkedPlatformAccountModel.PlatformUserId;
+                                    }
+                                }
+                            }
+
+                            var userData = new UserLeaderboardData()
+                            {
+                                DisplayName = playerLeaderboardEntry.DisplayName,
+                                PlayFabId = playerLeaderboardEntry.PlayFabId,
+                                Position = playerLeaderboardEntry.Position,
+                                LeaderboardValue = playerLeaderboardEntry.StatValue,
+                                FacebookId = fbId
+                            };
+
+                            levelLeaderboardData.Add(userData);
+                        }
+
+                        if (OnGetLevelScoresLeaderboardLoaded != null)
+                        {
+                            OnGetLevelScoresLeaderboardLoaded.Invoke(levelLeaderboardData);
+                        }
+                    },
+                    (error) =>
+                    {
+                        Debug.Log("Error getting game leaderboard:");
+                        Debug.Log(error.ErrorMessage);
+                        Debug.Log(error.ErrorDetails);
+                    });
+            }
+        }
+        return this;
+    }
+
+    public PlayFabManager GetPlayersLevelLeaderboard()
+    {
+        if (PlayFabClientAPI.IsClientLoggedIn())
+        {
             List<PlayerLeaderboardEntry> respone = null;
 
             PlayerProfileViewConstraints profileViewConstraints = new PlayerProfileViewConstraints()
@@ -249,14 +320,16 @@ public class PlayFabManager : MonoBehaviour {
 
             GetFriendLeaderboardRequest request = new GetFriendLeaderboardRequest()
             {
-                StatisticName = statisticName,
-                MaxResultsCount = 3,
+                StatisticName = _levelsCountLeaderboardId,
+                MaxResultsCount = 100,
                 IncludeFacebookFriends = true,
                 ProfileConstraints = profileViewConstraints
             };
 
             PlayFabClientAPI.GetFriendLeaderboard(request, (result) => {
                 respone = result.Leaderboard;
+
+                var newLeaderboardList = new List<UserLeaderboardData>();
 
                 foreach (var playerLeaderboardEntry in respone)
                 {
@@ -284,12 +357,12 @@ public class PlayFabManager : MonoBehaviour {
                         FacebookId = fbId
                     };
 
-                    levelLeaderboardData.Add(userData);
+                    newLeaderboardList.Add(userData);
                 }
 
-                if (OnGetLevelScoresLeaderboardLoaded != null)
+                if (OnLevelsLeaderboardLoaded != null)
                 {
-                    OnGetLevelScoresLeaderboardLoaded.Invoke(levelLeaderboardData);
+                    OnLevelsLeaderboardLoaded.Invoke(newLeaderboardList);
                 }
             },
                 (error) => {
@@ -298,98 +371,38 @@ public class PlayFabManager : MonoBehaviour {
                     Debug.Log(error.ErrorDetails);
                 });
         }
-        return this;
-    }
-
-    public PlayFabManager GetPlayersLevelLeaderboard()
-    {
-        List<PlayerLeaderboardEntry> respone = null;
-
-        PlayerProfileViewConstraints profileViewConstraints = new PlayerProfileViewConstraints()
-        {
-            ShowDisplayName = true,
-            ShowLinkedAccounts = true
-        };
-
-        GetFriendLeaderboardRequest request = new GetFriendLeaderboardRequest()
-        {
-            StatisticName = _levelsCountLeaderboardId,
-            MaxResultsCount = 100,
-            IncludeFacebookFriends = true,
-            ProfileConstraints = profileViewConstraints
-        };
-
-        PlayFabClientAPI.GetFriendLeaderboard(request, (result) => {
-            respone = result.Leaderboard;
-
-            var newLeaderboardList = new List<UserLeaderboardData>();
-
-            foreach (var playerLeaderboardEntry in respone)
-            {
-                string fbId = "";
-
-                var linkedAccounts = playerLeaderboardEntry.Profile.LinkedAccounts;
-
-                if (linkedAccounts != null && linkedAccounts.Any())
-                {
-                    foreach (var linkedPlatformAccountModel in linkedAccounts)
-                    {
-                        if (linkedPlatformAccountModel.Platform.Equals(LoginIdentityProvider.Facebook))
-                        {
-                            fbId = linkedPlatformAccountModel.PlatformUserId;
-                        }
-                    }
-                }
-
-                var userData = new UserLeaderboardData()
-                {
-                    DisplayName = playerLeaderboardEntry.DisplayName,
-                    PlayFabId = playerLeaderboardEntry.PlayFabId,
-                    Position = playerLeaderboardEntry.Position,
-                    LeaderboardValue = playerLeaderboardEntry.StatValue,
-                    FacebookId = fbId
-                };
-
-                newLeaderboardList.Add(userData);
-            }
-
-            if (OnLevelsLeaderboardLoaded != null)
-            {
-                OnLevelsLeaderboardLoaded.Invoke(newLeaderboardList);
-            }
-        },
-            (error) => {
-                Debug.Log("Error getting game leaderboard:");
-                Debug.Log(error.ErrorMessage);
-                Debug.Log(error.ErrorDetails);
-            });
+        
         return this;
     }
 
     public void UpdatePlayerLevelsLeaderoard(int level)
     {
-        if (string.IsNullOrEmpty(_levelsCountLeaderboardId))
+        if (PlayFabClientAPI.IsClientLoggedIn())
         {
-            Debug.LogWarning("PlayFabManager: LevelsCountLeaderboardId is not assigned! Please assign it.");
-            return;
-        }
-
-        if (level > 0)
-        {
-            var statistic = new StatisticUpdate()
+            if (string.IsNullOrEmpty(_levelsCountLeaderboardId))
             {
-                StatisticName = _levelsCountLeaderboardId,
-                Value = level
-            };
-            List<StatisticUpdate> statistics = new List<StatisticUpdate>();
-            statistics.Add(statistic);
+                Debug.LogWarning("PlayFabManager: LevelsCountLeaderboardId is not assigned! Please assign it.");
+                return;
+            }
 
-            UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest()
+            if (level > 0)
             {
-                Statistics = statistics
-            };
+                var statistic = new StatisticUpdate()
+                {
+                    StatisticName = _levelsCountLeaderboardId,
+                    Value = level
+                };
+                List<StatisticUpdate> statistics = new List<StatisticUpdate>();
+                statistics.Add(statistic);
 
-            PlayFabClientAPI.UpdatePlayerStatistics(request, OnPlayersLevelStatisticsUpdated, PlayerStatisticUpdateErrorCallback);
+                UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest()
+                {
+                    Statistics = statistics
+                };
+
+                PlayFabClientAPI.UpdatePlayerStatistics(request, OnPlayersLevelStatisticsUpdated,
+                    PlayerStatisticUpdateErrorCallback);
+            }
         }
     }
 
@@ -400,30 +413,34 @@ public class PlayFabManager : MonoBehaviour {
 
     public void UpdatePlayerLevelScoresLeaderboard(int level, int score)
     {
-        if (string.IsNullOrEmpty(_levelScoresLeaderboardId))
+        if (PlayFabClientAPI.IsClientLoggedIn())
         {
-            Debug.LogWarning("PlayFabManager: LevelScoresLeaderboardId is not assigned!Please assign it.");
-            return;
-        }
-
-        if (level > 0 && score > 0)
-        {
-            string statisticName = string.Format(_levelScoresLeaderboardId, level);
-
-            var statistic = new StatisticUpdate()
+            if (string.IsNullOrEmpty(_levelScoresLeaderboardId))
             {
-                StatisticName = statisticName,
-                Value = score
-            };
-            List<StatisticUpdate> statistics = new List<StatisticUpdate>();
-            statistics.Add(statistic);
+                Debug.LogWarning("PlayFabManager: LevelScoresLeaderboardId is not assigned!Please assign it.");
+                return;
+            }
 
-            UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest()
+            if (level > 0 && score > 0)
             {
-                Statistics = statistics
-            };
+                string statisticName = string.Format(_levelScoresLeaderboardId, level);
 
-            PlayFabClientAPI.UpdatePlayerStatistics(request, OnPlayerLevelScoresStatisticsUpdatedResultCallback, PlayerStatisticUpdateErrorCallback);
+                var statistic = new StatisticUpdate()
+                {
+                    StatisticName = statisticName,
+                    Value = score
+                };
+                List<StatisticUpdate> statistics = new List<StatisticUpdate>();
+                statistics.Add(statistic);
+
+                UpdatePlayerStatisticsRequest request = new UpdatePlayerStatisticsRequest()
+                {
+                    Statistics = statistics
+                };
+
+                PlayFabClientAPI.UpdatePlayerStatistics(request, OnPlayerLevelScoresStatisticsUpdatedResultCallback,
+                    PlayerStatisticUpdateErrorCallback);
+            }
         }
     }
 

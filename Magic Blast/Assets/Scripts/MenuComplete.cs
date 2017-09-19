@@ -1,23 +1,57 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.FacebookComponents;
+using Assets.Scripts.UIFriendsList.ScoresLeaderboard;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MenuComplete : MonoBehaviour {
 
 	public GameObject ingrObject;
-	// Use this for initialization
-	void Start () {
-		
-	}
+    [SerializeField]
+    private ScoresLeaderboardWindowController _scoresLeaderboardWindowController;
 
-	void OnEnable()
+    private LeaderboardController _leaderboardController;
+
+    private void Awake()
+    {
+        _leaderboardController = LeaderboardController.Instance;
+        if (_leaderboardController != null)
+        {
+            _leaderboardController.OnLeaderbordForLevelUpdated += OnLeaderbordForLevelUpdated;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
+        _scoresLeaderboardWindowController.Hide();
+    }
+
+    void OnEnable()
 	{
 		loadTargetInformation ();
-		SoundManager.instanse.playWinSFX ();
+        CheckLeaderboard();
+        SoundManager.instanse.playWinSFX ();
 	}
 
-	void loadTargetInformation()
+    private void CheckLeaderboard()
+    {
+        if (_leaderboardController != null)
+        {
+            _leaderboardController.GetLeaderboardForLevel(LevelManager.THIS.currentLevel);
+        }
+    }
+
+    private void OnLeaderbordForLevelUpdated(List<UserLeaderboardData> userLeaderboardDatas)
+    {
+        if (_scoresLeaderboardWindowController != null)
+        {
+            _scoresLeaderboardWindowController.Show(userLeaderboardDatas);
+        }
+
+    }
+
+    void loadTargetInformation()
 	{
 		GameObject ingr1 = ingrObject.transform.Find("Ingr1").gameObject;
 		GameObject ingr2 = ingrObject.transform.Find("Ingr2").gameObject;

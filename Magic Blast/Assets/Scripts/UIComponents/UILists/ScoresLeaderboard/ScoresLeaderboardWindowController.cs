@@ -44,10 +44,7 @@ namespace Assets.Scripts.UIFriendsList.ScoresLeaderboard
                 CreateSeparator();
             }
 
-            if (dataList.Count < 3)
-            {
-                CreateInviteItem();    
-            }
+            CreateInviteItem();    
 
             _canvasGroup.alpha = 1f;
             _canvasGroup.blocksRaycasts = true;

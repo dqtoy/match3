@@ -2,6 +2,7 @@
 using System.Linq;
 using Assets.Scripts.UIFriendsList.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TabbedWindowController : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class TabbedWindowController : MonoBehaviour
     private RectTransform _tabsRoot;
     [SerializeField]
     private float _openSpeed = 1f;
+    [SerializeField]
+    private Image _backgroundVeil;
     [SerializeField]
     private TabWindow[] _tabWindows;
     [SerializeField]
@@ -18,16 +21,20 @@ public class TabbedWindowController : MonoBehaviour
     private TabButton _currentTabButton;
 
     private CanvasGroup _tabsRootCanvasGroup;
+    private CanvasGroup _backgroundVeilCanvasGroup;
 
     private FacebookManager _facebookManager;
 
     private bool _isOpened = false;
 
-	void Start ()
+	private void Start ()
 	{
         _facebookManager = FacebookManager.Instance;
 
-        _tabsRootCanvasGroup = _tabsRoot.GetComponent<CanvasGroup>(); 
+        _tabsRootCanvasGroup = _tabsRoot.GetComponent<CanvasGroup>();
+	    _backgroundVeilCanvasGroup = _backgroundVeil.GetComponent<CanvasGroup>();
+
+        _backgroundVeil.GetComponent<Button>().onClick.AddListener(CloseWindow);
 
         foreach (var tabWindow in _tabWindows)
         {
@@ -51,6 +58,14 @@ public class TabbedWindowController : MonoBehaviour
             _facebookManager.OnFbLoggedOut += OnFbLoggedOut;
         }
 	}
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseWindow();
+        }
+    }
 
     private void OnFbLoggedOut()
     {
@@ -90,16 +105,28 @@ public class TabbedWindowController : MonoBehaviour
 
     private void OpenWindow(string withTab)
     {
+        LevelsMap.SetClickEnabled(false);
         var newPosition = new Vector2(-_tabsRoot.rect.width, _tabsRoot.localPosition.y);
         LeanTween.move(_tabsRoot, newPosition, _openSpeed);
+        LeanTween.alphaCanvas(_backgroundVeilCanvasGroup, 1, _openSpeed);
+        _backgroundVeilCanvasGroup.blocksRaycasts = true;
+        _backgroundVeilCanvasGroup.interactable = true;
         _isOpened = true;
         SwitchWindow(withTab);
     }
 
     private void CloseWindow()
     {
+        LevelsMap.SetClickEnabled(true);
         var newPosition = new Vector2(0, _tabsRoot.localPosition.y);
         LeanTween.move(_tabsRoot, newPosition, _openSpeed).setOnComplete(OnCloseComplete);
+        LeanTween.alphaCanvas(_backgroundVeilCanvasGroup, 0, _openSpeed);
+        _backgroundVeilCanvasGroup.blocksRaycasts = false;
+        _backgroundVeilCanvasGroup.interactable = false;
+        if (_currentTabButton != null)
+        {
+            _currentTabButton.SetCurrent(false);
+        }
         _isOpened = false;
     }
 

@@ -545,6 +545,7 @@
     <Compile Include="Assets\Scripts\PlayFabManager.cs" />
     <Compile Include="Assets\Scripts\PopupManager.cs" />
     <Compile Include="Assets\Scripts\RotorTNTEffect.cs" />
+    <Compile Include="Assets\Scripts\SetWorldPositionY.cs" />
     <Compile Include="Assets\Scripts\ShowFPS.cs" />
     <Compile Include="Assets\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Scripts\TournamentLeaderboard.cs" />
@@ -840,6 +841,7 @@
     <None Include="Assets\JellyGarden\Resources\Levels\102.txt" />
     <None Include="Assets\JellyGarden\Resources\Levels\103.txt" />
     <None Include="Assets\JellyGarden\Resources\Levels\104.txt" />
+    <None Include="Assets\JellyGarden\Resources\Levels\105.txt" />
     <None Include="Assets\JellyGarden\Resources\Levels\11.txt" />
     <None Include="Assets\JellyGarden\Resources\Levels\12.txt" />
     <None Include="Assets\JellyGarden\Resources\Levels\13.txt" />
