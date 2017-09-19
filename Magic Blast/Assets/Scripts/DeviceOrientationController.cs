@@ -73,10 +73,32 @@ public class DeviceOrientationController : MonoBehaviour {
 		if (LevelManager.THIS.gameStatus == GameState.Map) {
 			_mainCamera.orthographicSize = 4.3f * aspect;
 		} else {
-			if (getCurrentOrientaion () == DevideOr.Portrait) {
-				_mainCamera.orthographicSize = 4.3f * aspect;
-			} else {
-				_mainCamera.orthographicSize = 4.3f;
+			int PIXELS_TO_UNITS = 85;
+			if (DeviceOrientationController.instanse.getCurrentOrientaion() == DevideOr.Portrait)
+			{
+				PIXELS_TO_UNITS = 85;
+				DeviceOrientationController.instanse.levelObject.transform.position = new Vector3(0f,-0.5f,-10f);
+			}
+			else
+			{
+				PIXELS_TO_UNITS = 120;
+				DeviceOrientationController.instanse.levelObject.transform.position = new Vector3(0.6f,-0.15f,-10f);
+			}
+			//GetComponent<Camera> ().orthographicSize = Screen.width * 6 / 800;
+			float TARGET_WIDTH = 640.0f;
+			float TARGET_HEIGHT = 960.0f;
+
+			float desiredRatio = TARGET_WIDTH / TARGET_HEIGHT;
+			float currentRatio = (float)Screen.width/(float)Screen.height;
+
+			if(currentRatio >= desiredRatio)
+			{
+				Camera.main.orthographicSize = TARGET_HEIGHT / 2 / PIXELS_TO_UNITS;
+			}
+			else
+			{
+				float differenceInSize = desiredRatio / currentRatio;
+				Camera.main.orthographicSize = TARGET_HEIGHT / 2 / PIXELS_TO_UNITS * differenceInSize;
 			}
 		}
 
@@ -92,7 +114,7 @@ public class DeviceOrientationController : MonoBehaviour {
 			_GlobalScaler.referenceResolution = new Vector2 (1280f,800f);
 			_MapScaler.referenceResolution = new Vector2 (1107f,720f);
 			_GameScaler.referenceResolution = new Vector2 (1434f,720f);
-			levelObject.transform.position = new Vector3(0.6f,-0.34f,-10f);
+			levelObject.transform.position = new Vector3(0.6f,-0.15f,-10f);
 
 			girl.transform.parent = gameTargetUILandscape.transform;
 			girl.transform.localPosition = new Vector3 (-3f,265f,0);
@@ -116,7 +138,7 @@ public class DeviceOrientationController : MonoBehaviour {
 			_GlobalScaler.referenceResolution = new Vector2 (800f,1280f);
 			_MapScaler.referenceResolution = new Vector2 (720f,1107f);
 			_GameScaler.referenceResolution = new Vector2 (720f,1297.9f);
-			levelObject.transform.position = new Vector3(0f,0f,-10f);
+			levelObject.transform.position = new Vector3(0f,-0.5f,-10f);
 
 			girl.transform.parent = gameTargetUIPortrait.transform;
 			girl.transform.localPosition = new Vector3 (2.1f,7.6f,0);

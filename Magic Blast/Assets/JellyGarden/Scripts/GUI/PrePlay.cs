@@ -58,17 +58,21 @@ public class PrePlay : MonoBehaviour {
 
 
 		List<Sprite> _spriteList = new List<Sprite> ();
+		List<Vector3> _scaleList = new List<Vector3>();
 
 		if (LevelManager.THIS.beachBallTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
+			_scaleList.Add(new Vector3(250f, 250f, 27.8f));
 		}
 
 		if (LevelManager.THIS.moneyBoxTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[6]);
+			_scaleList.Add(new Vector3(160f, 160f, 22.1f));
 		}
 
 		if (LevelManager.THIS.timeBombTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.TimeBombPrefabPrefabs[0]);
+			_scaleList.Add(new Vector3(220f, 220f, 23.8f));
 		}
 
 
@@ -76,6 +80,7 @@ public class PrePlay : MonoBehaviour {
 			for (int i = 0; i < LevelManager.THIS.collectItems.Length; i++) {
 				if (LevelManager.THIS.collectItems [i] != CollectItems.None) {
 					_spriteList.Add (LevelManager.THIS.cubesUISprites[(int)LevelManager.THIS.collectItems[i]-1]);
+					_scaleList.Add(new Vector3(200f, 200f, 22.1f));
 				}
 			}
 		}
@@ -84,6 +89,7 @@ public class PrePlay : MonoBehaviour {
 			for (int i = 0; i < LevelManager.THIS.ingrTarget.Length; i++) {
 				if (LevelManager.THIS.ingrTarget [i] != Ingredients.None) {
 					_spriteList.Add (LevelManager.THIS.ingrediendSprites[(int)LevelManager.THIS.ingrTarget[i] + 8]);
+					_scaleList.Add(new Vector3(160f, 160f, 22.1f));
 				}
 			}
 		}
@@ -93,27 +99,32 @@ public class PrePlay : MonoBehaviour {
 			for (int i = 0; i < LevelManager.THIS.squareTypes.Length; i++) {
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.BLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[0]);
+					_scaleList.Add(new Vector3(160f, 160f, 22.1f));
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.BEACH_BALLS) {
 					//_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
 					_spriteList.Add (LevelManager.THIS.otherSprites[0]);
+					_scaleList.Add(new Vector3(140f, 140f, 22.1f));
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.DOUBLEBLOCK) {
 					//_spriteList.Add (LevelManager.THIS.blocksSprites[3]);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.SOLIDBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[4]);
+					_scaleList.Add(new Vector3(200f, 200f, 22.1f));
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.THRIVING) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[5]);
+					_scaleList.Add(new Vector3(200f, 200f, 22.1f));
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.UNDESTROYABLE) {
 					//_spriteList.Add (LevelManager.THIS.blocksSprites[6]);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.WIREBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[7]);
+					_scaleList.Add(new Vector3(200f, 200f, 22.1f));
 				}
 			}
 		}
@@ -124,6 +135,9 @@ public class PrePlay : MonoBehaviour {
 			targetsIcons [j].GetComponent<Image> ().sprite = _spriteList [j];
 			targetsIcons [j].transform.GetChild (0).GetComponent<Text> ().text = ingrObject2.transform.Find ("Ingr" + (j+1).ToString()).transform.GetChild (0).GetComponent<Text> ().text;
 
+			Rect _rect = targetsIcons[j].GetComponent<RectTransform>().rect;
+			_rect.size = new Vector2(_scaleList[j].x, _scaleList[j].y);
+			targetsIcons[j].GetComponent<RectTransform>().sizeDelta = new Vector2(_scaleList[j].x, _scaleList[j].y);
 		}
         //ingr1.GetComponent<RectTransform>().localPosition = new Vector3(-74.37f, ingr1.GetComponent<RectTransform>().localPosition.y, ingr1.GetComponent<RectTransform>().localPosition.z);
         //ingr2.GetComponent<RectTransform>().localPosition = new Vector3(50.1f, ingr2.GetComponent<RectTransform>().localPosition.y, ingr2.GetComponent<RectTransform>().localPosition.z);

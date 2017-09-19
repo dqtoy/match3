@@ -1,15 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JellyGarden/Scripts/LevelManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JellyGarden/Scripts/Item.cs">
     <Files>
-      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="3290" Column="28" />
-      <File FileName="Assets/JellyGarden/Scripts/Item.cs" Line="1198" Column="47" />
-      <File FileName="Assets/Scripts/CharacterAnimationController.cs" Line="1" Column="1" />
-      <File FileName="Assets/JellyGarden/Scripts/GUI/BoostShop.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/TreeClambRewardController.cs" Line="1" Column="1" />
-      <File FileName="Assets/JellyGarden/Scripts/Square.cs" Line="348" Column="55" />
-      <File FileName="Assets/Plugins/AndroidRotationLockUtil.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/DeviceOrientationController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ManuFailed.cs" Line="2" Column="31" />
+      <File FileName="Assets/JellyGarden/Scripts/GUI/AnimationManager.cs" Line="345" Column="117" />
+      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="75" Column="31" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/LevelsMap.cs" Line="184" Column="31" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/MapLevel.cs" Line="73" Column="35" />
+      <File FileName="Assets/Scripts/TreeClambLevelBtn.cs" Line="38" Column="3" />
+      <File FileName="Assets/JellyGarden/Scripts/AI.cs" Line="54" Column="26" />
+      <File FileName="Assets/JellyGarden/Scripts/Item.cs" Line="207" Column="43" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/WaypointsMover.cs" Line="87" Column="18" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/Editor/SmartLevelsMap/LevelsMapEditor.cs" Line="178" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

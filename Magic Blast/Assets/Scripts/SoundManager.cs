@@ -11,6 +11,9 @@ public class SoundManager : MonoBehaviour {
 
 	public AudioSource winSFX;
 	public AudioSource cubeDestroySFX;
+	public AudioSource twoRotorsSFX;
+	public AudioSource powerAppearSFX;
+	public AudioSource solidBlockDestroySFX;
 
 	public static SoundManager instanse;
 
@@ -71,5 +74,25 @@ public class SoundManager : MonoBehaviour {
 	public void playWinSFX()
 	{
 		winSFX.Play ();
+	}
+
+	public void playCubeDestroySFX()
+	{
+		cubeDestroySFX.Play ();
+	}
+
+	public void playtwoRotorsSFX()
+	{
+		twoRotorsSFX.Play ();
+	}
+
+	public void playAppearPowerSFX()
+	{
+		powerAppearSFX.Play ();
+	}
+
+	public void playDestroySolidBlockSFX()
+	{
+		solidBlockDestroySFX.Play ();
 	}
 }

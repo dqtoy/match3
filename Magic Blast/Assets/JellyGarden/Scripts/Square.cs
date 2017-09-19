@@ -314,11 +314,13 @@ public class Square : MonoBehaviour
 		yield return new WaitForSeconds (delay);
 		DestroyBlock (canCheck);
 	}
+		
 
 	public void DestroyBlock(bool canCheck = false)
     {
 		if (type == SquareTypes.THRIVING) {
 			LevelManager.THIS.IceShow (gameObject);
+			Debug.Log ("destroy ice");
 		}
 		if (type == SquareTypes.WIREBLOCK) {
 			if (item != null) {
@@ -340,6 +342,7 @@ public class Square : MonoBehaviour
 			updateHidenLevel ();
 			return;
 		} else if (blockLevel < 1 && type == SquareTypes.SOLIDBLOCK) {
+			SoundManager.instanse.playDestroySolidBlockSFX ();
 			LevelManager.THIS.SimpleShieldShow (gameObject);
 		}
 			
@@ -422,6 +425,7 @@ public class Square : MonoBehaviour
 						} 
 						else {
 							sq.DestroyBlock(true);
+								
 						}
 					}
 				}

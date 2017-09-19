@@ -101,6 +101,8 @@ public class LevelsMap : MonoBehaviour
 
     internal static void OnLevelSelected(int number)
     {
+		if (GameObject.FindObjectOfType<MapCamera> ().isMoving)
+			return;
 		// important
         //if (LevelSelected != null && !IsLevelLocked(number))  //need to fix in the map plugin
             LevelSelected(_instance, new LevelReachedEventArgs(number));
@@ -186,9 +188,11 @@ public class LevelsMap : MonoBehaviour
         else
         {
             WaypointsMover.transform.position = mapLevel.PathPivot.transform.position;   //need to fix in the map plugin
+			LevelManager.THIS.mapPointer.transform.position = mapLevel.transform.position;
             CharacterLevel = mapLevel;
             if (!isQuietly)
                 RaiseLevelReached(number);
+			Debug.Log ("place photo");
         }
     }
 
@@ -207,6 +211,7 @@ public class LevelsMap : MonoBehaviour
                     RaiseLevelReached(number);
                     CharacterLevel = mapLevel;
                 });
+			
         }
     }
 

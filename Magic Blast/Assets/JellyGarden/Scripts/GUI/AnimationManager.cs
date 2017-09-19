@@ -12,13 +12,22 @@ using UnityEngine.Advertisements;
 public class AnimationManager : MonoBehaviour
 {
     public bool PlayOnEnable = true;
+
+	public bool restartLevel = false;
+
     bool WaitForPickupFriends;
 
     bool WaitForAksFriends;
     System.Collections.Generic.Dictionary<string, string> parameters;
 
+	public void setRestart()
+	{
+		restartLevel = true;
+	}
+
     void OnEnable()
     {
+		restartLevel = false;
         if (PlayOnEnable)
         {
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.swish[0]);
@@ -324,7 +333,21 @@ public class AnimationManager : MonoBehaviour
         }
         if (gameObject.name == "MenuFailed")
         {
-            LevelManager.THIS.gameStatus = GameState.Map;
+			LevelManager.THIS.gameStatus = GameState.Map;
+			if (restartLevel) {
+				//Debug.Log ("call restart");
+				//Play ();
+				LevelManager.THIS.clearAllLevelData ();
+
+				LevelManager.THIS.LoadLevel();
+
+				GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.SetActive(true);
+				GameObject.Find ("CanvasGlobal").transform.Find ("MenuPlay").gameObject.GetComponent <AnimationManager>().Play();
+				restartLevel = false;
+			} else {
+				
+			}
+            
         }
 
         if (Application.loadedLevelName == "game")
@@ -370,11 +393,11 @@ public class AnimationManager : MonoBehaviour
                 BuyGems();
             }
         }
-        else if (gameObject.name == "MenuFailed")
+		else if (gameObject.name == "MenuFailed" && !restartLevel)
         {
             LevelManager.Instance.gameStatus = GameState.Map;
         }
-        else if (gameObject.name == "MenuPlay")
+		else if (gameObject.name == "MenuPlay" || (gameObject.name == "MenuFailed" && restartLevel))
         {
 			if (GameObject.FindObjectOfType<ExaGames.Common.LivesManager>().CanPlay)
             //if (InitScript.lifes > 0)
