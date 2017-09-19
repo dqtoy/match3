@@ -51,24 +51,24 @@ public class ManuFailed : MonoBehaviour {
 		if (LevelManager.THIS.beachBallTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
 			_scaleList.Add (new Vector3(250f,250f,27.8f));
-			ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[1] > 0));
-			ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[1] <= 0));
+			ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.beachBallTarget <= 0);
+			ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.beachBallTarget > 0);
 			count++;
 		}
 
 		if (LevelManager.THIS.moneyBoxTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[6]);
 			_scaleList.Add (new Vector3(160f,160f,22.1f));
-			ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[6] > 0));
-			ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[6] <= 0));
+			ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.moneyBoxTarget <= 0);
+			ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.moneyBoxTarget > 0);
 			count++;
 		}
 
 		if (LevelManager.THIS.timeBombTarget > 0) {
 			_spriteList.Add (LevelManager.THIS.blocksSprites[3]);
 			_scaleList.Add (new Vector3(220f,220f,23.8f));
-			ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[3] > 0));
-			ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[3] <= 0));
+			ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.timeBombTarget <= 0);
+			ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.timeBombTarget > 0);
 			count++;
 		}
 
@@ -103,8 +103,8 @@ public class ManuFailed : MonoBehaviour {
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.BLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[0]);
 					_scaleList.Add (new Vector3(160f,160f,22.1f));
-					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[0] > 0));
-					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[0] <= 0));
+					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.blocksCount[0] <= 0);
+					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[0] > 0);
 					count++;
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.BEACH_BALLS) {
@@ -118,8 +118,8 @@ public class ManuFailed : MonoBehaviour {
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[2]);
 					_scaleList.Add (new Vector3(140f,140f,22.1f));
-					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[2] > 0));
-					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[2] <= 0));
+					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.blocksCount[2] <= 0);
+					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[2] > 0);
 					count++;
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.DOUBLEBLOCK) {
@@ -131,15 +131,15 @@ public class ManuFailed : MonoBehaviour {
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.SOLIDBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[4]);
 					_scaleList.Add (new Vector3(200f,200f,22.1f));
-					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[4] > 0));
-					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[4] <= 0));
+					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.blocksCount[4] <= 0);
+					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[4] > 0);
 					count++;
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.THRIVING) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[5]);
 					_scaleList.Add (new Vector3(200f,200f,22.1f));
-					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[5] > 0));
-					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[5] <= 0));
+					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.blocksCount[5] <= 0);
+					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[5] > 0);
 					count++;
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.UNDESTROYABLE) {
@@ -153,8 +153,8 @@ public class ManuFailed : MonoBehaviour {
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.WIREBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[7]);
 					_scaleList.Add (new Vector3(200f,200f,22.1f));
-					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[7] > 0));
-					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[7] <= 0));
+					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.blocksCount[7] <= 0);
+					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[7] > 0);
 					count++;
 				}
 			}
@@ -180,5 +180,20 @@ public class ManuFailed : MonoBehaviour {
 			}
 			ingrList [j].GetComponent <RectTransform> ().localPosition = _pos;
 		}
+
+		Vector3 _contPos = ingrObject.GetComponent <RectTransform>().localPosition;
+		if (_spriteList.Count == 1) {
+			_contPos.x = 9.4f;
+		}
+		if (_spriteList.Count == 2) {
+			_contPos.x = -51.26f;
+		}
+		if (_spriteList.Count == 3) {
+			_contPos.x = 9.4f;
+		}
+		if (_spriteList.Count == 4) {
+			_contPos.x = -51.26f;
+		}
+		ingrObject.GetComponent <RectTransform> ().localPosition = _contPos;
 	}
 }

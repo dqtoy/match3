@@ -43,6 +43,8 @@ public class Item : MonoBehaviour
 	public GameObject shineRenderer;
 	public GameObject bombWick;
 
+	public ParticleSystem glowParticle;
+
 	public Color[] bombBackColors;
 
     public Square square;
@@ -191,6 +193,18 @@ public class Item : MonoBehaviour
 		COLORView = randColor;
 		color = randColor;
 		COLOR = randColor;
+	}
+
+	public void showGlow()
+	{
+		glowParticle.gameObject.SetActive (true);
+		glowParticle.Play ();
+	}
+
+	public void hideGlow()
+	{
+		glowParticle.Stop ();
+		glowParticle.gameObject.SetActive (false);
 	}
 
 	public void GenColor(int exceptColor = -1, bool onlyNONEType = false, bool startUpItem = false)
@@ -626,6 +640,7 @@ public class Item : MonoBehaviour
 					DestroyVertical ();
 					connected_stripped.debugType = ItemsTypes.NONE;
 					connected_stripped.currentType = ItemsTypes.NONE;
+					SoundManager.instanse.playtwoRotorsSFX ();
 				}
 				if (_lastType == ItemsTypes.PACKAGE) {
 					DestroyPackageAndStriped (this);
@@ -766,7 +781,7 @@ public class Item : MonoBehaviour
 		//yield return new WaitForEndOfFrame ();
 	}
 
-	IEnumerator onBombEffects(ItemsTypes _type)
+	public IEnumerator onBombEffects(ItemsTypes _type)
 	{
 		Debug.Log ("onBombEffects");
 		//LeanTween.rotateZ (sprRenderer.gameObject, 360f, 0.5f).setLoopType (LeanTweenType.linear);
@@ -826,6 +841,7 @@ public class Item : MonoBehaviour
 		if (!LevelManager.THIS.IsAllItemsFallDown() || LevelManager.THIS.activatedBoost != null || isFreezeObject  || LevelManager.THIS.gameStatus != GameState.Playing || LevelManager.THIS.particleEffectIsNow)
 			return;
 		StartCoroutine (startCheck());
+		AI.THIS.onFindHint ();
 		//Debug.Log ("game manager = "+LevelManager.THIS.gameStatus);
 		//Debug.Log ("time scale = "+ Time.timeScale);
 		//StartCoroutine(Switching());
@@ -845,6 +861,22 @@ public class Item : MonoBehaviour
 			}
 		}
 		return find;
+	}
+
+	public bool isNearPowerCombination()
+	{
+		bool isFind = false;
+		foreach (Square _square in square.GetAllNeghbors()) {
+			if (square != null) {
+				if (_square.item != null) {
+					if ((_square.item.currentType == ItemsTypes.HORIZONTAL_STRIPPED || _square.item.currentType == ItemsTypes.VERTICAL_STRIPPED || _square.item.currentType == ItemsTypes.BOMB || _square.item.currentType == ItemsTypes.PACKAGE) && _square.item.isFreezeObject == false) {
+						isFind = true;
+						break;
+					}
+				}
+			}
+		}
+		return isFind;
 	}
 
 	private List<Item> getAllNearByType(ItemsTypes _type)
@@ -1158,8 +1190,10 @@ public class Item : MonoBehaviour
 					
 				if (item.currentType == ItemsTypes.INGREDIENT || item.currentType == ItemsTypes.MONEY_BOX) {
 					if (_type == ItemsTypes.HORIZONTAL_STRIPPED)
+						item.destroyDelay += 0.15f;
 						item.DestroyHorizontal ();
 					if (_type == ItemsTypes.VERTICAL_STRIPPED)
+						item.destroyDelay += 0.7f;
 						item.DestroyVertical ();
 				} else {
 					item.NextType = _type;
@@ -1167,9 +1201,10 @@ public class Item : MonoBehaviour
 						item.destroyDelay += 0.15f;
 					}
 					if (item.NextType == ItemsTypes.VERTICAL_STRIPPED) {
-						item.destroyDelay += 0.5f;
+						item.destroyDelay += 0.7f;
 					}
 					item.ChangeType ();
+					item.sprRenderer.enabled = false;
 				}
 					
 				//} else if (item.currentType == ItemsTypes.MONEY_BOX) {
@@ -1178,8 +1213,10 @@ public class Item : MonoBehaviour
 			}
 		}
 		LevelManager.THIS.StrippedTNTShow(item2.gameObject, true);
-		item2.DestroyVertical ();
+		//item2.destroyDelay += 0.5f;
+
 		item2.DestroyPackage(false,false);
+		item2.DestroyVertical (0.7f);
 	}
 
     public void CheckChocoBomb(Item item1, Item item2)
@@ -1452,6 +1489,7 @@ public class Item : MonoBehaviour
 			//SetAppeared();
 			sprRenderer.sortingOrder = 50;
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearStipedColorBomb);
+			SoundManager.instanse.playAppearPowerSFX ();
 			color = 555;
         }
         else if (NextType == ItemsTypes.VERTICAL_STRIPPED)
@@ -1460,6 +1498,7 @@ public class Item : MonoBehaviour
 			//SetAppeared();
 			sprRenderer.sortingOrder = 50;
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearStipedColorBomb);
+			SoundManager.instanse.playAppearPowerSFX ();
 			color = 555;
         }
         else if (NextType == ItemsTypes.PACKAGE)
@@ -1468,6 +1507,7 @@ public class Item : MonoBehaviour
 			//SetAppeared();
             //anim.SetTrigger("appear");
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearPackage);
+			SoundManager.instanse.playAppearPowerSFX ();
 			color = 555;
         }
         else if (NextType == ItemsTypes.BOMB)
@@ -1476,6 +1516,7 @@ public class Item : MonoBehaviour
 			//SetAppeared();
             //anim.SetTrigger("appear");
             SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.appearStipedColorBomb);
+			SoundManager.instanse.playAppearPowerSFX ();
 			if (color < 6) lastColor = color;
             color = 555;
         }
@@ -1603,30 +1644,7 @@ public class Item : MonoBehaviour
             return;
         StopCoroutine(AnimIdleStart());
 
-		if (currentType == ItemsTypes.BEACH_BALLS) {
-			LevelManager.THIS.blocksCount[1]--;
-			if (LevelManager.THIS.blocksCount [1] < 0) {
-				LevelManager.THIS.blocksCount [1] = 0;
-			} else {
-				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [1], SquareTypes.BEACH_BALLS);
-			}
-		}
-		if (currentType == ItemsTypes.TIME_BOMB) {
-			LevelManager.THIS.blocksCount[3]--;
-			if (LevelManager.THIS.blocksCount [3] < 0) {
-				LevelManager.THIS.blocksCount [3] = 0;
-			} else {
-				LevelManager.THIS.animateDownBlocks (square.gameObject, LevelManager.THIS.TimeBombPrefabPrefabs [0], SquareTypes.DOUBLEBLOCK);
-			}
-		}
 
-		if (currentType != ItemsTypes.BEACH_BALLS && currentType != ItemsTypes.TIME_BOMB) {
-			destroyNearPossibleItems ();
-		} else {
-			
-		}
-
-		destroyNearColorCubes ();
 
        
         square.item = null;
@@ -1748,6 +1766,29 @@ public class Item : MonoBehaviour
         //{
 		yield return new WaitForSecondsRealtime(destroyDelay);
 
+		if (currentType == ItemsTypes.BEACH_BALLS) {
+			LevelManager.THIS.blocksCount[1]--;
+			if (LevelManager.THIS.blocksCount [1] < 0) {
+				LevelManager.THIS.blocksCount [1] = 0;
+			} else {
+				LevelManager.THIS.animateDownBlocks (gameObject, LevelManager.THIS.blocksSprites [1], SquareTypes.BEACH_BALLS);
+			}
+		}
+		if (currentType == ItemsTypes.TIME_BOMB) {
+			LevelManager.THIS.blocksCount[3]--;
+			if (LevelManager.THIS.blocksCount [3] < 0) {
+				LevelManager.THIS.blocksCount [3] = 0;
+			} else {
+				LevelManager.THIS.animateDownBlocks (square.gameObject, LevelManager.THIS.TimeBombPrefabPrefabs [0], SquareTypes.DOUBLEBLOCK);
+			}
+		}
+
+		if (currentType != ItemsTypes.BEACH_BALLS && currentType != ItemsTypes.TIME_BOMB) {
+			destroyNearPossibleItems ();
+		} 
+
+		destroyNearColorCubes ();
+
 		if (currentType == ItemsTypes.MONEY_BOX) {
 			LevelManager.THIS.blocksCount[6]--;
 			if (LevelManager.THIS.blocksCount [6] < 0) {
@@ -1807,6 +1848,10 @@ public class Item : MonoBehaviour
 			yield return new WaitForSeconds (0.1f);
 			SetAnimationDestroyingFinished ();
         }
+
+		if (currentType == ItemsTypes.NONE) {
+			SoundManager.instanse.playCubeDestroySFX ();
+		}
         //}
         //else
         //    PlayDestroyAnimation(anim_name);
@@ -1897,14 +1942,14 @@ public class Item : MonoBehaviour
         foreach (Square item in sqList)
         {
 			if (item != null) {
-				item.DestroyBlock (true);
-				//item.item.destroyNearBlockedCubesInside ();
+				float dis = Vector2.Distance(transform.position,item.transform.position);
+				item.startDestroyBlockDelayed(dis / 20f ,true);
 			}
         }
     }
 		
 
-    public void DestroyVertical()
+	public void DestroyVertical(float _additionalDelay = 0)
     {
 		isAllreadyUseBooster = true;
 		Debug.Log ("DestroyVertical");
@@ -1918,7 +1963,7 @@ public class Item : MonoBehaviour
 				
 				if (item.currentType != ItemsTypes.BOMB && item.currentType != ItemsTypes.INGREDIENT) {
 					float dis = Vector2.Distance(transform.position,item.transform.position);
-					item.destroyDelay += dis / 20f ;
+					item.destroyDelay += dis / 20f + _additionalDelay;
 					if (item.isFreezeObject == false) {
 						item.isDestroyingByPowerUp = true;
 						item.DestroyItem (true);
@@ -1936,8 +1981,8 @@ public class Item : MonoBehaviour
         foreach (Square item in sqList)
         {
 			if (item != null) {
-				//item.item.destroyNearBlockedCubesInside ();
-				item.DestroyBlock (true);
+				float dis = Vector2.Distance(transform.position,item.transform.position);
+				item.startDestroyBlockDelayed(dis / 20f ,true);
 			}
         }
 
@@ -1980,7 +2025,7 @@ public class Item : MonoBehaviour
 					
 				} else {
 					
-					_square.DestroyBlock (true);
+					_square.DestroyBlock (false);
 				}
 
 			}

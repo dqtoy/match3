@@ -53,3 +53,9 @@
 /Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/UnityEditor.iOS.Extensions.Xcode.xml
 /Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll
 /Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/UnityEditor.iOS.Extensions.Common.dll.mdb
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/Assembly-UnityScript-firstpass.dll
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/JMOAssets.dll
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/TextMeshPro-1.0.55.56.0b11.dll
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/TextMeshPro-1.0.55.56.0b11-Editor.dll
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/tk2dExternal.dll
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/tk2dSkin.dll

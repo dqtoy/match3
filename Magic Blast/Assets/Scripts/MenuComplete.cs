@@ -163,5 +163,20 @@ public class MenuComplete : MonoBehaviour {
 			}
 			ingrList [j].GetComponent <RectTransform> ().localPosition = _pos;
 		}
+
+		Vector3 _contPos = ingrObject.GetComponent <RectTransform>().localPosition;
+		if (_spriteList.Count == 1) {
+			_contPos.x = 9.4f;
+		}
+		if (_spriteList.Count == 2) {
+			_contPos.x = -51.26f;
+		}
+		if (_spriteList.Count == 3) {
+			_contPos.x = 9.4f;
+		}
+		if (_spriteList.Count == 4) {
+			_contPos.x = -51.26f;
+		}
+		ingrObject.GetComponent <RectTransform> ().localPosition = _contPos;
 	}
 }

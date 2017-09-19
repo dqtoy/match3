@@ -48,6 +48,7 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager THIS;
     public static LevelManager Instance;
+	public GameObject _lifeBoxPanel;
     public GameObject itemPrefab;
     public GameObject squarePrefab;
     public Sprite squareSprite;
@@ -71,6 +72,7 @@ public class LevelManager : MonoBehaviour
 
     public Transform lightningPrefabs;
     public Transform beamPrefabs;
+	public GameObject mapPointer;
 
     public LifeShop lifeShop;
     public Transform GameField;
@@ -184,6 +186,8 @@ public class LevelManager : MonoBehaviour
     public GameObject star3Anim;
     public GameObject snowParticle;
     public GameObject collectParticle;
+	public GameObject finishRotorParticle;
+	public GameObject limitObject;
     public GameObject bubbleParticle;
     public GameObject pinataParticle;
     public GameObject[] CubesIdleParticles;
@@ -310,6 +314,8 @@ public class LevelManager : MonoBehaviour
 
     public List<GameObject> _findingMatch;
 
+	public List<GameObject> _hintMatch;
+
     public bool firstTurnWasPassed = false;
 
     public GameState gameStatus
@@ -400,7 +406,10 @@ public class LevelManager : MonoBehaviour
                 GameObject.Find("CanvasGlobal").transform.Find("MenuComplete").gameObject.SetActive(true);
                 SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.complete[1]);
 
-
+				if (currentLevel == PlayerPrefs.GetInt ("curLevel", 1)) {
+					PlayerPrefs.SetInt ("curLevel",currentLevel+1);
+					PlayerPrefs.Save ();
+				}
 
                 //if (InitScript.Instance.ShowChartboostAdsEveryLevel > 0)
                 //{
@@ -449,6 +458,7 @@ public class LevelManager : MonoBehaviour
 
     public void EnableMap(bool enable)
     {
+		_lifeBoxPanel.SetActive (enable);
         if (enable)
         {
             float aspect = (float)Screen.height / (float)Screen.width;
@@ -466,15 +476,33 @@ public class LevelManager : MonoBehaviour
 
             float aspect = (float)Screen.height / (float)Screen.width;
 
+			int PIXELS_TO_UNITS = 85;
             if (DeviceOrientationController.instanse.getCurrentOrientaion() == DevideOr.Portrait)
             {
-                GetComponent<Camera>().orthographicSize = 4.3f * aspect;
+				PIXELS_TO_UNITS = 85;
+				DeviceOrientationController.instanse.levelObject.transform.position = new Vector3(0f,-0.5f,-10f);
             }
             else
             {
-                GetComponent<Camera>().orthographicSize = 4.3f;
+				PIXELS_TO_UNITS = 120;
+				DeviceOrientationController.instanse.levelObject.transform.position = new Vector3(0.6f,-0.15f,-10f);
             }
+			//GetComponent<Camera> ().orthographicSize = Screen.width * 6 / 800;
+			float TARGET_WIDTH = 640.0f;
+			float TARGET_HEIGHT = 960.0f;
 
+			float desiredRatio = TARGET_WIDTH / TARGET_HEIGHT;
+			float currentRatio = (float)Screen.width/(float)Screen.height;
+
+			if(currentRatio >= desiredRatio)
+			{
+				Camera.main.orthographicSize = TARGET_HEIGHT / 2 / PIXELS_TO_UNITS;
+			}
+			else
+			{
+				float differenceInSize = desiredRatio / currentRatio;
+				Camera.main.orthographicSize = TARGET_HEIGHT / 2 / PIXELS_TO_UNITS * differenceInSize;
+			}
 
 
             //GetComponent<Camera>().orthographicSize = 7f;
@@ -1507,17 +1535,27 @@ public class LevelManager : MonoBehaviour
         List<Item> items = GetRandomItems(limitType == LIMIT.MOVES ? Limit : 8);
         foreach (Item item in items)
         {
-            if (limitType == LIMIT.MOVES)
-                Limit--;
-            item.NextType = (ItemsTypes)UnityEngine.Random.Range(1, 3);
-            item.ChangeType();
-            yield return new WaitForSeconds(0.5f);
+			GameObject _rotorLine = GameObject.Instantiate (finishRotorParticle,limitObject.transform.position,Quaternion.identity);
+			Destroy (_rotorLine, 1f);
+			LeanTween.move (_rotorLine, item.transform.position, 0.3f);
+            yield return new WaitForSeconds(0.3f);
+			if (limitType == LIMIT.MOVES)
+				Limit--;
+			item.NextType = (ItemsTypes)UnityEngine.Random.Range(1, 3);
+			item.ChangeType();
         }
         yield return new WaitForSeconds(0.3f);
         while (GetAllExtaItems().Count > 0)
         {
             Item item = GetAllExtaItems()[0];
-            item.DestroyItem();
+			if (item.currentType == ItemsTypes.BOMB) {
+				yield return StartCoroutine(item.onBombEffects(ItemsTypes.NONE));
+				item.DestroyColor (item.lastColor);
+				item.DestroyItem();
+			} else {
+				item.DestroyItem();
+			}
+            
             dragBlocked = true;
             yield return new WaitForSeconds(0.1f);
             FindMatches();
@@ -1538,7 +1576,7 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         GameObject.Find("Canvas").transform.Find("PreCompleteBanner").gameObject.SetActive(false);
 
-        if (stars < 0)
+        if (stars <= 0)
         {
             stars = 1;
         }
@@ -2424,11 +2462,74 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+	public void findHint()
+	{
+		if (gameStatus == GameState.Playing)
+		{
+			Debug.Log("find fint");
+
+			bool find = false;
+
+			int counter = 0;
+			ArrayList fullItems = new ArrayList();
+
+			GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+			for (int i = 0; i < items.Length; i++)
+			{
+				Item _curItem = items[i].GetComponent<Item>();
+				_curItem.hideGlow ();
+
+				if (!fullItems.Contains (_curItem) && (_curItem.currentType == ItemsTypes.NONE || _curItem.currentType == ItemsTypes.TIME_BOMB) && _curItem.isFreezeObject == false) {
+					counter++;
+
+					List<Item> partItems = new List<Item> ();
+					partItems = findNearlestItems (_curItem, partItems);
+
+					if (!partItems.Contains (_curItem)) {
+						partItems.Add (_curItem);
+					}
+					fullItems.Add (_curItem);
+					foreach (Item _it in partItems) {
+						if (!fullItems.Contains (_it)) {
+							fullItems.Add (_it);
+						}
+					}
+
+					for (int j = 0; j < partItems.Count; j++) {
+						partItems = findNearlestItems (partItems [j], partItems);
+					}
+
+					if (partItems.Count > 1) {
+						foreach (Item _it2 in partItems) {
+							_hintMatch.Add (_it2.gameObject);
+						}
+						find = true;
+						break;
+					}
+
+
+
+					//Debug.Log ("find = " + partItems.Count);
+				} 
+			}
+
+			if (find) {
+				foreach (GameObject _go in _hintMatch) {
+					if (_go != null) {
+						LeanTween.alpha (_go, 0.5f, 0.2f).setLoopPingPong ();
+					}
+				}
+			}
+
+
+		}
+	}
+
     public void findNoMoreMoves()
     {
         if (gameStatus == GameState.Playing)
         {
-            Debug.Log("check no more moves!");
+            //Debug.Log("check no more moves!");
 
             bool find = false;
 
@@ -2477,11 +2578,12 @@ public class LevelManager : MonoBehaviour
 						}*/
                     }
 
+
                 }
 
             }
 
-            if (!find)
+			if (!find && GetAllExtaItems().Count <= 0)
             {
                 StartCoroutine(NoMatchesCor());
             }
@@ -2799,58 +2901,54 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < items.Length; i++)
         {
             Item _curItem = items[i].GetComponent<Item>();
+			_curItem.hideGlow ();
 
-            if (!fullItems.Contains(_curItem) && (_curItem.currentType == ItemsTypes.NONE || _curItem.currentType == ItemsTypes.TIME_BOMB))
-            {
-                counter++;
+			if (!fullItems.Contains (_curItem) && (_curItem.currentType == ItemsTypes.NONE || _curItem.currentType == ItemsTypes.TIME_BOMB) && _curItem.isFreezeObject == false) {
+				counter++;
 
-                List<Item> partItems = new List<Item>();
-                partItems = findNearlestItems(_curItem, partItems);
+				List<Item> partItems = new List<Item> ();
+				partItems = findNearlestItems (_curItem, partItems);
 
-                if (!partItems.Contains(_curItem))
-                {
-                    partItems.Add(_curItem);
-                }
-                fullItems.Add(_curItem);
-                foreach (Item _it in partItems)
-                {
-                    if (!fullItems.Contains(_it))
-                    {
-                        fullItems.Add(_it);
-                    }
-                }
+				if (!partItems.Contains (_curItem)) {
+					partItems.Add (_curItem);
+				}
+				fullItems.Add (_curItem);
+				foreach (Item _it in partItems) {
+					if (!fullItems.Contains (_it)) {
+						fullItems.Add (_it);
+					}
+				}
 
-                for (int j = 0; j < partItems.Count; j++)
-                {
-                    partItems = findNearlestItems(partItems[j], partItems);
-                }
+				for (int j = 0; j < partItems.Count; j++) {
+					partItems = findNearlestItems (partItems [j], partItems);
+				}
 
-                SymbolsTypes _type = SymbolsTypes.SIMPLE;
+				SymbolsTypes _type = SymbolsTypes.SIMPLE;
 
-                if (partItems.Count == 5 || partItems.Count == 6)
-                {
-                    _type = SymbolsTypes.ROTOR;
-                }
-                else if (partItems.Count == 7 || partItems.Count == 8)
-                {
-                    _type = SymbolsTypes.TNT;
-                }
-                else if (partItems.Count >= 9)
-                {
-                    _type = SymbolsTypes.BOMB;
-                }
-                else
-                {
-                    _type = SymbolsTypes.SIMPLE;
-                }
+				if (partItems.Count == 5 || partItems.Count == 6) {
+					_type = SymbolsTypes.ROTOR;
+				} else if (partItems.Count == 7 || partItems.Count == 8) {
+					_type = SymbolsTypes.TNT;
+				} else if (partItems.Count >= 9) {
+					_type = SymbolsTypes.BOMB;
+				} else {
+					_type = SymbolsTypes.SIMPLE;
+				}
 
-                foreach (Item _it2 in partItems)
-                {
-                    _it2.displaySymbols(_type);
-                }
+				foreach (Item _it2 in partItems) {
+					_it2.displaySymbols (_type);
+				}
 
-                //Debug.Log ("find = " + partItems.Count);
-            }
+				//Debug.Log ("find = " + partItems.Count);
+			} else if (_curItem.currentType == ItemsTypes.HORIZONTAL_STRIPPED ||
+				_curItem.currentType == ItemsTypes.VERTICAL_STRIPPED ||
+				_curItem.currentType == ItemsTypes.BOMB ||
+				_curItem.currentType == ItemsTypes.PACKAGE)
+			{
+				if (_curItem.isNearPowerCombination ()) {
+					_curItem.showGlow ();
+				}
+			}
         }
         //Debug.Log ("counter = "+counter);
     }

@@ -10,23 +10,49 @@ public class AI : MonoBehaviour
     int tipID;
     public int corCount;
     private List<Item> nextMoveItems;
+
+	private IEnumerator hintCoroutine;
     // Use this for initialization
     void Start()
     {
         THIS = this;
         //StartCoroutine(CheckPossibleCombines());
+		hintCoroutine = FindHint();
         StartCoroutine(reset());
+		//onFindHint ();
     }
 
     IEnumerator reset()
     {
         while (true)
         {
-            yield return new WaitForSeconds(15);
+            yield return new WaitForSeconds(2f);
 			//commit
 			LevelManager.THIS.findNoMoreMoves();
         }
     }
+
+	public void onFindHint()
+	{
+		Debug.Log ("start hint");
+		StopCoroutine ("FindHint");
+
+		foreach (GameObject _go in LevelManager.THIS._hintMatch) {
+			if (_go != null) {
+				LeanTween.cancel (_go);
+				LeanTween.alpha (_go, 1f, 0.1f);
+			}
+		}
+
+		StartCoroutine("FindHint");
+	}
+
+	IEnumerator FindHint()
+	{
+		yield return new WaitForSeconds(7f);
+		//commit
+		LevelManager.THIS.findHint();
+	}
 
     Square GetSquare(int row, int col)
     {

@@ -35,3 +35,5 @@
 /Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/Assembly-UnityScript-firstpass.dll
+/Users/Mac/Desktop/UnityProjects/ToyBlastClone_git/Magic Blast/Temp/bin/Debug/TextMeshPro-1.0.55.56.0b11.dll

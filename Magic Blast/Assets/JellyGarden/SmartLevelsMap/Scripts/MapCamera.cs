@@ -16,6 +16,9 @@ public class MapCamera : MonoBehaviour
     private float speed;
     bool touched;
 
+	Vector3 lastPosition;
+	public bool isMoving = false;
+
 	public bool canMove = true;
 
 	private GameObject _leaderboard;
@@ -43,6 +46,14 @@ public class MapCamera : MonoBehaviour
 #else
         HandleMouseInput();
 #endif
+
+		if ( transform.position != lastPosition )
+			isMoving = true;
+		else
+			isMoving = false;
+
+		lastPosition = transform.position;
+
     }
 
     void LateUpdate()
@@ -90,7 +101,7 @@ public class MapCamera : MonoBehaviour
         }
         else if (!touched)
         {
-            deltaV -= deltaV * Time.deltaTime * 5f;
+            deltaV -= deltaV * Time.deltaTime * 7f;
             transform.Translate(deltaV.x / 30, deltaV.y / 30, 0);
         }
 
@@ -126,7 +137,7 @@ public class MapCamera : MonoBehaviour
         }
         else
         {
-            deltaV -= deltaV * Time.deltaTime * 5f;
+            deltaV -= deltaV * Time.deltaTime * 7f;
             transform.Translate(deltaV.x / 30, deltaV.y / 30, 0);
         }
 

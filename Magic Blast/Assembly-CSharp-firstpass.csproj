@@ -147,6 +147,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\100.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\14.txt" />
      <None Include="Assets\SpriteMask\Sprites-Default-Mask.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\105.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\4.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\74.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\5.txt" />

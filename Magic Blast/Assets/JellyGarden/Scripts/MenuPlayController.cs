@@ -93,14 +93,18 @@ public class MenuPlayController : MonoBehaviour {
 
 
 		if (LevelManager.THIS.beachBallTarget > 0) {
-			_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
-			_scaleList.Add (new Vector3(250f,250f,27.8f));
+			_spriteList.Add (LevelManager.THIS.blocksSprites [1]);
+			_scaleList.Add (new Vector3 (250f, 250f, 27.8f));
 			count++;
-			Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
+			Counter_ counter = ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
+			Debug.Log ("pos " + counter.transform.position);
 			counter.connectedArray = new int[1];
 			counter.connectedArray [0] = LevelManager.THIS.beachBallTarget;
 			counter.currentID = 0;
-
+			//counter.gameObject.SendMessage ("setPosition");
+			ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -53, 0);
+		} else {
+			
 		}
 
 		if (LevelManager.THIS.moneyBoxTarget > 0) {
@@ -111,7 +115,7 @@ public class MenuPlayController : MonoBehaviour {
 			counter.connectedArray = new int[1];
 			counter.connectedArray [0] = LevelManager.THIS.moneyBoxTarget;
 			counter.currentID = 0;
-
+			ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 		}
 
 		if (LevelManager.THIS.timeBombTarget > 0) {
@@ -122,7 +126,7 @@ public class MenuPlayController : MonoBehaviour {
 			counter.connectedArray = new int[1];
 			counter.connectedArray [0] = LevelManager.THIS.timeBombTarget;
 			counter.currentID = 0;
-
+			ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 		}
 
 
@@ -136,6 +140,7 @@ public class MenuPlayController : MonoBehaviour {
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.ingrCountTarget;
 					counter.currentID = i;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
 			}
 		}
@@ -149,6 +154,7 @@ public class MenuPlayController : MonoBehaviour {
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.toysCount;
 					counter.currentID = i;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
 			}
 		}
@@ -162,6 +168,7 @@ public class MenuPlayController : MonoBehaviour {
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 0;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.BEACH_BALLS) {
 					/*_spriteList.Add (LevelManager.THIS.blocksSprites[1]);
@@ -172,12 +179,13 @@ public class MenuPlayController : MonoBehaviour {
 					allTargetsObjectList.Add (LevelManager.THIS.squareTypes [i]);*/
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
-					_spriteList.Add (LevelManager.THIS.blocksSprites[2]);
+					_spriteList.Add(LevelManager.THIS.otherSprites[0]);
 					_scaleList.Add (new Vector3(140f,140f,22.1f));
 					count++;
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 2;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.DOUBLEBLOCK) {
 					/*_spriteList.Add (LevelManager.THIS.blocksSprites[3]);
@@ -194,6 +202,7 @@ public class MenuPlayController : MonoBehaviour {
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 4;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.THRIVING) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[5]);
@@ -203,6 +212,7 @@ public class MenuPlayController : MonoBehaviour {
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 5;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.UNDESTROYABLE) {
 					/*_spriteList.Add (LevelManager.THIS.blocksSprites[6]);
@@ -219,10 +229,12 @@ public class MenuPlayController : MonoBehaviour {
 					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
 					counter.connectedArray = LevelManager.THIS.blocksCount;
 					counter.currentID = 7;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
 			}
 		}
 
+		//ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 
 		foreach (GameObject _go in ingrList) {
 			_go.SetActive (false);
@@ -243,6 +255,20 @@ public class MenuPlayController : MonoBehaviour {
 			}
 			ingrList [j].GetComponent <RectTransform> ().localPosition = _pos;
 		}
+		Vector3 _contPos = ingrObject.GetComponent <RectTransform>().localPosition;
+		if (_spriteList.Count == 1) {
+			_contPos.x = 45f;
+		}
+		if (_spriteList.Count == 2) {
+			_contPos.x = -21.5f;
+		}
+		if (_spriteList.Count == 3) {
+			_contPos.x = 38.1f;
+		}
+		if (_spriteList.Count == 4) {
+			_contPos.x = -21.5f;
+		}
+		ingrObject.GetComponent <RectTransform> ().localPosition = _contPos;
 	}
 
 	void OnDisable()

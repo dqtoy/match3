@@ -89,9 +89,14 @@ public class MapLevel : MonoBehaviour
         UpdateStars(starsCount);
         IsLocked = isLocked;
         Lock.gameObject.SetActive(isLocked);
-		startsBack.gameObject.SetActive (!isLocked);
+		startsBack.gameObject.SetActive (!isLocked && !isCurrentLevel());
 		//levelNumber.gameObject.SetActive (!isLocked);
     }
+
+	public bool isCurrentLevel()
+	{
+		return PlayerPrefs.GetInt ("curLevel",1) == Number;
+	}
 
     public void UpdateStars(int starsCount)
     {
