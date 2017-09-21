@@ -8,8 +8,10 @@ public class GUIEvents : MonoBehaviour
 {
     private void Start()
     {
-        FacebookManager.Instance.OnFbLoggedIn += OnFbLoggedIn;
-        FacebookManager.Instance.OnFbLoggedOut += OnFbLoggedOut;
+        if (FacebookManager.Instance != null) {
+            FacebookManager.Instance.OnFbLoggedIn += OnFbLoggedIn;
+            FacebookManager.Instance.OnFbLoggedOut += OnFbLoggedOut;
+        }
     }
 
     private void OnFbLoggedOut()
