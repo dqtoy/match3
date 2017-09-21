@@ -353,6 +353,7 @@
     <None Include="Assets\Alpha Masking\Shaders 2D (Sprites)\Sprites-Alpha-Mask-WorldCoords.shader" />
     <None Include="Assets\Alpha Masking\Shaders 3D\Unlit-Alpha-Mask-WorldCoords.shader" />
     <None Include="Assets\ExportAnimations\AECompositionsImporter\Shaders\OpacityShader.shader" />
+    <None Include="Assets\ExportAnimations\Zip_refraction_water_v1.4.shader" />
     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Additive.shader" />
     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\AlphaBlended.shader" />
     <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Billboard.shader" />
