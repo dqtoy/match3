@@ -6,6 +6,21 @@ using TMPro;
 
 public class GUIEvents : MonoBehaviour
 {
+    private void Start()
+    {
+        FacebookManager.Instance.OnFbLoggedIn += OnFbLoggedIn;
+        FacebookManager.Instance.OnFbLoggedOut += OnFbLoggedOut;
+    }
+
+    private void OnFbLoggedOut()
+    {
+        ShowFacebookDisconnectedDialog();
+    }
+
+    private void OnFbLoggedIn()
+    {
+        ShowFacebookConnectedDialog();
+    }
 
     void Update()
     {
@@ -31,6 +46,24 @@ public class GUIEvents : MonoBehaviour
         }
     }
 
+    public void ShowFacebookDisconnectDialog()
+    {
+        GameObject.Find("CanvasGlobal").transform.Find("FacebookDisconectDialog").gameObject.SetActive(true);
+        GameObject.Find("CanvasGlobal").transform.Find("FacebookDisconectDialog").gameObject.GetComponent<AnimationManager>().Play();
+    }
+
+    public void ShowFacebookConnectedDialog()
+    {
+        GameObject.Find("CanvasGlobal").transform.Find("FacebookConnected").gameObject.SetActive(true);
+        GameObject.Find("CanvasGlobal").transform.Find("FacebookConnected").gameObject.GetComponent<AnimationManager>().Play();
+    }
+
+    public void ShowFacebookDisconnectedDialog()
+    {
+        GameObject.Find("CanvasGlobal").transform.Find("FacebookDisconected").gameObject.SetActive(true);
+        GameObject.Find("CanvasGlobal").transform.Find("FacebookDisconected").gameObject.GetComponent<AnimationManager>().Play();
+    }
+
     public void InviteDialog()
     {
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
@@ -43,13 +76,6 @@ public class GUIEvents : MonoBehaviour
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
 
         GameObject.Find("CanvasGlobal").transform.Find("SendLivesDialogWindow").gameObject.SetActive(true);
-    }
-
-    public void ShowInboxDialog()
-    {
-        SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
-
-        GameObject.Find("CanvasGlobal").transform.Find("InboxWindow").gameObject.SetActive(true);
     }
 
     public void Settings(string name = "")
@@ -87,7 +113,8 @@ public class GUIEvents : MonoBehaviour
 #if FACEBOOK
         if (FacebookManager.Instance.IsLoggedIn)
         { 
-            FacebookManager.Instance.LogOutFacebook();
+            //FacebookManager.Instance.LogOutFacebook();
+            ShowFacebookDisconnectDialog();
         }
         else
         {

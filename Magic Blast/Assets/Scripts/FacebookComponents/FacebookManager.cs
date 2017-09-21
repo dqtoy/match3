@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -10,6 +11,9 @@ using UnityEngine.SceneManagement;
 public class FacebookManager : MonoBehaviour
 {
     private static FacebookManager _instance;
+
+    private readonly string _ppUserLivesRequestKey = "RequestLives";
+    private readonly string _ppUserSendLivesKey = "SendLives";
 
     private FacebookUserInfo _currentUserFacebookUserInfo = new FacebookUserInfo();
     public FacebookUserInfo CurrentUserFacebookUserInfo
@@ -75,6 +79,7 @@ public class FacebookManager : MonoBehaviour
 
     public Action OnUserInfoDownloadedEvent { get; set; }
     public Action OnFriendsInfoDownloadedEvent { get; set; }
+    public Action OnInvintableFriendsInfoDownloadedEvent { get; set; }
     public Action OnGetRequestsEvent { get; set; }
 
     public Action OnSendInviteSuccess { get; set; }
@@ -230,6 +235,26 @@ public class FacebookManager : MonoBehaviour
             Debug.LogError("Lives request not sended with error: " + result.Error);
         }
 
+        RequestsSendData data;
+        if (PlayerPrefs.HasKey(_ppUserLivesRequestKey))
+        {
+            data = JsonUtility.FromJson<RequestsSendData>(PlayerPrefs.GetString(_ppUserLivesRequestKey));
+            foreach (var id in result.To)
+            {
+                if (!data.IdsList.Contains(id))
+                {
+                    data.IdsList.Add(id);
+                }
+            }
+        }
+        else
+        {
+            data = new RequestsSendData(DateTime.Now, result.To.ToList());
+        }
+
+        var dataString = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(_ppUserSendLivesKey, dataString);
+
         if (OnSendLivesRequestSuccess != null)
         {
             OnSendLivesRequestSuccess.Invoke();
@@ -244,6 +269,26 @@ public class FacebookManager : MonoBehaviour
         {
             Debug.LogError("Lives not sended with error: " + result.Error);
         }
+
+        RequestsSendData data;
+        if (PlayerPrefs.HasKey(_ppUserSendLivesKey))
+        {
+            data = JsonUtility.FromJson<RequestsSendData>(PlayerPrefs.GetString(_ppUserSendLivesKey));
+            foreach (var id in result.To)
+            {
+                if (!data.IdsList.Contains(id))
+                {
+                    data.IdsList.Add(id);
+                }
+            }
+        }
+        else
+        {
+            data = new RequestsSendData(DateTime.Now, result.To.ToList());
+        }
+        
+        var dataString = JsonUtility.ToJson(data);
+        PlayerPrefs.SetString(_ppUserSendLivesKey, dataString);
 
         if (OnSendLivesSuccess != null)
         {
@@ -334,7 +379,7 @@ public class FacebookManager : MonoBehaviour
 
         if (userInfo.pictureUrl != null)
         {
-            yield return StartCoroutine(LoadImage(userInfo.id, userInfo.pictureUrl, (texture) =>
+            yield return StartCoroutine(CheckAndLoadImage(userInfo.id, userInfo.pictureUrl, !userType.Equals(UserType.Invitable), (texture) =>
             {
                 userInfo.ProfilePicture = Sprite.Create(texture, new Rect(0, 0, 64, 64), new Vector2(0.5f, 0.5f));
             }));
@@ -361,26 +406,25 @@ public class FacebookManager : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadImage(string userId, string url, Action<Texture2D> onImageLoaded)
+    private IEnumerator CheckAndLoadImage(string userId, string url, bool save, Action<Texture2D> onImageLoaded)
     {
-        WWW www;
-        www = new WWW(url);
-        //FileInfo photoFileInfo = new FileInfo(Application.persistentDataPath + "/images/"+userId+".png");
-        //if (photoFileInfo != null && photoFileInfo.Exists)
-        //{
-        //    www = new WWW(url);
-        //}
-        //else
-        //{
-        //    www = new WWW(url);
-        //}
+        FileInfo photoFileInfo = new FileInfo(Application.persistentDataPath + "/images/" + userId + ".png");
+        if (photoFileInfo.Exists)
+        {
+            yield return StartCoroutine(LoadImageFromLocal(userId, onImageLoaded));
+        }
+        else
+        {
+            yield return StartCoroutine(LoadImageFromInternet(userId, url, save, onImageLoaded));
+        }
+        yield return null;
+    }
+
+    private IEnumerator LoadImageFromLocal(string userId, Action<Texture2D> onImageLoaded)
+    {
+        var url = "file:///"+Application.persistentDataPath + "/images/" + userId + ".png";
+        var www = new WWW(url);
         yield return www;
-
-        //check if we contains photo with id
-
-        //if no contains - load from url
-
-        //if contains - return image
 
         if (www.isDone)
         {
@@ -391,13 +435,47 @@ public class FacebookManager : MonoBehaviour
         }
     }
 
+    private IEnumerator LoadImageFromInternet(string userId, string url, bool save, Action<Texture2D> onImageLoaded)
+    {
+        var www = new WWW(url);
+        yield return www;
+
+        if (www.isDone)
+        {
+            if (save)
+            {
+                SaveTextureToFile(www.texture, userId);
+            }
+
+            if (onImageLoaded != null)
+            {
+                onImageLoaded.Invoke(www.texture);
+            }
+        }
+    }
+
     private void SaveTextureToFile(Texture2D texture, string filename)
     {
-        var bytes = texture.EncodeToPNG();
-        var fileSave = new FileStream(Application.persistentDataPath + "/images/" + filename, FileMode.Create);
-        var binary = new BinaryWriter(fileSave);
-        binary.Write(bytes);
-        fileSave.Close();
+        System.IO.DirectoryInfo directoryInfo = new DirectoryInfo(Application.persistentDataPath + "/images/");
+
+        if (directoryInfo.Exists)
+        {
+            var bytes = texture.EncodeToPNG();
+            var fileSave = new FileStream(Application.persistentDataPath + "/images/" + filename + ".png", FileMode.Create);
+            var binary = new BinaryWriter(fileSave);
+            binary.Write(bytes);
+            fileSave.Close();
+        }
+        else
+        {
+            directoryInfo.Create();
+            var bytes = texture.EncodeToPNG();
+            var fileSave = new FileStream(Application.persistentDataPath + "/images/" + filename + ".png", FileMode.Create);
+            var binary = new BinaryWriter(fileSave);
+            binary.Write(bytes);
+            fileSave.Close();
+        }
+        
     }
 
     private void UpdateInventableFriendsList()
@@ -440,11 +518,18 @@ public class FacebookManager : MonoBehaviour
                 {
                     OnFriendsInfoDownloadedEvent.Invoke();
                 }
+                
                 GetFriendRequests();
             }
-        }
 
-        //GetFriendRequests();
+            if (InventableFriendsList.Count == numFriends)
+            {
+                if (OnInvintableFriendsInfoDownloadedEvent != null)
+                {
+                    OnInvintableFriendsInfoDownloadedEvent.Invoke();
+                }
+            }
+        }
     }
 
     private void GetFriendRequests()
@@ -455,10 +540,9 @@ public class FacebookManager : MonoBehaviour
             FB.API("/me/apprequests", HttpMethod.GET, GetFriendRequestsCallback);
         }
     }
+#endregion
 
-    #endregion
-
-    #region Public Methods
+#region Public Methods
     public FacebookManager UpdateFriends()
     {
         UpdateInventableFriendsList();
@@ -498,6 +582,64 @@ public class FacebookManager : MonoBehaviour
         return AccessToken.CurrentAccessToken;
     }
 
+    public List<FacebookUserInfo> GetLifeRequestAvailableFriends()
+    {
+        var list = new List<FacebookUserInfo>();
+        if (PlayerPrefs.HasKey(_ppUserLivesRequestKey))
+        {
+            DateTime parsedDateTime;
+            var data = JsonUtility.FromJson<RequestsSendData>(PlayerPrefs.GetString(_ppUserLivesRequestKey));
+            if (DateTime.TryParse(data.LastSendDateTime, out parsedDateTime))
+            {
+                if (DateTime.Now > parsedDateTime.AddHours(24))
+                {
+                    return _friendUserFacebookInfos;
+                }
+            }
+            foreach (var user in _friendUserFacebookInfos)
+            {
+                if (!data.IdsList.Contains(user.id))
+                {
+                    list.Add(user);
+                }
+            }
+            return list;
+        }
+        else
+        {
+            return _friendUserFacebookInfos;
+        }
+    }
+
+    public List<FacebookUserInfo> GetLifeSendAvailableFriends()
+    {
+        var list = new List<FacebookUserInfo>();
+        if (PlayerPrefs.HasKey(_ppUserSendLivesKey))
+        {
+            DateTime parsedDateTime;
+            var data = JsonUtility.FromJson<RequestsSendData>(PlayerPrefs.GetString(_ppUserSendLivesKey));
+            if (DateTime.TryParse(data.LastSendDateTime, out parsedDateTime))
+            {
+                if (DateTime.Now > parsedDateTime.AddHours(24))
+                {
+                    return _friendUserFacebookInfos;
+                }
+            }
+            foreach (var user in _friendUserFacebookInfos)
+            {
+                if (!data.IdsList.Contains(user.id))
+                {
+                    list.Add(user);
+                }
+            }
+            return list;
+        }
+        else
+        {
+            return _friendUserFacebookInfos;
+        }
+    }
+
     public FacebookManager ConfirmRequests(List<UserRequestInfo> requests)
     {
         foreach (var request in requests)
@@ -524,5 +666,18 @@ public class FacebookManager : MonoBehaviour
         FB.AppRequest(message: "Help me with lives!", to: userIds, maxRecipients: null, title: "Send lives request.", data: "request_item_life", callback: SendLifeRequestCallback);
         return this;
     }
-    #endregion
+#endregion
+}
+
+[System.Serializable]
+public class RequestsSendData
+{
+    public string LastSendDateTime;
+    public List<string> IdsList;
+
+    public RequestsSendData(DateTime time, List<string> idsList)
+    {
+        LastSendDateTime = time.ToString(CultureInfo.InvariantCulture);
+        IdsList = idsList;
+    }
 }
