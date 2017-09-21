@@ -193,6 +193,7 @@ public class LevelsMap : MonoBehaviour
         else
         {
             WaypointsMover.transform.position = mapLevel.PathPivot.transform.position;   //need to fix in the map plugin
+			if (LevelManager.THIS != null)
 			LevelManager.THIS.mapPointer.transform.position = mapLevel.transform.position;
             CharacterLevel = mapLevel;
             if (!isQuietly)

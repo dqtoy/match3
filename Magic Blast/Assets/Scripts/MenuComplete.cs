@@ -139,7 +139,7 @@ public class MenuComplete : MonoBehaviour {
 					allTargetsObjectList.Add (LevelManager.THIS.squareTypes [i]);*/
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
-					_spriteList.Add (LevelManager.THIS.blocksSprites[2]);
+					_spriteList.Add(LevelManager.THIS.otherSprites[0]);
 					_scaleList.Add (new Vector3(140f,140f,22.1f));
 					count++;
 				}

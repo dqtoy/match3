@@ -223,6 +223,7 @@
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Projectile.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\8.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Billboard.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\106.txt" />
      <None Include="Assets\TextMesh Pro\Fonts\Anton OFL.txt" />
      <None Include="Assets\sss\girl_on_window.atlas.txt" />
      <None Include="Assets\JMO Assets\Cartoon FX\Shaders (Mobile)\CFXM_MobileParticleAdd_Alpha8.shader" />
