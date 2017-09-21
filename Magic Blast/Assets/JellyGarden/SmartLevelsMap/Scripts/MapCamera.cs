@@ -41,12 +41,12 @@ public class MapCamera : MonoBehaviour
     {
 		if (_leaderboard.activeInHierarchy)
 			return;
-#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
+/*#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
 			HandleTouchInput();
 #else
         HandleMouseInput();
-#endif
-
+#endif*/
+		HandleMouseInput();
 		if ( transform.position != lastPosition )
 			isMoving = true;
 		else
@@ -122,7 +122,8 @@ public class MapCamera : MonoBehaviour
 
         else if (Input.GetMouseButton(0))
         {
-            Vector2 curMousePosition = Input.mousePosition;
+            //Vector2 curMousePosition = Input.mousePosition;
+			Vector2 curMousePosition = Vector2.Lerp(_prevPosition,Input.mousePosition,7f*Time.smoothDeltaTime);
             MoveCamera(_prevPosition, curMousePosition);
             deltaV = _prevPosition - curMousePosition;
 

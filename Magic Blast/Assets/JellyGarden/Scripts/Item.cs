@@ -1188,7 +1188,7 @@ public class Item : MonoBehaviour
 					
 					i++;
 					
-				if (item.currentType == ItemsTypes.INGREDIENT || item.currentType == ItemsTypes.MONEY_BOX) {
+				if (item.currentType == ItemsTypes.INGREDIENT || item.currentType == ItemsTypes.MONEY_BOX || item.currentType == ItemsTypes.BEACH_BALLS) {
 					if (_type == ItemsTypes.HORIZONTAL_STRIPPED)
 						item.destroyDelay += 0.15f;
 						item.DestroyHorizontal ();

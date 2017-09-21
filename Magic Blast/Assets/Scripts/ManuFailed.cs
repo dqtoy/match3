@@ -151,7 +151,7 @@ public class ManuFailed : MonoBehaviour {
 					allTargetsObjectList.Add (LevelManager.THIS.squareTypes [i]);*/
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.COLOR_CUBE) {
-					_spriteList.Add (LevelManager.THIS.blocksSprites[2]);
+					_spriteList.Add(LevelManager.THIS.otherSprites[0]);
 					_scaleList.Add (new Vector3(140f,140f,22.1f));
 					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.blocksCount[2] <= 0);
 					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[2] > 0);

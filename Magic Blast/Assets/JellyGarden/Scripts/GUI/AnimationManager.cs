@@ -342,7 +342,7 @@ public class AnimationManager : MonoBehaviour
 				LevelManager.THIS.LoadLevel();
 
 				GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.SetActive(true);
-				GameObject.Find ("CanvasGlobal").transform.Find ("MenuPlay").gameObject.GetComponent <AnimationManager>().Play();
+				//GameObject.Find ("CanvasGlobal").transform.Find ("MenuPlay").gameObject.GetComponent <AnimationManager>().Play();
 				restartLevel = false;
 			} else {
 				

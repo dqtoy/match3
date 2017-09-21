@@ -2527,7 +2527,7 @@ public class LevelManager : MonoBehaviour
 
     public void findNoMoreMoves()
     {
-        if (gameStatus == GameState.Playing)
+		if (gameStatus == GameState.Playing && IsAllItemsFallDown() && IsAllDestoyFinished())
         {
             //Debug.Log("check no more moves!");
 
@@ -2546,7 +2546,7 @@ public class LevelManager : MonoBehaviour
                     {
                         int count = 0;
 
-                        List<Item> all = item.GetComponent<Item>().square.FindMatchesAround(FindSeparating.ALL, 1);
+						List<Item> all = item.GetComponent<Item>().square.FindMatchesAround(FindSeparating.HORIZONTAL, 1);
                         foreach (Item _it in all)
                         {
                             if (_it.currentType == ItemsTypes.NONE && _it.isFreezeObject == false && _it.gameObject != item)
@@ -2555,6 +2555,17 @@ public class LevelManager : MonoBehaviour
                                 _findingMatch.Add(_it.gameObject);
                             }
                         }
+
+						List<Item> all2 = item.GetComponent<Item>().square.FindMatchesAround(FindSeparating.VERTICAL, 1);
+						foreach (Item _it2 in all2)
+						{
+							if (_it2.currentType == ItemsTypes.NONE && _it2.isFreezeObject == false && _it2.gameObject != item)
+							{
+								count++;
+								_findingMatch.Add(_it2.gameObject);
+							}
+						}
+
                         //all.TrimExcess ();
                         if (count > 0)
                         {
