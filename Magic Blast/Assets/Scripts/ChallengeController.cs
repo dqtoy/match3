@@ -45,7 +45,7 @@ public class ChallengeController : MonoBehaviour {
 	public ChallengeType getCurrentChallenge()
 	{
 		//return _currentType;
-		return ChallengeType.TreasureHuntChallenge;
+		return ChallengeType.TreeClimbChallenge;
 	}
 
 	public ChallengeState getCurrentState()
@@ -108,8 +108,9 @@ public class ChallengeController : MonoBehaviour {
 				PlayerPrefs.SetInt ("startTournamentLevel", curLevel);
 				PlayerPrefs.Save ();
 			}
-		} else if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge && isLevelPassed(30)) {
-			if (_weekNumber != lastSavedTreeClambChallenge) {
+		} //else if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge && isLevelPassed(30)) {
+            else if (getCurrentChallenge() == ChallengeType.TreeClimbChallenge) {
+            if (_weekNumber != lastSavedTreeClambChallenge) {
 				// show TreeClimbPopup
 				PopupManager.instanse.showPopup (TreeClambPopup);
 				// reset challenge saves
