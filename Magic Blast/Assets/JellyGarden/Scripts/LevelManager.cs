@@ -391,7 +391,13 @@ public class LevelManager : MonoBehaviour
             }
             else if (value == GameState.GameOver)
             {
-                GameObject.Find("CanvasGlobal").transform.Find("MenuFailed").gameObject.SetActive(true);
+                if (ChallengeController.instanse != null) {
+                    if (ChallengeController.instanse.getCurrentState() == ChallengeController.ChallengeState.TreeClamb)
+                        GameObject.Find("CanvasGlobal").transform.Find("MenuFailedTreeClamb").gameObject.SetActive(true);
+                }
+                if (ChallengeController.instanse.getCurrentState() != ChallengeController.ChallengeState.TreeClamb)
+                    GameObject.Find("CanvasGlobal").transform.Find("MenuFailed").gameObject.SetActive(true); 
+
                 if (ChallengeController.instanse != null)
                 {
                     ChallengeController.instanse.resetTreeClambLevelPoint();

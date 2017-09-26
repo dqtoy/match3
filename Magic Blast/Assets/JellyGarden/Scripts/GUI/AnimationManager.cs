@@ -322,6 +322,7 @@ public class AnimationManager : MonoBehaviour
 
     public void CloseMenu()
     {
+
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.click);
         if (gameObject.name == "MenuPreGameOver")
         {
@@ -331,7 +332,7 @@ public class AnimationManager : MonoBehaviour
         {
             LevelManager.THIS.gameStatus = GameState.Map;
         }
-        if (gameObject.name == "MenuFailed")
+        if (gameObject.name == "MenuFailed" || gameObject.name == "MenuFailedTreeClamb")
         {
 			LevelManager.THIS.gameStatus = GameState.Map;
 			if (restartLevel) {
@@ -359,6 +360,11 @@ public class AnimationManager : MonoBehaviour
             }
         }
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.swish[1]);
+
+        if (gameObject.name == "PreQuitTreeClamb") {
+            if (ChallengeController.instanse.getCurrentState() == ChallengeController.ChallengeState.TreeClamb)
+                LevelManager.THIS.gameStatus = GameState.Playing;
+        }
 
         gameObject.SetActive(false);
     }
@@ -397,7 +403,7 @@ public class AnimationManager : MonoBehaviour
         {
             LevelManager.Instance.gameStatus = GameState.Map;
         }
-		else if (gameObject.name == "MenuPlay" || (gameObject.name == "MenuFailed" && restartLevel))
+		else if (gameObject.name == "MenuPlay" || (gameObject.name == "MenuFailed" && restartLevel) || gameObject.name == "MenuPlayTreeClamb")
         {
 			if (GameObject.FindObjectOfType<ExaGames.Common.LivesManager>().CanPlay)
             //if (InitScript.lifes > 0)

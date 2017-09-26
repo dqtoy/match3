@@ -10,7 +10,7 @@ public class TreeClambLevelBtn : MonoBehaviour {
 
 	public GameObject _lockSprite;
 
-	private bool isLocked = false;
+    public bool isLocked = false;
 	// Use this for initialization
 	void Start () {
 		
@@ -33,40 +33,41 @@ public class TreeClambLevelBtn : MonoBehaviour {
 
 	void loadLevel()
 	{
-		if (isLocked || GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.activeInHierarchy)
+		if (isLocked || GameObject.Find("CanvasGlobal").transform.Find("MenuPlayTreeClamb").gameObject.activeInHierarchy)
 			return;
 		LevelManager.THIS.clearAllLevelData ();
 		PlayerPrefs.SetInt("OpenLevel", level);
 		PlayerPrefs.Save();
 		LevelManager.THIS.LoadLevel();
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
-			ChallengeController.instanse.currentSelectedClambLevel = incsrID;
-		}
+			ChallengeController.instanse.currentSelectedClambLevel = incsrID;            
+        }
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TresureHant) {
 			ChallengeController.instanse.currentTresuareLevel = incsrID;
 		}
-		GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.SetActive(true);
+		GameObject.Find("CanvasGlobal").transform.Find("MenuPlayTreeClamb").gameObject.SetActive(true);
 		//Invoke ("showPopup",0.1f);
 	}
 
 	void showPopup()
 	{
-		GameObject.Find("CanvasGlobal").transform.Find("MenuPlay").gameObject.SetActive(true);
+		GameObject.Find("CanvasGlobal").transform.Find("MenuPlayTreeClamb").gameObject.SetActive(true);
 	}
 
 	public void setupLevel(string l)
-	{
-		int CurrentActiveLevel = 1;
+	{       
+        int CurrentActiveLevel = 1;
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
-			CurrentActiveLevel = PlayerPrefs.GetInt ("currentTreeClambLevel");
+			CurrentActiveLevel = PlayerPrefs.GetInt ("currentTreeClambLevel");            
 		}
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TresureHant) {
 			CurrentActiveLevel = PlayerPrefs.GetInt ("currentTresuareHuntLevel");
 		}
 
-		Debug.Log ("current clamb level = "+CurrentActiveLevel);
-		level = int.Parse (l);
-		if (level <= CurrentActiveLevel) {
+		//Debug.LogError ("current clamb level = "+CurrentActiveLevel);
+		level = int.Parse (l);      
+
+        if (incsrID <= CurrentActiveLevel) {
 			_lockSprite.SetActive (false);
 			isLocked = false;
 		} else {

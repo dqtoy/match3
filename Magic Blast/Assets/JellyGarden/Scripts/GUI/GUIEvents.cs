@@ -102,6 +102,7 @@ public class GUIEvents : MonoBehaviour
 		if (LevelManager.THIS.gameStatus == GameState.Playing) {
 			if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
 				GameObject.Find ("CanvasGlobal").transform.Find ("PreQuitTreeClamb").gameObject.SetActive (true);
+                LevelManager.THIS.gameStatus = GameState.BlockedGame;
 			} else {
 				GameObject.Find ("CanvasGlobal").transform.Find ("MenuPause").gameObject.SetActive (true);
 			}

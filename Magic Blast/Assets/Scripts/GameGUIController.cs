@@ -73,10 +73,10 @@ public class GameGUIController : MonoBehaviour {
 	public void generateLevelMap()
 	{
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TreeClamb) {
-			string levelGen = PlayerPrefs.GetString ("treeClambLevels");
+			string levelGen = PlayerPrefs.GetString ("treeClambLevels");            
 			string[] lines = levelGen.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 			for (int i = 0; i < treeClambLevelBtns.Length; i++) {
-				treeClambLevelBtns [i].GetComponent <TreeClambLevelBtn>().setupLevel((i+1).ToString());
+				treeClambLevelBtns [i].GetComponent <TreeClambLevelBtn>().setupLevel(lines[i]);
 			}
 		}
 		if (ChallengeController.instanse.getCurrentState () == ChallengeController.ChallengeState.TresureHant) {

@@ -549,6 +549,7 @@
     <Compile Include="Assets\Scripts\ToyWheel\BimpController.cs" />
     <Compile Include="Assets\Scripts\ToyWheel\WheelEngine.cs" />
     <Compile Include="Assets\Scripts\TreasureHuntChallengeRewardController.cs" />
+    <Compile Include="Assets\Scripts\TreeClambFailresults.cs" />
     <Compile Include="Assets\Scripts\TreeClambLevelBtn.cs" />
     <Compile Include="Assets\Scripts\TreeClambRewardController.cs" />
     <Compile Include="Assets\Scripts\TreeClampRoadLevel.cs" />
