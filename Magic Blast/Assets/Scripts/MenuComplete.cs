@@ -174,6 +174,11 @@ public class MenuComplete : MonoBehaviour {
 					_scaleList.Add (new Vector3(200f,200f,22.1f));
 					count++;
 				}
+				if (LevelManager.THIS.squareTypes [i] == SquareTypes.PINWHEEL) {
+					_spriteList.Add (LevelManager.THIS.flouwersSprites[7]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
+					count++;
+				}
 			}
 		}
 

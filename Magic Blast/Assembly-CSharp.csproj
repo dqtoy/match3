@@ -99,6 +99,7 @@
      <Compile Include="Assets\ExportAnimations\Scripts\Helpers\BranchControl\BranchUndefinedRendererController.cs" />
      <Compile Include="Assets\ExportAnimations\Scripts\Helpers\BranchControl\TestBranchController.cs" />
      <Compile Include="Assets\ExportAnimations\Scripts\Offset.cs" />
+     <Compile Include="Assets\ExportAnimations\Scripts\PictureSnapper.cs" />
      <Compile Include="Assets\FORGE3D\PoolManager\F3DPool.cs" />
      <Compile Include="Assets\FORGE3D\PoolManager\F3DPoolContainer.cs" />
      <Compile Include="Assets\FORGE3D\PoolManager\F3DPoolManager.cs" />
@@ -434,6 +435,7 @@
      <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\ServerSentEventsTransport.cs" />
      <Compile Include="Assets\PlayFabSdk\Shared\SignalR.NET20\Transports\SseEvent.cs" />
      <Compile Include="Assets\Scripts\AuthorizationController.cs" />
+     <Compile Include="Assets\Scripts\Blockers\PinwheelController.cs" />
      <Compile Include="Assets\Scripts\ChallengeController.cs" />
      <Compile Include="Assets\Scripts\CharacterAnimationController.cs" />
      <Compile Include="Assets\Scripts\CharacterPhotoSetter.cs" />
@@ -469,6 +471,8 @@
      <Compile Include="Assets\Scripts\TreeClambRewardController.cs" />
      <Compile Include="Assets\Scripts\TreeClampRoadLevel.cs" />
      <Compile Include="Assets\Scripts\UIComponents\CustomToggleGroup.cs" />
+     <Compile Include="Assets\Scripts\UIComponents\FacebookDisconnectDialog.cs" />
+     <Compile Include="Assets\Scripts\UIComponents\FacebookFeaturesStartController.cs" />
      <Compile Include="Assets\Scripts\UIComponents\TestPermissions.cs" />
      <Compile Include="Assets\Scripts\UIComponents\UILists\BaseUIList.cs" />
      <Compile Include="Assets\Scripts\UIComponents\UILists\FriendsListDialogController.cs" />
@@ -896,6 +900,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\75.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\82.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\SmokeTurbulent.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\107.txt" />
      <None Include="Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Multiply.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\2.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\44.txt" />

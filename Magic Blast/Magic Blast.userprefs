@@ -1,20 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/JellyGarden/Scripts/LevelManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Blockers/PinwheelController.cs">
     <Files>
-      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/LevelsMap.cs" Line="196" Column="34" />
-      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/Editor/SmartLevelsMap/LevelsMapEditor.cs" Line="178" Column="5" />
-      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/MapCamera.cs" Line="126" Column="101" />
-      <File FileName="Assets/Scripts/ManuFailed.cs" Line="154" Column="57" />
-      <File FileName="Assets/Scripts/MenuComplete.cs" Line="70" Column="20" />
-      <File FileName="Assets/JellyGarden/Scripts/MenuPlayController.cs" Line="184" Column="6" />
-      <File FileName="Assets/JellyGarden/Scripts/GUI/AnimationManager.cs" Line="345" Column="7" />
-      <File FileName="Assets/Scripts/GameGUIController.cs" Line="101" Column="25" />
-      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="3458" Column="69" />
-      <File FileName="Assets/JellyGarden/Scripts/AI.cs" Line="31" Column="29" />
-      <File FileName="Assets/Scripts/LifeManagerUIController.cs" Line="27" Column="59" />
-      <File FileName="Assets/JellyGarden/Scripts/Item.cs" Line="17" Column="8" />
-      <File FileName="Assets/JellyGarden/Scripts/Square.cs" Line="22" Column="3" />
+      <File FileName="Assets/JellyGarden/Scripts/LevelManager.cs" Line="2254" Column="56" />
+      <File FileName="Assets/JellyGarden/Scripts/MenuPlayController.cs" Line="243" Column="31" />
+      <File FileName="Assets/JellyGarden/SmartLevelsMap/Scripts/LevelsMap.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/TreeClampRoadLevel.cs" Line="5" Column="32" />
+      <File FileName="Assets/Scripts/TreeClambLevelBtn.cs" Line="61" Column="4" />
+      <File FileName="Assets/JellyGarden/Scripts/Square.cs" Line="256" Column="143" />
+      <File FileName="Assets/Scripts/Blockers/PinwheelController.cs" Line="17" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

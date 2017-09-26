@@ -64,11 +64,14 @@ public class LevelManager : MonoBehaviour
     public GameObject wireBlockPrefab;
     public GameObject solidBlockPrefab;
     public GameObject undesroyableBlockPrefab;
+	public GameObject pinwheelBlockPrefab;
     public GameObject thrivingBlockPrefab;
     public GameObject BeachBallBlockPrefab;
     public GameObject[] ColorCubePrefabs;
     public Sprite[] TimeBombPrefabPrefabs;
     public Sprite[] otherSprites;
+	public Sprite[] flouwersSprites;
+
 
     public Transform lightningPrefabs;
     public Transform beamPrefabs;
@@ -206,7 +209,7 @@ public class LevelManager : MonoBehaviour
     public int colorLimit;
     public int[] ingrCountTarget = new int[6];
     public int[] toysCount = new int[4];
-    public int[] blocksCount = new int[8];
+    public int[] blocksCount = new int[20];
     public Ingredients[] ingrTarget = new Ingredients[4];
     public CollectItems[] collectItems = new CollectItems[6];
     public SquareTypes[] squareTypes = new SquareTypes[10];
@@ -809,6 +812,16 @@ public class LevelManager : MonoBehaviour
                     counter.currentID = 7;
                     allTargetsObjectList.Add(LevelManager.THIS.squareTypes[i]);
                 }
+				if (LevelManager.THIS.squareTypes[i] == SquareTypes.PINWHEEL)
+				{
+					_spriteList.Add(LevelManager.THIS.flouwersSprites[7]);
+					_scaleList.Add(new Vector3(140f, 140f, 22.1f));
+					count++;
+					Counter_ counter = GameObject.Find("TargetIngr" + count).GetComponent<Counter_>();
+					counter.connectedArray = blocksCount;
+					counter.currentID = 8;
+					allTargetsObjectList.Add(LevelManager.THIS.squareTypes[i]);
+				}
             }
         }
 
@@ -1723,6 +1736,7 @@ public class LevelManager : MonoBehaviour
                             item.DestroyHorizontal();
                             FindMatches();
                             InitScript.Instance.SpendBoost(ActivatedBoost.type);
+							SoundManager.instanse.playUseGoblinSFX ();
                         }
                         if ((LevelManager.THIS.ActivatedBoost.type == BoostType.ExtraMoves) && item.currentType == ItemsTypes.NONE && item.isFreezeObject == false)
                         {
@@ -2233,6 +2247,16 @@ public class LevelManager : MonoBehaviour
 
             //  TargetBlocks++;
         }
+		else if ((levelSquaresFile[row * maxCols + col].obstacle == SquareTypes.PINWHEEL && type == SquareTypes.NONE) || type == SquareTypes.PINWHEEL)
+		{
+			GameObject block = Instantiate(pinwheelBlockPrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
+			block.transform.SetParent(square.transform);
+			block.transform.localPosition = new Vector3(0, 0.12f, -0.5f);
+			square.GetComponent<Square>().block.Add(block);
+			square.GetComponent<Square>().type = SquareTypes.PINWHEEL;
+
+			//  TargetBlocks++;
+		}
         else if ((levelSquaresFile[row * maxCols + col].obstacle == SquareTypes.THRIVING && type == SquareTypes.NONE) || type == SquareTypes.THRIVING)
         {
             GameObject block = Instantiate(thrivingBlockPrefab, firstSquarePosition + new Vector2(col * squareWidth, -row * squareHeight), Quaternion.identity) as GameObject;
@@ -2991,17 +3015,17 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log("count = " + _items.Count);
         Debug.Log("countOfMatch = " + countOfMatch);
-        if (countOfMatch >= 2)
-        {
-            if (LevelManager.Instance.limitType == LIMIT.MOVES)
-            {
-                LevelManager.THIS.Limit--;
-                CharacterAnimationController.instanse.playIdleAnimation();
-                LevelManager.THIS.checkAllTimeBomb();
-            }
-            LevelManager.THIS.moveID++;
-            FindMatches(_items);
-        }
+		if (countOfMatch >= 2) {
+			if (LevelManager.Instance.limitType == LIMIT.MOVES) {
+				LevelManager.THIS.Limit--;
+				CharacterAnimationController.instanse.playIdleAnimation ();
+				LevelManager.THIS.checkAllTimeBomb ();
+			}
+			LevelManager.THIS.moveID++;
+			FindMatches (_items);
+		} else {
+			SoundManager.instanse.playWrongCubeSFX ();
+		}
 
 
     }
@@ -3472,6 +3496,7 @@ public class LevelManager : MonoBehaviour
                                         blocksCount[5]++;
                                     }
                                     calculateSymbols();
+									SoundManager.instanse.playFreezeCubeSFX ();
                                     break;
                                 }
                             }
@@ -4145,6 +4170,18 @@ public class LevelManager : MonoBehaviour
         blocksCount[5] = 0;
         blocksCount[6] = 0;
         blocksCount[7] = 0;
+		blocksCount[8] = 0;
+		blocksCount[9] = 0;
+		blocksCount[10] = 0;
+		blocksCount[11] = 0;
+		blocksCount[12] = 0;
+		blocksCount[13] = 0;
+		blocksCount[14] = 0;
+		blocksCount[15] = 0;
+		blocksCount[16] = 0;
+		blocksCount[17] = 0;
+		blocksCount[18] = 0;
+		blocksCount[19] = 0;
 
         TargetBlocks = 0;
 
@@ -4202,14 +4239,26 @@ public class LevelManager : MonoBehaviour
         greenBoxPercent = 0;
         yellowBoxPercent = 0;
 
-        blocksCount[0] = 0;
-        blocksCount[1] = 0;
-        blocksCount[2] = 0;
-        blocksCount[3] = 0;
-        blocksCount[4] = 0;
-        blocksCount[5] = 0;
-        blocksCount[6] = 0;
-        blocksCount[7] = 0;
+		blocksCount[0] = 0;
+		blocksCount[1] = 0;
+		blocksCount[2] = 0;
+		blocksCount[3] = 0;
+		blocksCount[4] = 0;
+		blocksCount[5] = 0;
+		blocksCount[6] = 0;
+		blocksCount[7] = 0;
+		blocksCount[8] = 0;
+		blocksCount[9] = 0;
+		blocksCount[10] = 0;
+		blocksCount[11] = 0;
+		blocksCount[12] = 0;
+		blocksCount[13] = 0;
+		blocksCount[14] = 0;
+		blocksCount[15] = 0;
+		blocksCount[16] = 0;
+		blocksCount[17] = 0;
+		blocksCount[18] = 0;
+		blocksCount[19] = 0;
 
         Alltargets.Clear();
         Alltargets.TrimExcess();
@@ -4511,6 +4560,10 @@ public class LevelManager : MonoBehaviour
             {
                 squareTypes[7] = SquareTypes.WIREBLOCK;
             }
+			if (isContainSquareBlockType(SquareTypes.PINWHEEL) && !dontDisplay(SquareTypes.PINWHEEL))
+			{
+				squareTypes[8] = SquareTypes.PINWHEEL;
+			}
         }
 
         setUpColorTable();
@@ -4551,6 +4604,10 @@ public class LevelManager : MonoBehaviour
                 {
                     blocksCount[7]++;
                 }
+				if (levelSquaresFile[row * maxCols + col].obstacle == SquareTypes.PINWHEEL && !dontDisplay(SquareTypes.PINWHEEL))
+				{
+					blocksCount[8]++;
+				}
 
             }
         }

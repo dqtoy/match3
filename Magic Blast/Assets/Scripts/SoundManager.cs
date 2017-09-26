@@ -9,11 +9,22 @@ public class SoundManager : MonoBehaviour {
 	public AudioSource gameSFX;
 	public AudioSource game2SFX;
 
+	public AudioSource [] girlVoices;
+
 	public AudioSource winSFX;
 	public AudioSource cubeDestroySFX;
 	public AudioSource twoRotorsSFX;
 	public AudioSource powerAppearSFX;
 	public AudioSource solidBlockDestroySFX;
+	public AudioSource freezeCubeSFX;
+	public AudioSource useGoblinSFX;
+	public AudioSource destroyFreezeSFX;
+	public AudioSource useRotorSFX;
+	public AudioSource cubikRubikSFX;
+	public AudioSource tntDestroySFX;
+	public AudioSource taskInSFX;
+	public AudioSource taskOutSFX;
+	public AudioSource wrongCubeSFX;
 
 	public static SoundManager instanse;
 
@@ -94,5 +105,55 @@ public class SoundManager : MonoBehaviour {
 	public void playDestroySolidBlockSFX()
 	{
 		solidBlockDestroySFX.Play ();
+	}
+
+	public void playFreezeCubeSFX()
+	{
+		freezeCubeSFX.Play ();
+	}
+
+	public void playUseGoblinSFX()
+	{
+		useGoblinSFX.Play ();
+	}
+
+	public void playDestroyFreezeSFX()
+	{
+		destroyFreezeSFX.Play ();
+	}
+
+	public void playUseRotorSFX()
+	{
+		useRotorSFX.Play ();
+	}
+
+	public void playCubikRubikSFX()
+	{
+		cubikRubikSFX.Play ();
+	}
+
+	public void playTNTDestroySFX()
+	{
+		tntDestroySFX.Play ();
+	}
+
+	public void playGirlVoicesSFX()
+	{
+		girlVoices [Random.Range (0, girlVoices.Length)].Play ();
+	}
+
+	public void playTaskInSFX()
+	{
+		taskInSFX.Play ();
+	}
+
+	public void playTaskOutSFX()
+	{
+		taskOutSFX.Play ();
+	}
+
+	public void playWrongCubeSFX()
+	{
+		wrongCubeSFX.Play ();
 	}
 }

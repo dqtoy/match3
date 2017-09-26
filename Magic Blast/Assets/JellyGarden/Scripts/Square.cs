@@ -24,7 +24,8 @@ public enum SquareTypes
 	COLOR_CUBE, //Цветной блок - разрушить. Можно разрушить только кубиками рядом такого же цвета.
 	TOY, // for toys
 	STATIC_COLOR, // for static color on field
-	STATIC_POWER // for power up on field
+	STATIC_POWER, // for power up on field
+	PINWHEEL
 }
 
 
@@ -264,12 +265,12 @@ public class Square : MonoBehaviour
 
 	public bool CanGenItem()
 	{
-		return type != SquareTypes.SOLIDBLOCK && type != SquareTypes.NONE && type != SquareTypes.THRIVING && type != SquareTypes.COLOR_CUBE;
+		return type != SquareTypes.SOLIDBLOCK && type != SquareTypes.NONE && type != SquareTypes.THRIVING && type != SquareTypes.COLOR_CUBE && type != SquareTypes.PINWHEEL;
 	}
 
     public bool CanGoInto()
     {
-		return type != SquareTypes.SOLIDBLOCK && type != SquareTypes.UNDESTROYABLE && type != SquareTypes.NONE && type != SquareTypes.THRIVING && type != SquareTypes.WIREBLOCK && type != SquareTypes.COLOR_CUBE;
+		return type != SquareTypes.SOLIDBLOCK && type != SquareTypes.UNDESTROYABLE && type != SquareTypes.NONE && type != SquareTypes.THRIVING && type != SquareTypes.WIREBLOCK && type != SquareTypes.COLOR_CUBE && type != SquareTypes.PINWHEEL;
     }
 
 	public bool isSimpleCube()
@@ -320,6 +321,7 @@ public class Square : MonoBehaviour
     {
 		if (type == SquareTypes.THRIVING) {
 			LevelManager.THIS.IceShow (gameObject);
+			SoundManager.instanse.playDestroyFreezeSFX ();
 			Debug.Log ("destroy ice");
 		}
 		if (type == SquareTypes.WIREBLOCK) {
@@ -536,7 +538,7 @@ public class Square : MonoBehaviour
     {
         for (int i = row; i >= 0; i--)
         {
-			if (LevelManager.THIS.GetSquare(col, i).type == SquareTypes.SOLIDBLOCK || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.UNDESTROYABLE || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.THRIVING || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.COLOR_CUBE || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.WIREBLOCK)
+			if (LevelManager.THIS.GetSquare(col, i).type == SquareTypes.SOLIDBLOCK || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.UNDESTROYABLE || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.THRIVING || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.COLOR_CUBE || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.WIREBLOCK || LevelManager.THIS.GetSquare(col, i).type == SquareTypes.PINWHEEL)
                 return true;
         }
         return false;

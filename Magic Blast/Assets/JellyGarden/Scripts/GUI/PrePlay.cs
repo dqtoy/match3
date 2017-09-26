@@ -23,6 +23,7 @@ public class PrePlay : MonoBehaviour {
 
 	IEnumerator animatePopup()
 	{
+		SoundManager.instanse.playTaskInSFX ();
 		transform.localPosition = new Vector3 (-1500f,0,0);
 		_girl.GetComponent<RectTransform>().localPosition = new Vector3 (-1030.5f,51f,0);
 		yield return new WaitForSeconds (0.3f);
@@ -31,6 +32,7 @@ public class PrePlay : MonoBehaviour {
 		LeanTween.moveLocalX (_girl, -230.5f, 1f).setEaseOutExpo ();
 		yield return new WaitForSeconds (1.5f);
 		LeanTween.moveLocalX (gameObject, 1500f, 1f).setEaseInExpo ();
+		SoundManager.instanse.playTaskOutSFX ();
 		yield return new WaitForSeconds (1.1f);
 		LevelManager.THIS.gameStatus = GameState.WaitForPopup;
 		gameObject.SetActive (false);
@@ -124,6 +126,10 @@ public class PrePlay : MonoBehaviour {
 				}
 				if (LevelManager.THIS.squareTypes [i] == SquareTypes.WIREBLOCK) {
 					_spriteList.Add (LevelManager.THIS.blocksSprites[7]);
+					_scaleList.Add(new Vector3(200f, 200f, 22.1f));
+				}
+				if (LevelManager.THIS.squareTypes [i] == SquareTypes.PINWHEEL) {
+					_spriteList.Add (LevelManager.THIS.flouwersSprites[7]);
 					_scaleList.Add(new Vector3(200f, 200f, 22.1f));
 				}
 			}

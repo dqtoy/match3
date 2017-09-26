@@ -783,6 +783,7 @@ public class Item : MonoBehaviour
 
 	public IEnumerator onBombEffects(ItemsTypes _type)
 	{
+		SoundManager.instanse.playCubikRubikSFX ();
 		Debug.Log ("onBombEffects");
 		//LeanTween.rotateZ (sprRenderer.gameObject, 360f, 0.5f).setLoopType (LeanTweenType.linear);
 		LevelManager.THIS.particleEffectIsNow = true;
@@ -1339,6 +1340,8 @@ public class Item : MonoBehaviour
 
 	IEnumerator tntShake()
 	{
+		SoundManager.instanse.playTNTDestroySFX ();
+		float _time = Time.time;
 		activateBombWick ();
 		yield return new WaitForSeconds (0.3f);
 		LeanTween.scale (gameObject, new Vector3 (0.8f, 0.8f, 0.8f), 0.7f);
@@ -1352,6 +1355,7 @@ public class Item : MonoBehaviour
 				transform.localEulerAngles = new Vector3 (0,0,8f);
 			}
 		}
+		Debug.Log ("shake item time = " +(Time.time - _time).ToString());
 	}
 
     public void StartFalling()
@@ -1946,6 +1950,7 @@ public class Item : MonoBehaviour
 				item.startDestroyBlockDelayed(dis / 20f ,true);
 			}
         }
+		SoundManager.instanse.playUseRotorSFX ();
     }
 		
 
@@ -1985,7 +1990,7 @@ public class Item : MonoBehaviour
 				item.startDestroyBlockDelayed(dis / 20f ,true);
 			}
         }
-
+		SoundManager.instanse.playUseRotorSFX ();
 
     }
 	public void DestroyPackage(bool canShowEffect = true,bool checkUntestroyable = true)
@@ -2033,7 +2038,7 @@ public class Item : MonoBehaviour
 
        
 			
-
+		//SoundManager.instanse.playTNTDestroySFX ();
         SoundBase.Instance.GetComponent<AudioSource>().PlayOneShot(SoundBase.Instance.explosion);
         currentType = ItemsTypes.NONE;
         DestroyItem(true);

@@ -61,6 +61,7 @@ public class LevelMakerEditor : EditorWindow
 	private Texture rotorHorTex;
 	private Texture tntTex;
 	private Texture bombTex;
+	private Texture pinwheelTex;
 
 	private Texture EmptyTex;
 
@@ -188,6 +189,7 @@ public class LevelMakerEditor : EditorWindow
             undestroyableBlockTex = lm.undesroyableBlockPrefab.GetComponent<SpriteRenderer>().sprite.texture;
             thrivingBlockTex = lm.thrivingBlockPrefab.GetComponent<SpriteRenderer>().sprite.texture;
 			BeachBallTex = lm.BeachBallBlockPrefab.GetComponent<SpriteRenderer>().sprite.texture;
+			pinwheelTex = lm.flouwersSprites [7].texture;
 			ColorCubeTex = (Texture)Resources.Load ("EditorTexture/ColorCubeIcon") as Texture;
 
 			TimeBombTex1 = (Texture)Resources.Load ("EditorTexture/10_alarm_red") as Texture;
@@ -1876,6 +1878,7 @@ public class LevelMakerEditor : EditorWindow
         }
 
         GUILayout.Label(" - solid block", EditorStyles.boldLabel);
+
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         if (GUILayout.Button(undestroyableBlockTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
@@ -1886,6 +1889,19 @@ public class LevelMakerEditor : EditorWindow
         GUILayout.Label("-undestroyable\n block", EditorStyles.boldLabel);
 
         GUILayout.EndHorizontal();
+
+		//--
+		GUILayout.BeginHorizontal();
+		if (GUILayout.Button(pinwheelTex, new GUILayoutOption[] { GUILayout.Width(50), GUILayout.Height(50) }))
+		{
+			squareType = SquareTypes.PINWHEEL;
+		}
+
+		GUILayout.Label("-pin wheel", EditorStyles.boldLabel);
+
+		GUILayout.EndHorizontal();
+		//--
+
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
 
@@ -2163,6 +2179,11 @@ public class LevelMakerEditor : EditorWindow
                         imageButton = undestroyableBlockTex;
                         squareColor = Color.white;
                     }
+					else if (levelSquares[row * maxCols + col].obstacle == SquareTypes.PINWHEEL)
+					{
+						imageButton = pinwheelTex;
+						squareColor = Color.white;
+					}
                     else if (levelSquares[row * maxCols + col].obstacle == SquareTypes.THRIVING)
                     {
                         imageButton = thrivingBlockTex;
@@ -2455,7 +2476,7 @@ public class LevelMakerEditor : EditorWindow
             else*/
 			levelSquares [row * maxCols + col].block = SquareTypes.BLOCK;
 			//levelSquares [row * maxCols + col].additiveBlock = SquareTypes.EMPTY;
-		} else if (squareType == SquareTypes.WIREBLOCK || squareType == SquareTypes.SOLIDBLOCK || squareType == SquareTypes.UNDESTROYABLE || squareType == SquareTypes.THRIVING || squareType == SquareTypes.BEACH_BALLS || squareType == SquareTypes.COLOR_CUBE || squareType == SquareTypes.TOY || squareType == SquareTypes.STATIC_COLOR || squareType == SquareTypes.STATIC_POWER)
+		} else if (squareType == SquareTypes.WIREBLOCK || squareType == SquareTypes.SOLIDBLOCK || squareType == SquareTypes.UNDESTROYABLE || squareType == SquareTypes.THRIVING || squareType == SquareTypes.BEACH_BALLS || squareType == SquareTypes.COLOR_CUBE || squareType == SquareTypes.TOY || squareType == SquareTypes.STATIC_COLOR || squareType == SquareTypes.STATIC_POWER || squareType == SquareTypes.PINWHEEL)
 			levelSquares [row * maxCols + col].obstacle = squareType;
         else
         {

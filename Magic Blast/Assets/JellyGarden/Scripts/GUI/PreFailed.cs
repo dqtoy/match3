@@ -230,6 +230,11 @@ public class PreFailed : MonoBehaviour
 					targetsIcons [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[7] > 0));
 					targetsIcons [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[7] <= 0));
 				}
+				if (LevelManager.THIS.squareTypes [i] == SquareTypes.PINWHEEL) {
+					_spriteList.Add (LevelManager.THIS.flouwersSprites[7]);
+					targetsIcons [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[7] > 0));
+					targetsIcons [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.isCompleteTarget(LevelManager.THIS.blocksCount[7] <= 0));
+				}
 			}
 		}
 

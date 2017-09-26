@@ -192,6 +192,13 @@ public class ManuFailed : MonoBehaviour {
 					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[7] > 0);
 					count++;
 				}
+				if (LevelManager.THIS.squareTypes [i] == SquareTypes.WIREBLOCK) {
+					_spriteList.Add (LevelManager.THIS.flouwersSprites[7]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
+					ingrList [_spriteList.Count - 1].transform.GetChild (0).gameObject.SetActive (LevelManager.THIS.blocksCount[8] <= 0);
+					ingrList [_spriteList.Count - 1].transform.GetChild (1).gameObject.SetActive (LevelManager.THIS.blocksCount[8] > 0);
+					count++;
+				}
 			}
 		}
 

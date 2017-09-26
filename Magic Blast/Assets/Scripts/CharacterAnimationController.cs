@@ -52,6 +52,7 @@ public class CharacterAnimationController : MonoBehaviour {
 
 	IEnumerator onPlayGreat()
 	{
+		SoundManager.instanse.playGirlVoicesSFX ();
 		greateIsPlaying = true;
 		_character.AnimationName = "happy_idle";
 		yield return new WaitForSeconds (1.66f);

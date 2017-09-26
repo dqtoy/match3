@@ -233,6 +233,15 @@ public class MenuPlayController : MonoBehaviour {
 					counter.currentID = 7;
 					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
 				}
+				if (LevelManager.THIS.squareTypes [i] == SquareTypes.PINWHEEL) {
+					_spriteList.Add (LevelManager.THIS.flouwersSprites[7]);
+					_scaleList.Add (new Vector3(200f,200f,22.1f));
+					count++;
+					Counter_ counter = ingrObject.transform.Find("Ingr"+count).Find ("TargetIngr" + count).GetComponent<Counter_> ();
+					counter.connectedArray = LevelManager.THIS.blocksCount;
+					counter.currentID = 8;
+					ingrObject.transform.Find ("Ingr" + count).Find ("TargetIngr" + count).GetComponent<RectTransform> ().localPosition = new Vector3 (50, -45, 0);
+				}
 			}
 		}
 

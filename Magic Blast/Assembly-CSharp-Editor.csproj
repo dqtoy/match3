@@ -407,6 +407,7 @@
      <None Include="Assets\JellyGarden\Resources\Levels\75.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\82.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\SmokeTurbulent.shader" />
+     <None Include="Assets\JellyGarden\Resources\Levels\107.txt" />
      <None Include="Assets\spine-unity\Modules\SlotBlendModes\Spine-Skeleton-PMA-Multiply.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\2.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\44.txt" />
