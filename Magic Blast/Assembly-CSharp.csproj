@@ -467,6 +467,7 @@
      <Compile Include="Assets\Scripts\ToyWheel\BimpController.cs" />
      <Compile Include="Assets\Scripts\ToyWheel\WheelEngine.cs" />
      <Compile Include="Assets\Scripts\TreasureHuntChallengeRewardController.cs" />
+     <Compile Include="Assets\Scripts\TreeClambFailresults.cs" />
      <Compile Include="Assets\Scripts\TreeClambLevelBtn.cs" />
      <Compile Include="Assets\Scripts\TreeClambRewardController.cs" />
      <Compile Include="Assets\Scripts\TreeClampRoadLevel.cs" />
@@ -855,6 +856,7 @@
      <None Include="Assets\JMO Assets\WarFX\Shaders\WFX_S Particle Multiply A8.shader" />
      <None Include="Assets\TK2DROOT\tk2d\Editor\EditorUtility.shader" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\Holographic.shader" />
+     <None Include="Assets\ExportAnimations\Zip_refraction_water_v1.4.shader" />
      <None Include="Assets\JellyGarden\Resources\Levels\30.txt" />
      <None Include="Assets\JellyGarden\Resources\Levels\79.txt" />
      <None Include="Assets\FORGE3D\Sci-Fi Effects\Shaders\WarpJumpTwist.shader" />
