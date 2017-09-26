@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 4173ea2d5e4baff4cafa82658b45205a
-timeCreated: 1502550648
+guid: 5a0b31e46df9a6944915029b44b2593c
+timeCreated: 1503686225
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -58,35 +58,11 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Standalone
-    maxTextureSize: 2048
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-  - buildTarget: iPhone
-    maxTextureSize: 2048
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-  - buildTarget: Android
-    maxTextureSize: 2048
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
-  spritePackingTag: Animation
+  spritePackingTag: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

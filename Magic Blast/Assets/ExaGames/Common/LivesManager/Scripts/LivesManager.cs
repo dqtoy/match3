@@ -303,7 +303,8 @@ namespace ExaGames.Common {
 					//recoveryStartTime = DateTime.Now;
 					resetSecondsToNextLife();
 				}
-				lives--;
+                if(ChallengeController.instanse.getCurrentState() != ChallengeController.ChallengeState.TreeClamb)
+				    lives--;
 				notifyLivesChanged();
 				savePlayerPrefs();
 				if(LocalNotificationSettings.AllowLocalNotifications) {

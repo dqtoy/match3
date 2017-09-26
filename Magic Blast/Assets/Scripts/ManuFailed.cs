@@ -30,9 +30,9 @@ public class ManuFailed : MonoBehaviour {
 
     void OnEnable()
 	{
-		loadTargetInformation ();
-        CheckLeaderboard();
-    }
+        loadTargetInformation();
+        CheckLeaderboard();        
+     }
 
     private void CheckLeaderboard()
     {

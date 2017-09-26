@@ -1344,7 +1344,7 @@ public class AECompImporterWindow : EditorWindow
         {
             string sourceFilePath;
             #if UNITY_EDITOR_OSX
-            sourceFilePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            sourceFilePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal) + sData.Path.Substring(1);
             #else
             sourceFilePath = Attributes.Path.Substring(1).Insert(1, ":");
             #endif        

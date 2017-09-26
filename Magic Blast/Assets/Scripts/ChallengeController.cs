@@ -34,18 +34,21 @@ public class ChallengeController : MonoBehaviour {
 	}
 
 	void Start () {
-		getAllLevelsByTag (LevelTag.MEDIUM);
+		//getAllLevelsByTag (LevelTag.MEDIUM);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//Debug.Log (PlayerPrefs.GetInt("OpenLevel"));
-	}
+        //Debug.Log (PlayerPrefs.GetInt("OpenLevel"));   
+        //if (Input.GetKeyDown(KeyCode.UpArrow))
+        //    getAllLevelsByTag(4,3,2);
+
+    }
 
 	public ChallengeType getCurrentChallenge()
 	{
 		//return _currentType;
-		return ChallengeType.TreasureHuntChallenge;
+		return ChallengeType.TreeClimbChallenge;
 	}
 
 	public ChallengeState getCurrentState()
@@ -108,12 +111,13 @@ public class ChallengeController : MonoBehaviour {
 				PlayerPrefs.SetInt ("startTournamentLevel", curLevel);
 				PlayerPrefs.Save ();
 			}
-		} else if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge && isLevelPassed(30)) {
-			if (_weekNumber != lastSavedTreeClambChallenge) {
+		} //else if (getCurrentChallenge () == ChallengeType.TreeClimbChallenge && isLevelPassed(30)) {
+            else if (getCurrentChallenge() == ChallengeType.TreeClimbChallenge) {
+            if (_weekNumber != lastSavedTreeClambChallenge) {
 				// show TreeClimbPopup
 				PopupManager.instanse.showPopup (TreeClambPopup);
 				// reset challenge saves
-				resetTreeClambLevelPoint();
+				resetTreeClambLevelPoint();                
 				generateTreeClambLevels ();
 
 				PlayerPrefs.SetInt ("weekTreeClamb", _weekNumber);
@@ -147,7 +151,8 @@ public class ChallengeController : MonoBehaviour {
 
 	public void generateTreeClambLevels()
 	{
-		PlayerPrefs.SetString("treeClambLevels","1,3,6,8,9");
+        //getAllLevelsByTag();
+        PlayerPrefs.SetString("treeClambLevels",getAllLevelsByTag(2,2,1));
 		PlayerPrefs.Save ();
 	}
 
@@ -155,28 +160,66 @@ public class ChallengeController : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt("currentTresuareHuntLevel",1);
 		PlayerPrefs.Save ();
-	}
+        
+
+    }
 
 	public void generateTresuareHuntLevels()
 	{
 		PlayerPrefs.SetString("treasuareHuntLevels","1,2,3,4,5,6,7,8,9,10");
 		PlayerPrefs.Save ();
 	}
-
-	public List<int> getAllLevelsByTag(LevelTag _tag)
+    
+    public string getAllLevelsByTag(int easy,int medium,int hard)
 	{
-		List<int> _levels = new List<int> ();
+        List<int> _levels = new List<int>();
+        List<int> _levelsEasy = new List<int>();
+        List<int> _levelsMedium = new List<int>();
+        List<int> _levelsHard = new List<int>();         
 
-		UnityEngine.Object[] lv = Resources.LoadAll("Levels", typeof(TextAsset));
+        UnityEngine.Object[] lv = Resources.LoadAll("Levels", typeof(TextAsset));
+        char [] archDelim = new char [] { '\r','\n' };       
+        foreach (TextAsset item in lv) {
+            var words = item.text.Split(archDelim,StringSplitOptions.RemoveEmptyEntries);
+            foreach (string itemWords in words) {
+                if (itemWords.StartsWith("TAG ")) {
+                    string tag = itemWords.Replace("TAG",string.Empty).Trim();
+                    if (int.Parse(tag) == 0)
+                        _levelsEasy.Add(int.Parse(item.name));
+                    if (int.Parse(tag) == 1)
+                        _levelsMedium.Add(int.Parse(item.name));
+                    if (int.Parse(tag) == 2)
+                        _levelsHard.Add(int.Parse(item.name));
+                }
+            }
+        }
+        _levels.Clear();
+        string levels = "";
 
-		foreach (TextAsset _tx in lv) {
-			Debug.Log (_tx.name);
-		}
+        for (int i = 0;i < easy+medium+hard;i++) {
+            if (i < easy) {
+                int value = _levelsEasy [UnityEngine.Random.Range(0,_levelsEasy.Count)];                
+                _levels.Add(value);
+                _levelsEasy.Remove(value);
+            }
+            if (i >= easy && i < medium+easy) {
+                int value = _levelsMedium [UnityEngine.Random.Range(0,_levelsMedium.Count)];
+                _levels.Add(value);
+                _levelsMedium.Remove(value);
+            }
+            if (i >= easy+medium && i < medium + easy+hard) {
+                int value = _levelsHard [UnityEngine.Random.Range(0,_levelsHard.Count)];
+                _levels.Add(value);
+                _levelsHard.Remove(value);
+            }
+            levels += _levels [i].ToString() + ",";
+        }        
+        levels = levels.Remove(levels.Length-1);
+        Debug.LogError(levels);
+        return levels;
+    }
 
-		return _levels;
-	}
-
-	public void checkChallengeButtons()
+    public void checkChallengeButtons()
 	{
 		GameObject tournamentBtn = GameObject.Find ("CanvasMap").transform.Find ("TournamentBtn").gameObject;
 		GameObject TreeClambBtn = GameObject.Find ("CanvasMap").transform.Find ("TreeClampBtn").gameObject;
